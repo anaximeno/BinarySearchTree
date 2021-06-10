@@ -1,11 +1,8 @@
 /**
  * Guarda códigos de árvores binárias de pesquisa usadas no trabalho.
 */
-#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <string.h>
-#include <locale.h>
 
 #ifndef FOREST_H
 #define FOREST_H
