@@ -10,7 +10,7 @@
 */
 
 
-linked *createlist(int value)
+linked *createList(int value)
 {
     linked *tmp;
     tmp = (linked *) malloc(sizeof(linked));
@@ -24,16 +24,16 @@ linked *createlist(int value)
 }
 
 
-void insert_in_list(linked **list, int value)
+void insertInList(linked **list, int value)
 {
     if (*list == NULL)
-        *list = createlist(value);
+        *list = createList(value);
     else
-        insert_in_list(&(*list)->next, value);
+        insertInList(&(*list)->next, value);
 }
 
 
-bool is_in_list(linked *list, int value)
+bool isInList(linked *list, int value)
 {
     linked *node = list;
 
@@ -49,12 +49,12 @@ bool is_in_list(linked *list, int value)
 }
 
 
-void cleanlist(linked **list)
+void freeList(linked **list)
 {
     if (*list == NULL)
         return ;
 
-    cleanlist(&(*list)->next);
+    freeList(&(*list)->next);
 
     free(*list);
 }

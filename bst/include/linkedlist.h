@@ -1,5 +1,6 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
+#include <stdbool.h>
 /* Guarda códigos de lista ligadas usadas no trabalho. */
 
 /* Estrutura de lista ligada com os campos:
@@ -12,14 +13,14 @@ typedef struct _linkedlist
 } linked;
 
 /* cria e retorna um nó de uma lista. */
-linked *createlist(int value);
+linked *createList(int value);
 
 /* insere um valor na lista. */
-void insert_in_list(linked **list, int value);
+void insertInList(linked **list, int value);
 
 /* retorna se um valor está ou não numa lista. */
-bool is_in_list(linked *list, int value);
+bool isInList(linked *list, int value);
 
 /* elimina (free) todos os nós de uma lista ligada. */
-void cleanlist(linked **list);
+void freeList(linked **list);
 #endif // LINKEDLIST_H
