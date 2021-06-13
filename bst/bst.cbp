@@ -35,6 +35,7 @@
 		</Compiler>
 		<Unit filename="include/forest.h" />
 		<Unit filename="include/linkedlist.h" />
+		<Unit filename="include/treeprinter.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -42,6 +43,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/linkedlist.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/treeprinter.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions />

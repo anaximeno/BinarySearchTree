@@ -10,7 +10,7 @@
 /* Raíz da árvore binária, variável global. */
 btree *root = NULL;
 
-int main()
+int main(int argv, char *argc[])
 {setlocale(LC_ALL, "Portuguese");
 
     /** Teste */

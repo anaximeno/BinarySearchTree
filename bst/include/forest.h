@@ -39,7 +39,7 @@ struct _binarytree *createBinaryNode(int valor, char *position,
 
 
 
-/* Insere um valor na lista. */
+/* Insere um valor na árvore binária. */
 void insertInTree(broot *root, int valor);
 
 
