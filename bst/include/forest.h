@@ -23,7 +23,7 @@
 typedef struct _binarytree
 {
     struct _binarytree *parent, *left, *right;
-    int valor, depth, level;
+    int valor, level;
     char *position;
     // TODO: criar mais campos!
 } btree;
@@ -34,8 +34,7 @@ typedef btree* broot;
 
 
 /* Cria um nó da árvore binária. */
-struct _binarytree *createBinaryNode(int valor, char *position,
-                                int level, int depth, btree *parent);
+btree *createBinaryNode(int valor, char *position, int level, btree *parent);
 
 
 
@@ -45,13 +44,6 @@ void insertInTree(broot *root, int valor);
 
 /* Limpa recursivamente uma árvore binária. */
 void freeTree(broot *root);
-
-
-/**  Mostra recusivamente uma árvore binária. Tem os tipos :
- *    -> a : em ordem,
- *    -> b : pré ordem,
- *    -> c : pós ordem. */
-void printTree(btree *root, char tipo);
 
 
 #endif // FOREST_H

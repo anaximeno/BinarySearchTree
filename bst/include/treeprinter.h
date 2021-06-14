@@ -1,10 +1,19 @@
 #ifndef TREEPRINTER_H
 #define TREEPRINTER_H
 
+#define __author__ "Anaxímeno Brito"
+
 #include "linkedlist.h"
 #include "forest.h"
 
-#define _author_ "Anaxímeno Brito"
+
+/**  Mostra recusivamente uma árvore binária. Tem os tipos :
+ *    -> a : em ordem,
+ *    -> b : pré ordem,
+ *    -> c : pós ordem. */
+void printTree(btree *root, char tipo);
+
+
 
 /**  Mostram a árvore em ordem. */
 
