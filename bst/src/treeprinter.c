@@ -21,19 +21,21 @@ void printTree(btree *root, char tipo)
 	switch (tipo)
 	{
 	case 'a':
+		/* Mostra a árvore binária em ordem. */
         printf("\n\n\t  BINARY SEARCH TREE");
 		printf(" - Em Ordem\n\n");
-		/* Mostra a árvore binária em ordem. */
 		printTreeInOrder(root);
 		putchar('\n');
 		break;
 	case 'b':
+		/* Mostra a árvore binária em pré ordem. */
         printf("\n\n\t  BINARY SEARCH TREE");
 		printf(" - Pré Ordem\n\n");
 		printTreePreOrder(root);
 		putchar('\n');
 		break;
 	case 'c':
+		/* Mostra a árvore binária em pós ordem. */
         printf("\n\n\t  BINARY SEARCH TREE");
 		printf(" - Pós Ordem\n\n");
 		printTreePostOrder(root);
@@ -66,10 +68,11 @@ struct _divs getDivs(btree *node)
     return divs;
 }
 
-/** Mostram árvores binárias em Ordem */
+	/** Mostram árvores binárias em Ordem */
 
 linked *branchLevelsInOrder(btree *node, linked *list)
 {
+	/* Procura por posições contrárias reversamente na árvore. */
     char *search_position = !strcmp(node->position, R) ? L : R;
     btree *parent = node->parent;
 
@@ -118,7 +121,7 @@ void printTreeInOrder(btree *root)
 }
 
 
-/** Mostram a árvore em pré ordem.  */
+	/** Mostram a árvore em pré ordem.  */
 
 linked *branchLevelsPreOrder(btree *node, linked *list)
 {
@@ -174,7 +177,7 @@ void printTreePreOrder(btree *root)
 }
 
 
-/** Mostram a árvore em pós ordem.  */
+	/** Mostram a árvore em pós ordem.  */
 
 linked *branchLevelsPostOrder(btree *node, linked *list)
 {

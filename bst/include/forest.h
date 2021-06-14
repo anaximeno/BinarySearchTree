@@ -17,7 +17,6 @@
  *    -> left (struct _binarytree *) : estrutura do lado esquerdo
  *    -> right (struct _binarytree *) : estrutura do lado direita
  *    -> valor (int) : guarda um valor inteiro
- *    -> depth (int) : profundidade do nó na árvore
  *    -> level (int) : nivel do nó na árvore
  *    -> position (char *) : posicao da árvore pode ser "RIGHT", "LEFT" ou "ROOT" */
 typedef struct _binarytree
@@ -40,6 +39,26 @@ btree *createBinaryNode(int valor, char *position, int level, btree *parent);
 
 /* Insere um valor na árvore binária. */
 void insertInTree(broot *root, int valor);
+
+
+/* Procura por um valor e retorna o nó que contém esse valor */
+void searchInTree(btree *root, int valor);
+
+
+/* Salva a árvore num arquivo. */
+void saveTreeOnFile(btree *root, const char *filename);
+
+
+/* Salva um nó binário num arquivo. */
+void saveBinaryNodeOnFile(btree *node, const char *filename);
+
+
+/* Elimina um valor da árvore. */
+void eliminateBinaryNode(int valor, broot *root);
+
+
+/* Carrega um nó binário guardado no arquivo. */
+struct _binarytree *chargeFile(const char filename);
 
 
 /* Limpa recursivamente uma árvore binária. */

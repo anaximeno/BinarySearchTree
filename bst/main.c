@@ -7,13 +7,17 @@
 #include "forest.h"
 #include "treeprinter.h"
 
+/* Limpa as estruturas dinamicas criadas aquí e ficheiros abertos. */
+int fcloseall(void);
+void freeDom(void);
 
 /* Raíz da árvore binária, variável global. */
 btree *root = NULL;
 
+
 int main(int argv, char *argc[])
 {setlocale(LC_ALL, "Portuguese");
-
+atexit(freeDom);
     /** Teste */
     int vetor[13] = {1, 2, 5, 4, 3, 6, 5, 8,-1, 4, 9, 0, -4};
     insertInTree(&root, 3);
@@ -32,4 +36,13 @@ int main(int argv, char *argc[])
 
     freeTree(&root);
     return 0;
+}
+
+
+void freeDom(void)
+{
+    if (root != NULL)
+        freeTree(&root);  // Limpa root caso não for limpado antes
+    fcloseall();    // Fecha todos os ficheiros abertos
+    printf("\n Saindo da execução.\n");
 }

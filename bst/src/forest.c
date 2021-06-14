@@ -18,6 +18,7 @@ void freeTree(broot *root)
 	freeTree(&(*root)->right);
 
 	free(*root);
+	*root = NULL;
 }
 
 
