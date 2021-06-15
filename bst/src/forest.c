@@ -10,21 +10,20 @@
 char *_get_marca_from_txt(char *txtname)
 {
         char *txt = txtname;
-        int size = 0;
+        int i, size = 0;
 
         while (*txt != '.' && *txt != '\0' && ++size && ++txt) ;
-        size += 1;
 
+        size += 1;	// Adiciona mais um espaço para '\0'
         char *name = (char *) malloc(sizeof(char)*size);
 
-        int i;
         txt = txtname;
-
-        for (i = 0 ; txt[i] != '.' && txt[i] != '\0' ; ++i) {
+        for (i = 0 ; txt[i] != '.' && txt[i] != '\0' ; ++i)
             name[i] = txt[i];
-        } name[i] = '\0';  // Adiciona o final da string
 
-        return name;
+		name[i] = '\0';  // Adiciona o final da string
+
+		return name;
 }
 
 
@@ -34,6 +33,10 @@ void freeTree(btree **root)
 	if (*root == NULL)
 		return ;
 
+	if ( !strcmp((*root)->tipo, "MARCA") ) {
+		freeTree(&(*root)->marca.modelos);
+	}
+
 	freeTree(&(*root)->left);
 	freeTree(&(*root)->right);
 
@@ -41,7 +44,7 @@ void freeTree(btree **root)
 	*root = NULL;
 }
 
-
+/* FOR TESTS */
 btree *createBinNode(int valor, char *position, int level, btree *parent)
 {
 	btree *tmp = (btree *) malloc(sizeof(btree));
@@ -53,6 +56,7 @@ btree *createBinNode(int valor, char *position, int level, btree *parent)
 		tmp->left = NULL;
 		tmp->right = NULL;
 		tmp->parent = parent;
+		tmp->tipo = "NORMAL";
 	}
 
 	return tmp;

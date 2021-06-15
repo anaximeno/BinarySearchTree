@@ -18,7 +18,7 @@ typedef struct _divs
 struct _divs *_get_divs(btree *node);
 
 
-/**  Mostra recusivamente uma árvore binária. Tem os tipos :
+/**  Mostra recursivamente uma árvore binária. Tem os tipos :
  *    -> a : em ordem,
  *    -> b : pré ordem,
  *    -> c : pós ordem. */
