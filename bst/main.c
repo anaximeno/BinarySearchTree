@@ -48,5 +48,5 @@ void freeDom(void)
     if (root != NULL)
         freeTree(&root);  // Limpa root caso não for limpado antes
     fcloseall();    // Fecha todos os ficheiros abertos
-    printf(" Saindo da execução.\n Obrigado por experimentar o programa!\n");
+    printf(" Saindo da execução.\n Obrigado por usar o programa!\n\n");
 }
