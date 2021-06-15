@@ -21,7 +21,7 @@ btree *root = NULL;
 #endif // linux
 
 #ifdef _WIN32
-    #define CLEAR "CLEAR"
+    #define CLEAR "cls"
 #endif // _WIN32
 
 
