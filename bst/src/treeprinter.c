@@ -24,21 +24,27 @@ void printTree(btree *root, char tipo)
 		/* Mostra a árvore binária em ordem. */
         printf("\n\n\t  BINARY SEARCH TREE");
 		printf(" - Em Ordem\n\n");
-		printTreeInOrder(root);
+
+		_printTreeInOrder(root);
+
 		putchar('\n');
 		break;
 	case 'b':
 		/* Mostra a árvore binária em pré ordem. */
         printf("\n\n\t  BINARY SEARCH TREE");
 		printf(" - Pré Ordem\n\n");
-		printTreePreOrder(root);
+
+		_printTreePreOrder(root);
+
 		putchar('\n');
 		break;
 	case 'c':
 		/* Mostra a árvore binária em pós ordem. */
         printf("\n\n\t  BINARY SEARCH TREE");
 		printf(" - Pós Ordem\n\n");
-		printTreePostOrder(root);
+
+		_printTreePostOrder(root);
+
 		putchar('\n');
 		break;
 	default:
@@ -54,7 +60,7 @@ typedef struct _divs
 } DIVS;
 
 
-struct _divs *getDivs(btree *node)
+struct _divs *_getDivs(btree *node)
 {
     DIVS *divs = (DIVS *) malloc (sizeof(DIVS));
 	if (divs != NULL) {
@@ -71,7 +77,7 @@ struct _divs *getDivs(btree *node)
 
 	/** Mostram árvores binárias em Ordem */
 
-linked *branchLevelsInOrder(btree *node, linked *list)
+linked *_branchLevelsInOrder(btree *node, linked *list)
 {
 	/* Procura por posições contrárias reversamente na árvore. */
     char *search_position = !strcmp(node->position, R) ? L : R;
@@ -83,17 +89,17 @@ linked *branchLevelsInOrder(btree *node, linked *list)
 	else if (!strcmp(parent->position, search_position))
 		insertInList(&list, parent->level*DEPTH_MULTIPLIER);
 
-    return branchLevelsInOrder(parent, list);
+    return _branchLevelsInOrder(parent, list);
 
 }
 
 
-char *branchInOrder(btree *node)
+char *_branchInOrder(btree *node)
 {
     if (node->level != 0) {
 		linked *branch_levels = NULL;
 
-		branch_levels = branchLevelsInOrder(node, branch_levels);
+		branch_levels = _branchLevelsInOrder(node, branch_levels);
         unsigned short int i;
 		for (i = 1 ; i < node->level*DEPTH_MULTIPLIER ; ++i)
 			printf(isInList(branch_levels, i) ? VERTICALBRANCH : BRANCHSPACES);
@@ -108,24 +114,24 @@ char *branchInOrder(btree *node)
 }
 
 
-void printTreeInOrder(btree *root)
+void _printTreeInOrder(btree *root)
 {
     if (root == NULL)
 		return ;
 
-	printTreeInOrder(root->left);
+	_printTreeInOrder(root->left);
 
-    DIVS *divs = getDivs(root);
-	printf("%s%c%d%c\n", branchInOrder(root), divs->f, root->valor, divs->s);
+    DIVS *divs = _getDivs(root);
+	printf("%s%c%d%c\n", _branchInOrder(root), divs->f, root->valor, divs->s);
 	free(divs);
 
-	printTreeInOrder(root->right);
+	_printTreeInOrder(root->right);
 }
 
 
 	/** Mostram a árvore em pré ordem.  */
 
-linked *branchLevelsPreOrder(btree *node, linked *list)
+linked *_branchLevelsPreOrder(btree *node, linked *list)
 {
     btree *parent = node->parent;
 
@@ -135,15 +141,15 @@ linked *branchLevelsPreOrder(btree *node, linked *list)
 	else if (parent->right != NULL && parent->right != node)
 		insertInList(&list, node->level*DEPTH_MULTIPLIER);
 
-    return branchLevelsPreOrder(parent, list);
+    return _branchLevelsPreOrder(parent, list);
 }
 
-char *branchPreOrder(btree *node)
+char *_branchPreOrder(btree *node)
 {
     if (node->level != 0) {
 		linked *branch_levels = NULL;
 
-		branch_levels = branchLevelsPreOrder(node, branch_levels);
+		branch_levels = _branchLevelsPreOrder(node, branch_levels);
 
         unsigned short int i;
 		for (i = 1 ; i < node->level*DEPTH_MULTIPLIER ; ++i)
@@ -165,25 +171,25 @@ char *branchPreOrder(btree *node)
 		return ROOTBRANCH;
 }
 
-void printTreePreOrder(btree *root)
+void _printTreePreOrder(btree *root)
 {
 	if (root == NULL)
 		return ;
 
 
-	DIVS *divs = getDivs(root);
+	DIVS *divs = _getDivs(root);
 
-	printf("%s%c%d%c\n", branchPreOrder(root), divs->f, root->valor, divs->s);
+	printf("%s%c%d%c\n", _branchPreOrder(root), divs->f, root->valor, divs->s);
 
 	free(divs);
-	printTreePreOrder(root->left);
-	printTreePreOrder(root->right);
+	_printTreePreOrder(root->left);
+	_printTreePreOrder(root->right);
 }
 
 
 	/** Mostram a árvore em pós ordem.  */
 
-linked *branchLevelsPostOrder(btree *node, linked *list)
+linked *_branchLevelsPostOrder(btree *node, linked *list)
 {
     btree *parent = node->parent;
 
@@ -193,16 +199,16 @@ linked *branchLevelsPostOrder(btree *node, linked *list)
 	else if (parent->left != NULL && parent->left != node)
 		insertInList(&list, node->level*DEPTH_MULTIPLIER);
 
-    return branchLevelsPostOrder(parent, list);
+    return _branchLevelsPostOrder(parent, list);
 }
 
 
-char *branchPostOrder(btree *node)
+char *_branchPostOrder(btree *node)
 {
     if (node->level != 0) {
 		linked *branch_levels = NULL;
 
-		branch_levels = branchLevelsPostOrder(node, branch_levels);
+		branch_levels = _branchLevelsPostOrder(node, branch_levels);
 
         unsigned short int i;
 		for (i = 1 ; i < node->level*DEPTH_MULTIPLIER ; ++i)
@@ -225,17 +231,17 @@ char *branchPostOrder(btree *node)
 }
 
 
-void printTreePostOrder(btree *root)
+void _printTreePostOrder(btree *root)
 {
 	if (root == NULL)
 		return ;
 
 
-	printTreePostOrder(root->left);
-	printTreePostOrder(root->right);
+	_printTreePostOrder(root->left);
+	_printTreePostOrder(root->right);
 
-	DIVS *divs = getDivs(root);
-	printf("%s%c%d%c\n", branchPostOrder(root), divs->f, root->valor, divs->s);
+	DIVS *divs = _getDivs(root);
+	printf("%s%c%d%c\n", _branchPostOrder(root), divs->f, root->valor, divs->s);
 	free(divs);
 }
 
