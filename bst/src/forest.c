@@ -146,7 +146,7 @@ void _insert_model_in_models(const char *nome, int ano, int preco,
 
 broot *searchMarca(const char *nome, broot *root)
 {
-	if (root == NULL)
+	if (*root == NULL)
 		return NULL;
 	else if (strcmp(nome, (*root)->marca.nome) < 0) 
 		return searchMarca(nome, &(*root)->left);
@@ -162,7 +162,7 @@ void insertNewModelo(const char *nome, const char *marca,
 {
 	broot *brand = searchMarca(marca, root);
 
-	if (brand != NULL) {
+	if (*brand != NULL) {
 		_insert_model_in_models(nome, ano, preco, qtdade, &(*brand)->marca.modelos, "ROOT", NULL);
 	} else {
 		printf("\n Marca: '%s' não foi encontrada na árvore binária!", marca);
