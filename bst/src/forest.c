@@ -93,7 +93,7 @@ struct _binarytree *chargeFile(char* filename, btree **root)
 		marca = searchMarca(nome_da_marca, root);
 	}
 
-	if (marca != NULL) {
+	if (*marca != NULL) {
 		FILE *f = fopen(filename, "rt");
 
 		if (f != NULL) {
