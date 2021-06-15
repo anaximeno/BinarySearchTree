@@ -48,23 +48,24 @@ void printTree(btree *root, char tipo)
 }
 
 
-struct _divs
+typedef struct _divs
 {
-    char f_div, s_div;
-};
+    char f, s;
+} DIVS;
 
 
-struct _divs getDivs(btree *node)
+struct _divs *getDivs(btree *node)
 {
-    struct _divs divs;
-    if (node->level == 0) {
-         divs.f_div = '[';
-         divs.s_div = ']';
-    }
-    else {
-        divs.f_div = '<';
-        divs.s_div = '>';
-    }
+    DIVS *divs = (DIVS *) malloc (sizeof(DIVS));
+	if (divs != NULL) {
+		if (node->level == 0) {
+			divs->f = '[';
+			divs->s = ']';
+		} else {
+			divs->f = '<';
+			divs->s = '>';
+		}
+	}
     return divs;
 }
 
@@ -114,8 +115,9 @@ void printTreeInOrder(btree *root)
 
 	printTreeInOrder(root->left);
 
-    struct _divs divs = getDivs(root);
-	printf("%s%c%d%c\n", branchInOrder(root), divs.f_div, root->valor, divs.s_div);
+    DIVS *divs = getDivs(root);
+	printf("%s%c%d%c\n", branchInOrder(root), divs->f, root->valor, divs->s);
+	free(divs);
 
 	printTreeInOrder(root->right);
 }
@@ -169,9 +171,11 @@ void printTreePreOrder(btree *root)
 		return ;
 
 
-	struct _divs divs = getDivs(root);
-	printf("%s%c%d%c\n", branchPreOrder(root), divs.f_div, root->valor, divs.s_div);
+	DIVS *divs = getDivs(root);
 
+	printf("%s%c%d%c\n", branchPreOrder(root), divs->f, root->valor, divs->s);
+
+	free(divs);
 	printTreePreOrder(root->left);
 	printTreePreOrder(root->right);
 }
@@ -230,8 +234,8 @@ void printTreePostOrder(btree *root)
 	printTreePostOrder(root->left);
 	printTreePostOrder(root->right);
 
-
-	struct _divs divs = getDivs(root);
-	printf("%s%c%d%c\n", branchPostOrder(root), divs.f_div, root->valor, divs.s_div);
+	DIVS *divs = getDivs(root);
+	printf("%s%c%d%c\n", branchPostOrder(root), divs->f, root->valor, divs->s);
+	free(divs);
 }
 
