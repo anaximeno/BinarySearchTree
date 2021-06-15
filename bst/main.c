@@ -7,6 +7,7 @@
 #include "forest.h"
 #include "treeprinter.h"
 
+
 /* Limpa as estruturas dinamicas criadas aquí e ficheiros abertos. */
 int fcloseall(void);
 void freeDom(void);
@@ -15,10 +16,20 @@ void freeDom(void);
 btree *root = NULL;
 
 
+#ifdef linux
+    #define CLEAR "clear"
+#endif // linux
+
+#ifdef _WIN32
+    #define CLEAR "CLEAR"
+#endif // _WIN32
+
+
+
 int main(int argv, char *argc[])
-{atexit(freeDom);
-setlocale(LC_ALL, "Portuguese");
-    /** Teste */
+{atexit(freeDom); setlocale(LC_ALL, "Portuguese");
+
+    /** Teste **/
     int vetor[13] = {1, 2, 5, 4, 3, 6, 5, 8, -1, 4, 9, 0, -4};
     insertInTree(&root, 3);
 
@@ -33,9 +44,10 @@ setlocale(LC_ALL, "Portuguese");
     setbuf(stdin, NULL);
 
     printTree(root, tipo);
-    /** Teste */
+
     printf("\n Clique enter para sair..");
     getchar();
+    /** Teste **/
 
     freeTree(&root);
     return 0;
@@ -44,6 +56,7 @@ setlocale(LC_ALL, "Portuguese");
 
 void freeDom(void)
 {
+    system(CLEAR);
     printf("\n Limpando a memória...");
     if (root != NULL)
         freeTree(&root);  // Limpa root caso não for limpado antes
