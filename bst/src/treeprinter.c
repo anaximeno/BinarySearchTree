@@ -25,7 +25,7 @@ void printTree(btree *root, char tipo)
         printf("\n\n\t  BINARY SEARCH TREE");
 		printf(" - Em Ordem\n\n");
 
-		_printTreeInOrder(root);
+		_in_order(root);
 
 		putchar('\n');
 		break;
@@ -34,7 +34,7 @@ void printTree(btree *root, char tipo)
         printf("\n\n\t  BINARY SEARCH TREE");
 		printf(" - Pré Ordem\n\n");
 
-		_printTreePreOrder(root);
+		_pre_order(root);
 
 		putchar('\n');
 		break;
@@ -43,7 +43,7 @@ void printTree(btree *root, char tipo)
         printf("\n\n\t  BINARY SEARCH TREE");
 		printf(" - Pós Ordem\n\n");
 
-		_printTreePostOrder(root);
+		_post_order(root);
 
 		putchar('\n');
 		break;
@@ -54,13 +54,7 @@ void printTree(btree *root, char tipo)
 }
 
 
-typedef struct _divs
-{
-    char f, s;
-} DIVS;
-
-
-struct _divs *_getDivs(btree *node)
+struct _divs *_get_divs(btree *node)
 {
     DIVS *divs = (DIVS *) malloc (sizeof(DIVS));
 	if (divs != NULL) {
@@ -77,7 +71,7 @@ struct _divs *_getDivs(btree *node)
 
 	/** Mostram árvores binárias em Ordem */
 
-linked *_branchLevelsInOrder(btree *node, linked *list)
+linked *_in_order_branch_depths(btree *node, linked *list)
 {
 	/* Procura por posições contrárias reversamente na árvore. */
     char *search_position = !strcmp(node->position, R) ? L : R;
@@ -89,22 +83,24 @@ linked *_branchLevelsInOrder(btree *node, linked *list)
 	else if (!strcmp(parent->position, search_position))
 		insertInList(&list, parent->level*DEPTH_MULTIPLIER);
 
-    return _branchLevelsInOrder(parent, list);
+    return _in_order_branch_depths(parent, list);
 
 }
 
 
-char *_branchInOrder(btree *node)
+char *_in_order_branch(btree *node)
 {
     if (node->level != 0) {
-		linked *branch_levels = NULL;
+		linked *branch_depths = NULL;
 
-		branch_levels = _branchLevelsInOrder(node, branch_levels);
+		branch_depths = _in_order_branch_depths(node, branch_depths);
         unsigned short int i;
-		for (i = 1 ; i < node->level*DEPTH_MULTIPLIER ; ++i)
-			printf(isInList(branch_levels, i) ? VERTICALBRANCH : BRANCHSPACES);
+		/* Profundidade visual do nó na árvore. */
+		int depth = node->level*DEPTH_MULTIPLIER;
+		for (i = 1 ; i < depth ; ++i)
+			printf(isInList(branch_depths, i) ? VERTICALBRANCH : BRANCHSPACES);
 
-		freeList(&branch_levels);
+		freeList(&branch_depths);
 
 		return !strcmp(node->position, R) ? LEFTBRANCH : RIGHTBRANCH;
 	}
@@ -114,24 +110,24 @@ char *_branchInOrder(btree *node)
 }
 
 
-void _printTreeInOrder(btree *root)
+void _in_order(btree *root)
 {
     if (root == NULL)
 		return ;
 
-	_printTreeInOrder(root->left);
+	_in_order(root->left);
 
-    DIVS *divs = _getDivs(root);
-	printf("%s%c%d%c\n", _branchInOrder(root), divs->f, root->valor, divs->s);
+    DIVS *divs = _get_divs(root);
+	printf("%s%c%d%c\n", _in_order_branch(root), divs->f, root->valor, divs->s);
 	free(divs);
 
-	_printTreeInOrder(root->right);
+	_in_order(root->right);
 }
 
 
 	/** Mostram a árvore em pré ordem.  */
 
-linked *_branchLevelsPreOrder(btree *node, linked *list)
+linked *_pre_order_branch_depths(btree *node, linked *list)
 {
     btree *parent = node->parent;
 
@@ -141,23 +137,29 @@ linked *_branchLevelsPreOrder(btree *node, linked *list)
 	else if (parent->right != NULL && parent->right != node)
 		insertInList(&list, node->level*DEPTH_MULTIPLIER);
 
-    return _branchLevelsPreOrder(parent, list);
+    return _pre_order_branch_depths(parent, list);
 }
 
-char *_branchPreOrder(btree *node)
+char *_pre_order_branch(btree *node)
 {
     if (node->level != 0) {
-		linked *branch_levels = NULL;
-
-		branch_levels = _branchLevelsPreOrder(node, branch_levels);
-
-        unsigned short int i;
-		for (i = 1 ; i < node->level*DEPTH_MULTIPLIER ; ++i)
-			printf(isInList(branch_levels, i) ? VERTICALBRANCH : BRANCHSPACES);
-		freeList(&branch_levels);
-
-		btree *parent = node->parent;
 		char *branch;
+		btree *parent = node->parent;
+		linked *branch_depths = NULL;
+        unsigned short int i, depth;
+
+
+		branch_depths = _pre_order_branch_depths(node, branch_depths);
+
+
+		/* Profundidade visual do nó na árvore. */
+		depth = node->level*DEPTH_MULTIPLIER;
+
+		for (i = 1 ; i < depth ; ++i)
+			printf(isInList(branch_depths, i) ? VERTICALBRANCH : BRANCHSPACES);
+
+		freeList(&branch_depths);
+
 
 		if (parent->left != NULL && parent->right != NULL && parent->left == node)
 			branch = MIDDLEBRANCH;
@@ -171,25 +173,25 @@ char *_branchPreOrder(btree *node)
 		return ROOTBRANCH;
 }
 
-void _printTreePreOrder(btree *root)
+void _pre_order(btree *root)
 {
 	if (root == NULL)
 		return ;
 
 
-	DIVS *divs = _getDivs(root);
+	DIVS *divs = _get_divs(root);
 
-	printf("%s%c%d%c\n", _branchPreOrder(root), divs->f, root->valor, divs->s);
+	printf("%s%c%d%c\n", _pre_order_branch(root), divs->f, root->valor, divs->s);
 
 	free(divs);
-	_printTreePreOrder(root->left);
-	_printTreePreOrder(root->right);
+	_pre_order(root->left);
+	_pre_order(root->right);
 }
 
 
 	/** Mostram a árvore em pós ordem.  */
 
-linked *_branchLevelsPostOrder(btree *node, linked *list)
+linked *_post_order_branch_depths(btree *node, linked *list)
 {
     btree *parent = node->parent;
 
@@ -199,24 +201,26 @@ linked *_branchLevelsPostOrder(btree *node, linked *list)
 	else if (parent->left != NULL && parent->left != node)
 		insertInList(&list, node->level*DEPTH_MULTIPLIER);
 
-    return _branchLevelsPostOrder(parent, list);
+    return _post_order_branch_depths(parent, list);
 }
 
 
-char *_branchPostOrder(btree *node)
+char *_post_order_branch(btree *node)
 {
     if (node->level != 0) {
-		linked *branch_levels = NULL;
-
-		branch_levels = _branchLevelsPostOrder(node, branch_levels);
-
-        unsigned short int i;
-		for (i = 1 ; i < node->level*DEPTH_MULTIPLIER ; ++i)
-			printf(isInList(branch_levels, i) ? VERTICALBRANCH : BRANCHSPACES);
-		freeList(&branch_levels);
-
+		linked *branch_depths = NULL;
 		btree *parent = node->parent;
 		char *branch;
+
+		branch_depths = _post_order_branch_depths(node, branch_depths);
+
+        unsigned short int i;
+		/* Profundidade visual do nó na árvore. */
+		int depth = node->level*DEPTH_MULTIPLIER;
+		for (i = 1 ; i < depth ; ++i)
+			printf(isInList(branch_depths, i) ? VERTICALBRANCH : BRANCHSPACES);
+		freeList(&branch_depths);
+
 
 		if (parent->right != NULL && parent->left != NULL && parent->right == node)
 			branch = MIDDLEBRANCH;
@@ -231,17 +235,17 @@ char *_branchPostOrder(btree *node)
 }
 
 
-void _printTreePostOrder(btree *root)
+void _post_order(btree *root)
 {
 	if (root == NULL)
 		return ;
 
 
-	_printTreePostOrder(root->left);
-	_printTreePostOrder(root->right);
+	_post_order(root->left);
+	_post_order(root->right);
 
-	DIVS *divs = _getDivs(root);
-	printf("%s%c%d%c\n", _branchPostOrder(root), divs->f, root->valor, divs->s);
+	DIVS *divs = _get_divs(root);
+	printf("%s%c%d%c\n", _post_order_branch(root), divs->f, root->valor, divs->s);
 	free(divs);
 }
 
