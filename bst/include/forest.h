@@ -50,23 +50,23 @@ typedef struct _binarytree
             struct _binarytree *modelos;
         } marca;
     };
-} btree;
+} b_tree;
 
 
 /* Procura por um valor e retorna o nó que contém esse valor */
-void searchInTree(btree *root, int valor);
+void searchInTree(b_tree *root, int valor);
 
 
 /* Salva a árvore num arquivo. */
-void saveTreeOnFile(btree *root, const char* filename);
+void saveTreeOnFile(b_tree *root, const char* filename);
 
 
 /* Salva um nó binário num arquivo. */
-void saveBinaryNodeOnFile(btree *node, const char* filename);
+void saveBinaryNodeOnFile(b_tree *node, const char* filename);
 
 
 /* Elimina um valor da árvore. */
-void eliminateBinaryNode(int valor, btree **root);
+void eliminateBinaryNode(int valor, b_tree **root);
 
 
 /* Carrega um nó binário guardado no arquivo de nome [marca].txt com os elementos,
@@ -76,32 +76,32 @@ Organização do arquivo a ser lido:
     [nome do modelo]    [ano de lançamento]     [preço]     [quantidate]
 
 */
-bool chargeFile(char *filename, btree **root);
+bool charge_file(char *filename, b_tree **root);
 
 
 /* Cria e retorna um nó binário. */
-btree *createBinaryNode(char *position, btree *parent);
+b_tree *createBinaryNode(char *position, b_tree *parent);
 
 
 /* Insere uma nova marca caso não existir na árvore binária. */
-void insertNewMarca(const char *nome, btree **root);
-void _insert_marca_in_tree(const char *nome, btree **root, char *position,
-    btree *parent);
+void insertNewMarca(const char *nome, b_tree **root);
+void _insert_marca_in_tree(const char *nome, b_tree **root, char *position,
+    b_tree *parent);
 
 
 /* Insere um novo modelo caso não existir na árvore binária. */
 void insertNewModelo(const char *nome, const char *marca, int ano,
-    int preco, int qtdade, btree **root);
+    int preco, int qtdade, b_tree **root);
 void _insert_modelo_in_marca(const char *nome, int ano, int preco,
-	int qtdade, btree **root, char *position, btree *parent);
+	int qtdade, b_tree **root, char *position, b_tree *parent);
 
 
 /* Procura e retorna o indereço da Marca na árvore. */
-btree *searchMarca(const char *nome, btree *root);
+b_tree *searchMarca(const char *nome, b_tree *root);
 
 
 /* Limpa recursivamente uma árvore binária. */
-void freeTree(btree **root);
+void freetree(b_tree **root);
 
 
 #endif // FOREST_H

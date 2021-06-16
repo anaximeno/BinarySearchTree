@@ -3,30 +3,32 @@
 #include <stdbool.h>
 #include <string.h>
 #include <locale.h>
+#include "common.h"
 #include "linkedlist.h"
 #include "forest.h"
 #include "treeprinter.h"
 
 
 
-void freeDom(void);
-
 /* Raíz da árvore binária, variável global. */
-btree *root = NULL;
+b_tree *root = NULL;
 
 
-#ifdef linux
-    #define CLEAR "clear"
-#endif // linux
+void freedom(void)
+{
+    CLEAR();
+    animate("\n Limpando a memória", 40000);
+    animate("....", 900000);
 
-#ifdef _WIN32
-    #define CLEAR "cls"
-#endif // _WIN32
+    if (root != NULL)
+        freetree(&root);  // Limpa root caso não for limpado antes
 
+    animate(" A memória foi limpa.\n Saindo da execução, obrigado por usar o programa!\n\n", 40000);
+}
 
 
 int main(int argv, char *argc[])
-{   atexit(freeDom); setlocale(LC_ALL, "Portuguese");
+{   atexit(freedom); setlocale(LC_ALL, "Portuguese");
 
     printf("\n Data : %s\n\n", __DATE__);
 
@@ -39,14 +41,13 @@ int main(int argv, char *argc[])
 
     for (int i = 0 ; i < 15 ; ++i)
         insertNewMarca(marcas_teste[i], &root);
-
+    
 
     /* Teste 2 - carregamento de um arquivo de texto
-    chargeFile("Ford.txt", &root);
-    chargeFile("Mercedes.txt", &root);
-    chargeFile("Toyota.txt", &root);
+    charge_file("Ford.txt", &root);
+    charge_file("Mercedes.txt", &root);
+    charge_file("Toyota.txt", &root);
     */
-    // system(CLEAR);
 
     /* Teste 3 - Impressão da árvore na tela */
     printf("\n\n De que forma mostrar a árvore? (a - em ordem, b - pre ordem, c - pos ordem)");
@@ -54,25 +55,16 @@ int main(int argv, char *argc[])
     char tipo;
     scanf(" %c", &tipo);
     setbuf(stdin, NULL);
-    printTree(root, tipo);
 
-    printf("\n Clique enter para sair...");
+    CLEAR();
+    printTree(root, tipo, "Marcas");
+
+    printf("\n Clique [enter] para terminar");
     getchar();
 
     /** Testes **/
-
-    freeTree(&root);
     return 0;
 }
 
 
-void freeDom(void)
-{
-    system(CLEAR);
-    printf("\n Limpando a memória...");
 
-    if (root != NULL)
-        freeTree(&root);  // Limpa root caso não for limpado antes
-
-    printf(" Saindo da execução.\n Obrigado por usar o programa!\n\n");
-}

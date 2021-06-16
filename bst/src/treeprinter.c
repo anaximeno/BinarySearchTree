@@ -16,13 +16,13 @@
 
 
 
-void printTree(btree *root, char tipo)
+void printTree(b_tree *root, char tipo, const char *title)
 {
 	switch (tipo)
 	{
 	case 'a':
 		/* Mostra a árvore binária em ordem. */
-        printf("\n\n\t  BINARY SEARCH TREE");
+        printf("\n\n  BINARY SEARCH TREE - %s", title);
 		printf(" - Em Ordem\n\n");
 
 		_in_order(root);
@@ -31,7 +31,7 @@ void printTree(btree *root, char tipo)
 		break;
 	case 'b':
 		/* Mostra a árvore binária em pré ordem. */
-        printf("\n\n\t  BINARY SEARCH TREE");
+		printf("\n\n  BINARY SEARCH TREE - %s", title);
 		printf(" - Pré Ordem\n\n");
 
 		_pre_order(root);
@@ -40,7 +40,7 @@ void printTree(btree *root, char tipo)
 		break;
 	case 'c':
 		/* Mostra a árvore binária em pós ordem. */
-        printf("\n\n\t  BINARY SEARCH TREE");
+		printf("\n\n  BINARY SEARCH TREE - %s", title);
 		printf(" - Pós Ordem\n\n");
 
 		_post_order(root);
@@ -54,7 +54,7 @@ void printTree(btree *root, char tipo)
 }
 
 
-struct _divs *_get_divs(btree *node)
+struct _divs *_get_divs(b_tree *node)
 {
     DIVS *divs = (DIVS *) malloc (sizeof(DIVS));
 	if (divs != NULL) {
@@ -71,11 +71,11 @@ struct _divs *_get_divs(btree *node)
 
 	/** Mostram árvores binárias em Ordem */
 
-linked *_in_order_branch_depths(btree *node, linked *list)
+linked *_in_order_branch_depths(b_tree *node, linked *list)
 {
 	/* Procura por posições contrárias reversamente na árvore. */
     char *search_position = !strcmp(node->position, R) ? L : R;
-    btree *parent = node->parent;
+    b_tree *parent = node->parent;
 
 	if (parent == NULL)
 		return list;
@@ -88,7 +88,7 @@ linked *_in_order_branch_depths(btree *node, linked *list)
 }
 
 
-char *_in_order_branch(btree *node)
+char *_in_order_branch(b_tree *node)
 {
     if (node->level != 0) {
 		linked *branch_depths = NULL;
@@ -110,7 +110,7 @@ char *_in_order_branch(btree *node)
 }
 
 
-void _in_order(btree *root)
+void _in_order(b_tree *root)
 {
     if (root == NULL)
 		return ;
@@ -127,9 +127,9 @@ void _in_order(btree *root)
 
 	/** Mostram a árvore em pré ordem.  */
 
-linked *_pre_order_branch_depths(btree *node, linked *list)
+linked *_pre_order_branch_depths(b_tree *node, linked *list)
 {
-    btree *parent = node->parent;
+    b_tree *parent = node->parent;
 
 	if (parent == NULL)
 		return list;
@@ -140,11 +140,11 @@ linked *_pre_order_branch_depths(btree *node, linked *list)
     return _pre_order_branch_depths(parent, list);
 }
 
-char *_pre_order_branch(btree *node)
+char *_pre_order_branch(b_tree *node)
 {
     if (node->level != 0) {
 		char *branch;
-		btree *parent = node->parent;
+		b_tree *parent = node->parent;
 		linked *branch_depths = NULL;
         unsigned short int i, depth;
 
@@ -173,7 +173,7 @@ char *_pre_order_branch(btree *node)
 		return ROOT_BRANCH;
 }
 
-void _pre_order(btree *root)
+void _pre_order(b_tree *root)
 {
 	if (root == NULL)
 		return ;
@@ -191,9 +191,9 @@ void _pre_order(btree *root)
 
 	/** Mostram a árvore em pós ordem.  */
 
-linked *_post_order_branch_depths(btree *node, linked *list)
+linked *_post_order_branch_depths(b_tree *node, linked *list)
 {
-    btree *parent = node->parent;
+    b_tree *parent = node->parent;
 
 	if (parent == NULL)
 		return list;
@@ -205,11 +205,11 @@ linked *_post_order_branch_depths(btree *node, linked *list)
 }
 
 
-char *_post_order_branch(btree *node)
+char *_post_order_branch(b_tree *node)
 {
     if (node->level != 0) {
 		linked *branch_depths = NULL;
-		btree *parent = node->parent;
+		b_tree *parent = node->parent;
 		char *branch;
 
 		branch_depths = _post_order_branch_depths(node, branch_depths);
@@ -235,7 +235,7 @@ char *_post_order_branch(btree *node)
 }
 
 
-void _post_order(btree *root)
+void _post_order(b_tree *root)
 {
 	if (root == NULL)
 		return ;

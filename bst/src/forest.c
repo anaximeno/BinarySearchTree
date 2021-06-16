@@ -5,54 +5,58 @@
 #include <string.h>
 #include "forest.h"
 #include "linkedlist.h"
+#include "common.h"
 
 
 char *get_name_from_file(char *txtname)
 {
-        char *txt = txtname;
-        int i, size = 0;
+	char *txt = txtname;
+	int i, size = 0;
 
-        while (*txt != '.' && *txt != '\0' && ++size && ++txt) ;
+	while (*txt != '.' && *txt != '\0' && ++size && ++txt) ;
 
-        size += 1;	// Adiciona mais um espaço para '\0'
-        char *name = (char *) malloc(sizeof(char)*size);
+	size += 1;	// Adiciona mais um espaço para '\0'
+	char *name = (char *) malloc(sizeof(char)*size);
 
-        txt = txtname;
-        for (i = 0 ; txt[i] != '.' && txt[i] != '\0' ; ++i)
-            name[i] = txt[i];
+	txt = txtname;
+	for (i = 0 ; txt[i] != '.' && txt[i] != '\0' ; ++i)
+		name[i] = txt[i];
 
-		name[i] = '\0';  // Adiciona o final da string
+	name[i] = '\0';  // Adiciona o final da string
 
-		return name;
+	return name;
 }
 
 
-void freeTree(btree **root)
+void freetree(b_tree **root)
 {
-	if (*root == NULL)
-		return ;
+	if (*root == NULL) return ;
+
 
 	if ( !strcmp((*root)->tipo, "MARCA") )
-		freeTree(&(*root)->marca.modelos);
+		freetree(&(*root)->marca.modelos);
 
 
-	freeTree(&(*root)->left);
-	freeTree(&(*root)->right);
+	freetree(&(*root)->left);
+	freetree(&(*root)->right);
 
 	free(*root);
 	*root = NULL;
 }
 
 
-bool chargeFile(char* filename, btree **root)
+bool charge_file(char* filename, b_tree **root)
 {
-	char *nome_da_marca = get_name_from_file(filename);
-    btree *brand = NULL;
+	char *marca = get_name_from_file(filename);
+    b_tree *brand = NULL;
+
     /* Se a marca não for encontrada na arvore, cria nova árvore */
-	if ( (brand = searchMarca(nome_da_marca, *root)) == NULL ) {
-		insertNewMarca(nome_da_marca, root);
-		brand = searchMarca(nome_da_marca, *root);
+	if ( (brand = searchMarca(marca, *root)) == NULL ) {
+		insertNewMarca(marca, root);
+		brand = searchMarca(marca, *root);
 	}
+
+	free(marca);
 
 	if (brand != NULL) {
 		FILE *f = fopen(filename, "rt");
@@ -78,9 +82,9 @@ bool chargeFile(char* filename, btree **root)
 }
 
 
-btree *createBinaryNode(char *position, btree *parent)
+b_tree *createBinaryNode(char *position, b_tree *parent)
 {
-	btree *node = (btree *) malloc(sizeof(btree));
+	b_tree *node = (b_tree *) malloc(sizeof(b_tree));
 
 	if (node != NULL) {
 		node->level = parent == NULL ? 0 : parent->level+1;
@@ -93,10 +97,10 @@ btree *createBinaryNode(char *position, btree *parent)
 }
 
 
-void _insert_marca_in_tree(const char *nome, btree **root, char *position, btree *parent)
+void _insert_marca_in_tree(const char *nome, b_tree **root, char *position, b_tree *parent)
 {
 	if (*root == NULL) {
-		btree *brand = createBinaryNode(position, parent);
+		b_tree *brand = createBinaryNode(position, parent);
 
 		if (brand != NULL) {
 			strcpy(brand->marca.nome, nome);
@@ -108,7 +112,10 @@ void _insert_marca_in_tree(const char *nome, btree **root, char *position, btree
 
 		*root = brand;
 
-		printf("\n Marca '%s' foi introduzida na árvore!\n", nome);
+        char output[43+NOMEMAX];
+        sprintf(output, "\n Marca '%s' foi introduzida na árvore!\n", nome);
+        animate(output, 25000);
+
 	} else if (strcmp(nome, (*root)->marca.nome) < 0) { // LEFT
 		_insert_marca_in_tree(nome, &(*root)->left, L, *root);
 	} else if (strcmp(nome, (*root)->marca.nome) > 0) { // RIGHT
@@ -120,10 +127,10 @@ void _insert_marca_in_tree(const char *nome, btree **root, char *position, btree
 
 
 void _insert_modelo_in_marca(const char *nome, int ano, int preco,
-				int qtdade, btree **root, char *position, btree *parent)
+				int qtdade, b_tree **root, char *position, b_tree *parent)
 {
 	if (*root == NULL) {
-		btree *model = createBinaryNode(position, parent);
+		b_tree *model = createBinaryNode(position, parent);
 
 		if (model != NULL) {
 			strcpy(model->modelo.nome, nome);
@@ -134,7 +141,11 @@ void _insert_modelo_in_marca(const char *nome, int ano, int preco,
 		}
 
         *root = model;
-		printf("\n   Modelo : '%s' foi introduzido!\n", nome);
+
+		char output[37+NOMEMAX];
+		sprintf(output, "\n   Modelo : '%s' foi introduzido!\n", nome);
+		animate(output, 30000);
+
 	} else if (strcmp(nome, (*root)->modelo.nome) < 0) { // LEFT
 		_insert_modelo_in_marca(nome, ano, preco, qtdade, &(*root)->left, L, *root);
 	} else if (strcmp(nome, (*root)->modelo.nome) > 0) { // RIGHT
@@ -145,7 +156,7 @@ void _insert_modelo_in_marca(const char *nome, int ano, int preco,
 }
 
 
-btree *searchMarca(const char *nome, btree *root)
+b_tree *searchMarca(const char *nome, b_tree *root)
 {
 	if (root == NULL)
 		return NULL;
@@ -159,12 +170,11 @@ btree *searchMarca(const char *nome, btree *root)
 
 
 void insertNewModelo(const char *nome, const char *marca,
-						int ano, int preco, int qtdade, btree **root)
+						int ano, int preco, int qtdade, b_tree **root)
 {
-	btree *brand = searchMarca(marca, *root);
+	b_tree *brand = searchMarca(marca, *root);
 
 	if (brand != NULL) {
-        printf("\n Tentando inserir '%s' na marca '%s'\n", nome, marca);
 		_insert_modelo_in_marca(nome, ano, preco, qtdade, &brand->marca.modelos, "ROOT", NULL);
 	} else {
 		printf("\n Marca: '%s' não foi encontrada na árvore binária!", marca);
@@ -172,7 +182,7 @@ void insertNewModelo(const char *nome, const char *marca,
 }
 
 
-void insertNewMarca(const char *nome, btree **root)
+void insertNewMarca(const char *nome, b_tree **root)
 {
 	_insert_marca_in_tree(nome, root, "ROOT", NULL);
 }

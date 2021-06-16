@@ -1,10 +1,11 @@
 # depslib dependency file v1.0
-1623806897 source:/home/anaximeno/Github/binarysearchtree/bst/main.c
+1623849837 source:/home/anaximeno/Github/binarysearchtree/bst/main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	<string.h>
 	<locale.h>
+	"common.h"
 	"linkedlist.h"
 	"forest.h"
 	"treeprinter.h"
@@ -12,16 +13,17 @@
 1623625741 /home/anaximeno/Github/binarysearchtree/bst/include/linkedlist.h
 	<stdbool.h>
 
-1623803892 /home/anaximeno/Github/binarysearchtree/bst/include/forest.h
+1623844162 /home/anaximeno/Github/binarysearchtree/bst/include/forest.h
 	<stdbool.h>
 
-1623806055 source:/home/anaximeno/Github/binarysearchtree/bst/src/forest.c
+1623849031 source:/home/anaximeno/Github/binarysearchtree/bst/src/forest.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	<string.h>
 	"forest.h"
 	"linkedlist.h"
+	"common.h"
 
 1623626100 source:/home/anaximeno/Github/binarysearchtree/bst/src/linkedlist.c
 	<stdio.h>
@@ -30,15 +32,26 @@
 	<string.h>
 	"linkedlist.h"
 
-1623796796 /home/anaximeno/Github/binarysearchtree/bst/include/treeprinter.h
+1623849735 /home/anaximeno/Github/binarysearchtree/bst/include/treeprinter.h
 	"linkedlist.h"
 	"forest.h"
 
-1623801648 source:/home/anaximeno/Github/binarysearchtree/bst/src/treeprinter.c
+1623849892 source:/home/anaximeno/Github/binarysearchtree/bst/src/treeprinter.c
 	<string.h>
 	<stdio.h>
 	<stdlib.h>
 	"treeprinter.h"
 	"forest.h"
 	"linkedlist.h"
+
+1623846879 source:/home/anaximeno/Github/binarysearchtree/bst/src/common.c
+	<stdio.h>
+	<stdlib.h>
+	"common.h"
+	<unistd.h>
+	<Windows.h>
+
+1623846872 /home/anaximeno/Github/binarysearchtree/bst/include/common.h
+	<unistd.h>
+	<Windows.h>
 

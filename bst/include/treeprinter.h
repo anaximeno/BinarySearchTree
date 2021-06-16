@@ -15,35 +15,35 @@ typedef struct _divs
 
 
 /* Retorna as divisas das árvores na hora de imprimir. */
-struct _divs *_get_divs(btree *node);
+struct _divs *_get_divs(b_tree *node);
 
 
 /**  Mostra recursivamente uma árvore binária. Tem os tipos :
  *    -> a : em ordem,
  *    -> b : pré ordem,
  *    -> c : pós ordem. */
-void printTree(btree *root, char tipo);
+void printTree(b_tree *root, char tipo, const char *title);
 
 
 
 /**  Mostram a árvore em ordem. */
 
-linked *_in_order_branch_depths(btree *node, linked *list);
-char *_in_order_branch(btree *node);
-void _in_order(btree *root);
+linked *_in_order_branch_depths(b_tree *node, linked *list);
+char *_in_order_branch(b_tree *node);
+void _in_order(b_tree *root);
 
 
 /** Mostram a árvore em pré ordem.  */
 
-linked *_pre_order_branch_depths(btree *node, linked *list);
-char *_pre_order_branch(btree *node);
-void _pre_order(btree *root);
+linked *_pre_order_branch_depths(b_tree *node, linked *list);
+char *_pre_order_branch(b_tree *node);
+void _pre_order(b_tree *root);
 
 
 /** Mostram a árvore em pós ordem.  */
 
-linked *_post_order_branch_depths(btree *node, linked *list);
-char *_post_order_branch(btree *node);
-void _post_order(btree *root);
+linked *_post_order_branch_depths(b_tree *node, linked *list);
+char *_post_order_branch(b_tree *node);
+void _post_order(b_tree *root);
 
 #endif // TREEPRINTER_H
