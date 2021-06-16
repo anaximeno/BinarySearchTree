@@ -33,10 +33,14 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="include/common.h" />
 		<Unit filename="include/forest.h" />
 		<Unit filename="include/linkedlist.h" />
 		<Unit filename="include/treeprinter.h" />
 		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/common.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/forest.c">
