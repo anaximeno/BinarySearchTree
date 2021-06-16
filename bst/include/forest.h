@@ -15,24 +15,24 @@
 
 
 /* Retorna o nome sem a extensão. */
-char *_get_marca_from_txt(char *txtname);  /** TODO: transforma isso em split */
+char *get_name_from_file(char *txtname);  /** TODO: transforma isso em split */
 
 
 /** Estrutura de árvore binária, com os campos:
- *    >> parent (struct _binarytree *) : estrutura pai do nó atual
- *    >> left (struct _binarytree *) : estrutura do lado esquerdo
- *    >> right (struct _binarytree *) : estrutura do lado direita
- *    >> valor (int) : guarda um valor inteiro
- *    >> level (int) : nivel do nó na árvore
- *    >> position (char *) : posicao da árvore pode ser "RIGHT", "LEFT" ou "ROOT"
- *    >> modelo (union struct _modelo) : estrutura que representa um modelo
- *    >> marca (union struct _marca) : estrutura que representa uma marca.
+ *    -> parent (struct _binarytree *) : estrutura pai do nó atual
+ *    -> left (struct _binarytree *) : estrutura do lado esquerdo
+ *    -> right (struct _binarytree *) : estrutura do lado direita
+ *    -> valor (int) : guarda um valor inteiro
+ *    -> level (int) : nivel do nó na árvore
+ *    -> position (char *) : posicao da árvore pode ser "RIGHT", "LEFT" ou "ROOT"
+ *    -> modelo (union struct _modelo) : estrutura que representa um modelo
+ *    -> marca (union struct _marca) : estrutura que representa uma marca.
  * */
 typedef struct _binarytree
 {
     struct _binarytree *parent, *left, *right;
-    int valor, level;
     char *position, *tipo;
+    int level;
 
     /* union foi usado para previnir a alocação de memória desnecessária. */
     union
@@ -53,16 +53,6 @@ typedef struct _binarytree
 } btree;
 
 
-
-/* Cria um nó da árvore binária. */
-btree *createBinNode(int valor, char* position, int level, btree *parent);
-
-
-
-/* Insere um valor na árvore binária. */
-void insertInTree(btree **root, int valor);
-
-
 /* Procura por um valor e retorna o nó que contém esse valor */
 void searchInTree(btree *root, int valor);
 
@@ -79,10 +69,14 @@ void saveBinaryNodeOnFile(btree *node, const char* filename);
 void eliminateBinaryNode(int valor, btree **root);
 
 
-/* Carrega um nó binário guardado no arquivo de nome [marca].txt com os elementos:
+/* Carrega um nó binário guardado no arquivo de nome [marca].txt com os elementos,
+e retorna se conseguiu ou não carregar (bool).
 
-    [nome do modelo]    [ano de lançamento]     [preço]     [quantidate] */
-struct _binarytree *chargeFile(char *filename, btree **root);
+Organização do arquivo a ser lido:
+    [nome do modelo]    [ano de lançamento]     [preço]     [quantidate] 
+    
+*/
+bool chargeFile(char *filename, btree **root);
 
 
 /* Cria e retorna um nó binário. */

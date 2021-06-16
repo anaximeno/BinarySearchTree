@@ -7,7 +7,7 @@
 #include "linkedlist.h"
 
 
-char *_get_marca_from_txt(char *txtname)
+char *get_name_from_file(char *txtname)
 {
         char *txt = txtname;
         int i, size = 0;
@@ -27,15 +27,14 @@ char *_get_marca_from_txt(char *txtname)
 }
 
 
-
 void freeTree(btree **root)
 {
 	if (*root == NULL)
 		return ;
 
-	if ( !strcmp((*root)->tipo, "MARCA") ) {
+	if ( !strcmp((*root)->tipo, "MARCA") )
 		freeTree(&(*root)->marca.modelos);
-	}
+
 
 	freeTree(&(*root)->left);
 	freeTree(&(*root)->right);
@@ -44,51 +43,10 @@ void freeTree(btree **root)
 	*root = NULL;
 }
 
-/* FOR TESTS */
-btree *createBinNode(int valor, char *position, int level, btree *parent)
+
+bool chargeFile(char* filename, btree **root)
 {
-	btree *tmp = (btree *) malloc(sizeof(btree));
-
-	if (tmp != NULL) {
-		tmp->valor = valor;
-		tmp->level = level;
-		tmp->position = position;
-		tmp->left = NULL;
-		tmp->right = NULL;
-		tmp->parent = parent;
-		tmp->tipo = "NORMAL";
-	}
-
-	return tmp;
-}
-
-
-void append_in_tree(int valor, btree **root, btree *parent, char *position)
-{
-	if (*root == NULL) {
-		int level;
-		level = parent == NULL ? 0 : parent->level+1;
-
-		*root = createBinNode(valor, position, level, parent);
-	}
-	else if ( valor < (*root)->valor )
-		append_in_tree(valor, &(*root)->left, *root, L);
-	else if ( valor > (*root)->valor )
-		append_in_tree(valor, &(*root)->right, *root, R);
-    else
-        return ;    // Não adiciona valores repitidos
-}
-
-
-void insertInTree(btree **root, int valor)
-{
-    append_in_tree(valor, root, NULL, "ROOT");
-}
-
-
-struct _binarytree *chargeFile(char* filename, btree **root)
-{
-	char *nome_da_marca = _get_marca_from_txt(filename);
+	char *nome_da_marca = get_name_from_file(filename);
 
 	btree **marca = NULL;
 
@@ -112,11 +70,14 @@ struct _binarytree *chargeFile(char* filename, btree **root)
 			}
 
 			fclose(f);
+
+			return true;
+
 		}
 
 	}
 
-	return NULL;
+	return false;
 }
 
 
@@ -148,6 +109,8 @@ void _insert_marca_in_tree(const char *nome, btree **root, char *position, btree
 			brand->tipo = "MARCA";
 		}
 
+		*root = brand;
+
 		printf("\n Marca '%s' foi introduzida na árvore!\n", nome);
 	} else if (strcmp(nome, (*root)->marca.nome) < 0) { // LEFT
 		_insert_marca_in_tree(nome, &(*root)->left, L, *root);
@@ -173,6 +136,7 @@ void _insert_modelo_in_marca(const char *nome, int ano, int preco,
 			model->tipo = "MODELO";
 		}
 
+        *root = model;
 		printf("\n Modelo: '%s' foi introduzido na árvore!\n", nome);
 	} else if (strcmp(nome, (*root)->modelo.nome) < 0) { // LEFT
 		_insert_modelo_in_marca(nome, ano, preco, qtdade, &(*root)->left, L, *root);
@@ -198,7 +162,7 @@ btree **searchMarca(const char *nome, btree **root)
 
 
 void insertNewModelo(const char *nome, const char *marca,
-	int ano, int preco, int qtdade, btree **root)
+						int ano, int preco, int qtdade, btree **root)
 {
 	btree **brand = searchMarca(marca, root);
 

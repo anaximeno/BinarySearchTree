@@ -7,12 +7,12 @@
 
 #define __author__ "Anaxímeno Brito"
 
-#define BRANCHSPACES "  "
-#define VERTICALBRANCH "│ "
-#define LEFTBRANCH "└──"
-#define RIGHTBRANCH "┌──"
-#define ROOTBRANCH "━"
-#define MIDDLEBRANCH "├──"
+#define BRANCH_SPACES "  "
+#define VERTICAL_BRANCH "│ "
+#define LEFT_BRANCH "└──"
+#define RIGHT_BRANCH "┌──"
+#define ROOT_BRANCH "━"
+#define MIDDLE_BRANCH "├──"
 
 
 
@@ -98,15 +98,15 @@ char *_in_order_branch(btree *node)
 		/* Profundidade visual do nó na árvore. */
 		int depth = node->level*DEPTH_MULTIPLIER;
 		for (i = 1 ; i < depth ; ++i)
-			printf(isInList(branch_depths, i) ? VERTICALBRANCH : BRANCHSPACES);
+			printf(isInList(branch_depths, i) ? VERTICAL_BRANCH : BRANCH_SPACES);
 
 		freeList(&branch_depths);
 
-		return !strcmp(node->position, R) ? LEFTBRANCH : RIGHTBRANCH;
+		return !strcmp(node->position, R) ? LEFT_BRANCH : RIGHT_BRANCH;
 	}
 
 	else
-		return ROOTBRANCH;
+		return ROOT_BRANCH;
 }
 
 
@@ -117,8 +117,8 @@ void _in_order(btree *root)
 
 	_in_order(root->left);
 
-    DIVS *divs = _get_divs(root);
-	printf("%s%c%d%c\n", _in_order_branch(root), divs->f, root->valor, divs->s);
+    DIVS *divs = _get_divs(root); /* Tests*/
+	printf("%s%c%s%c\n", _in_order_branch(root), divs->f, root->marca.nome, divs->s);
 	free(divs);
 
 	_in_order(root->right);
@@ -156,21 +156,21 @@ char *_pre_order_branch(btree *node)
 		depth = node->level*DEPTH_MULTIPLIER;
 
 		for (i = 1 ; i < depth ; ++i)
-			printf(isInList(branch_depths, i) ? VERTICALBRANCH : BRANCHSPACES);
+			printf(isInList(branch_depths, i) ? VERTICAL_BRANCH : BRANCH_SPACES);
 
 		freeList(&branch_depths);
 
 
 		if (parent->left != NULL && parent->right != NULL && parent->left == node)
-			branch = MIDDLEBRANCH;
+			branch = MIDDLE_BRANCH;
 		else
-			branch = LEFTBRANCH;
+			branch = LEFT_BRANCH;
 
 		return branch;
 	}
 
 	else
-		return ROOTBRANCH;
+		return ROOT_BRANCH;
 }
 
 void _pre_order(btree *root)
@@ -181,7 +181,7 @@ void _pre_order(btree *root)
 
 	DIVS *divs = _get_divs(root);
 
-	printf("%s%c%d%c\n", _pre_order_branch(root), divs->f, root->valor, divs->s);
+	printf("%s%c%s%c\n", _pre_order_branch(root), divs->f, root->marca.nome, divs->s);
 
 	free(divs);
 	_pre_order(root->left);
@@ -218,20 +218,20 @@ char *_post_order_branch(btree *node)
 		/* Profundidade visual do nó na árvore. */
 		int depth = node->level*DEPTH_MULTIPLIER;
 		for (i = 1 ; i < depth ; ++i)
-			printf(isInList(branch_depths, i) ? VERTICALBRANCH : BRANCHSPACES);
+			printf(isInList(branch_depths, i) ? VERTICAL_BRANCH : BRANCH_SPACES);
+
 		freeList(&branch_depths);
 
-
 		if (parent->right != NULL && parent->left != NULL && parent->right == node)
-			branch = MIDDLEBRANCH;
+			branch = MIDDLE_BRANCH;
 		else
-			branch = RIGHTBRANCH;
+			branch = RIGHT_BRANCH;
 
 		return branch;
 	}
 
 	else
-		return ROOTBRANCH;
+		return ROOT_BRANCH;
 }
 
 
@@ -245,7 +245,7 @@ void _post_order(btree *root)
 	_post_order(root->right);
 
 	DIVS *divs = _get_divs(root);
-	printf("%s%c%d%c\n", _post_order_branch(root), divs->f, root->valor, divs->s);
+	printf("%s%c%s%c\n", _post_order_branch(root), divs->f, root->marca.nome, divs->s);
 	free(divs);
 }
 
