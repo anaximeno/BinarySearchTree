@@ -73,8 +73,8 @@ void eliminateBinaryNode(int valor, btree **root);
 e retorna se conseguiu ou não carregar (bool).
 
 Organização do arquivo a ser lido:
-    [nome do modelo]    [ano de lançamento]     [preço]     [quantidate] 
-    
+    [nome do modelo]    [ano de lançamento]     [preço]     [quantidate]
+
 */
 bool chargeFile(char *filename, btree **root);
 
@@ -97,7 +97,7 @@ void _insert_modelo_in_marca(const char *nome, int ano, int preco,
 
 
 /* Procura e retorna o indereço da Marca na árvore. */
-btree **searchMarca(const char *nome, btree **root);
+btree *searchMarca(const char *nome, btree *root);
 
 
 /* Limpa recursivamente uma árvore binária. */

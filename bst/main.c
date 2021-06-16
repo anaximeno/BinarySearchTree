@@ -26,30 +26,40 @@ btree *root = NULL;
 
 
 int main(int argv, char *argc[])
-{atexit(freeDom); setlocale(LC_ALL, "Portuguese");
+{   atexit(freeDom); setlocale(LC_ALL, "Portuguese");
 
-    /** Teste **/
+    printf("\n Data : %s\n\n", __DATE__);
 
+    /** Testes **/
+
+    /* Teste 1 - inserção de marcas */
     char *marcas_teste[] = {"Mercedes", "Toyota", "Renault", "Chivrolet", "Suzuki",
                             "Audi", "Abarth", "Bentley", "Citroen", "Ford",
                             "Volvo", "Volkswagen", "Tesla", "Seat", "Porsche"};
 
-    char tipo;
-
     for (int i = 0 ; i < 15 ; ++i)
         insertNewMarca(marcas_teste[i], &root);
 
-    system(CLEAR);
-    printf("\n Data : %s\n", __DATE__);
-    printf("\n De que forma mostrar a árvore? (a - em ordem, b - pre ordem, c - pos ordem)");
+
+    /* Teste 2 - carregamento de um arquivo de texto
+    chargeFile("Ford.txt", &root);
+    chargeFile("Mercedes.txt", &root);
+    chargeFile("Toyota.txt", &root);
+    */
+    // system(CLEAR);
+
+    /* Teste 3 - Impressão da árvore na tela */
+    printf("\n\n De que forma mostrar a árvore? (a - em ordem, b - pre ordem, c - pos ordem)");
     printf("\n Sua escolha : ");
+    char tipo;
     scanf(" %c", &tipo);
     setbuf(stdin, NULL);
     printTree(root, tipo);
 
     printf("\n Clique enter para sair...");
     getchar();
-    /** Teste **/
+
+    /** Testes **/
 
     freeTree(&root);
     return 0;

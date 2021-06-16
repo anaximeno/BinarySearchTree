@@ -47,15 +47,14 @@ void freeTree(btree **root)
 bool chargeFile(char* filename, btree **root)
 {
 	char *nome_da_marca = get_name_from_file(filename);
-
-	btree **marca = NULL;
-
-	if ( *(marca = searchMarca(nome_da_marca, root)) == NULL ) {
+    btree *brand = NULL;
+    /* Se a marca não for encontrada na arvore, cria nova árvore */
+	if ( (brand = searchMarca(nome_da_marca, *root)) == NULL ) {
 		insertNewMarca(nome_da_marca, root);
-		marca = searchMarca(nome_da_marca, root);
+		brand = searchMarca(nome_da_marca, *root);
 	}
 
-	if (*marca != NULL) {
+	if (brand != NULL) {
 		FILE *f = fopen(filename, "rt");
 
 		if (f != NULL) {
@@ -65,16 +64,14 @@ bool chargeFile(char* filename, btree **root)
 			while (fscanf(f, "%s %d %d %d", modelo, &ano, &preco, &qtdade) != EOF) {
 
 				_insert_modelo_in_marca(modelo, ano, preco, qtdade,
-					&(*marca)->marca.modelos, "ROOT", NULL);
+                                        &brand->marca.modelos, "ROOT", NULL);
 
 			}
 
 			fclose(f);
 
 			return true;
-
 		}
-
 	}
 
 	return false;
@@ -126,7 +123,7 @@ void _insert_modelo_in_marca(const char *nome, int ano, int preco,
 				int qtdade, btree **root, char *position, btree *parent)
 {
 	if (*root == NULL) {
-		btree *model =createBinaryNode(position, parent);
+		btree *model = createBinaryNode(position, parent);
 
 		if (model != NULL) {
 			strcpy(model->modelo.nome, nome);
@@ -137,7 +134,7 @@ void _insert_modelo_in_marca(const char *nome, int ano, int preco,
 		}
 
         *root = model;
-		printf("\n Modelo: '%s' foi introduzido na árvore!\n", nome);
+		printf("\n   Modelo : '%s' foi introduzido!\n", nome);
 	} else if (strcmp(nome, (*root)->modelo.nome) < 0) { // LEFT
 		_insert_modelo_in_marca(nome, ano, preco, qtdade, &(*root)->left, L, *root);
 	} else if (strcmp(nome, (*root)->modelo.nome) > 0) { // RIGHT
@@ -148,14 +145,14 @@ void _insert_modelo_in_marca(const char *nome, int ano, int preco,
 }
 
 
-btree **searchMarca(const char *nome, btree **root)
+btree *searchMarca(const char *nome, btree *root)
 {
-	if (*root == NULL)
+	if (root == NULL)
 		return NULL;
-	else if (strcmp(nome, (*root)->marca.nome) < 0)
-		return searchMarca(nome, &(*root)->left);
-	else if (strcmp(nome, (*root)->marca.nome) > 0)
-		return searchMarca(nome, &(*root)->left);
+	else if (strcmp(nome, root->marca.nome) < 0)
+		return searchMarca(nome, root->left);
+	else if (strcmp(nome, root->marca.nome) > 0)
+		return searchMarca(nome, root->right);
 	else
 		return root;
 }
@@ -164,10 +161,11 @@ btree **searchMarca(const char *nome, btree **root)
 void insertNewModelo(const char *nome, const char *marca,
 						int ano, int preco, int qtdade, btree **root)
 {
-	btree **brand = searchMarca(marca, root);
+	btree *brand = searchMarca(marca, *root);
 
-	if (*brand != NULL) {
-		_insert_modelo_in_marca(nome, ano, preco, qtdade, &(*brand)->marca.modelos, "ROOT", NULL);
+	if (brand != NULL) {
+        printf("\n Tentando inserir '%s' na marca '%s'\n", nome, marca);
+		_insert_modelo_in_marca(nome, ano, preco, qtdade, &brand->marca.modelos, "ROOT", NULL);
 	} else {
 		printf("\n Marca: '%s' não foi encontrada na árvore binária!", marca);
 	}
