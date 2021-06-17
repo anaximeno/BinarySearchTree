@@ -4,6 +4,7 @@
 #include "treeprinter.h"
 #include "forest.h"
 #include "linkedlist.h"
+#include "common.h"
 
 #define __author__ "Anaxímeno Brito"
 
@@ -14,10 +15,12 @@
 #define ROOT_BRANCH "━"
 #define MIDDLE_BRANCH "├──"
 
+#define DEPTH_MULTIPLIER 2
 
 
-void printTree(b_tree *root, char tipo, const char *title)
+void print_tree(b_tree *root, char tipo, const char *title)
 {
+    CLEAR();
 	switch (tipo)
 	{
 	case 'a':
@@ -117,8 +120,12 @@ void _in_order(b_tree *root)
 
 	_in_order(root->left);
 
-    DIVS *divs = _get_divs(root); /* Tests*/
-	printf("%s%c%s%c\n", _in_order_branch(root), divs->f, root->marca.nome, divs->s);
+    DIVS *divs = _get_divs(root);
+
+	/* Retorna o output referente ao tipo da estrutura. */
+	char *output = !strcmp(root->tipo, "MARCA") ? root->brand.nome : root->model.nome;
+
+	printf("%s%c%s%c\n", _in_order_branch(root), divs->f, output, divs->s);
 	free(divs);
 
 	_in_order(root->right);
@@ -181,7 +188,10 @@ void _pre_order(b_tree *root)
 
 	DIVS *divs = _get_divs(root);
 
-	printf("%s%c%s%c\n", _pre_order_branch(root), divs->f, root->marca.nome, divs->s);
+	/* Retorna o output referente ao tipo da estrutura. */
+	char *output = !strcmp(root->tipo, "MARCA") ? root->brand.nome : root->model.nome;
+
+	printf("%s%c%s%c\n", _pre_order_branch(root), divs->f, output, divs->s);
 
 	free(divs);
 	_pre_order(root->left);
@@ -245,7 +255,11 @@ void _post_order(b_tree *root)
 	_post_order(root->right);
 
 	DIVS *divs = _get_divs(root);
-	printf("%s%c%s%c\n", _post_order_branch(root), divs->f, root->marca.nome, divs->s);
+
+	/* Retorna o output referente ao tipo da estrutura. */
+	char *output = !strcmp(root->tipo, "MARCA") ? root->brand.nome : root->model.nome;
+
+	printf("%s%c%s%c\n", _post_order_branch(root), divs->f, output, divs->s);
 	free(divs);
 }
 

@@ -1,6 +1,9 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#define MAX_CLEAN_REPEAT_TIMES 32
+#define NOMEMAX 32
+
 #ifdef unix
     #include <unistd.h>
     #define CLEAR() (system("clear"));
@@ -33,5 +36,8 @@ void enterpoint(void);
 em que cada carcatere aparece intervalado em 'microsecs'. */
 void animate(const char *texto, unsigned int microsecs);
 
+
+/* Retorna uma string sem a sua extensão. */
+char *get_name(char *txtname);
 
 #endif // COMMON_H

@@ -2,22 +2,10 @@
 #include <stdlib.h>
 #include "common.h"
 
-#define MAX_CLEAN_REPEAT_TIMES 32
-
-#ifdef unix
-    #include <unistd.h>
-    #define CLEAR() (system("clear"));
-#endif // linux
-
-#ifdef _WIN32
-    #include <Windows.h>
-    #define CLEAR() (system("cls"))
-#endif // _WIN32
-
 
 void enterpoint(void)
 {
-    printf("\n Clique [enter] para continuar");
+    printf("\n Clique [ENTER] para continuar");
     getchar();
     fflush(stdin);
     CLEAR();
@@ -64,4 +52,23 @@ void animate(const char *texto, unsigned int microsecs)
 		fflush(stdout);
 		usleep(microsecs);
 	}
+}
+
+
+char *get_name(char *txtname)
+{
+	char *txt = txtname;
+	int i, size = 0;
+
+	while (*txt != '.' && *txt != '\0' && ++size && ++txt) ;
+
+	char *name = (char *) calloc(size+1, sizeof(char));
+
+	txt = txtname;
+	for (i = 0 ; txt[i] != '.' && txt[i] != '\0' ; ++i)
+		name[i] = txt[i];
+
+	name[i] = '\0';  // Adiciona o final da string
+
+	return name;
 }
