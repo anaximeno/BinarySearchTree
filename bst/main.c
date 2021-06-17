@@ -13,18 +13,7 @@
 /* Raíz da árvore binária, variável global. */
 b_tree *root = NULL;
 
-
-void freedom(void)
-{
-    CLEAR();
-    animate("\n Limpando a memória", 40000);
-    animate("....", 900000);
-
-    if (root != NULL)
-        freetree(&root);  // Limpa root caso não for limpado antes
-
-    animate(" A memória foi limpa.\n Saindo da execução, obrigado por usar o programa!\n\n", 40000);
-}
+void freedom(void);
 
 
 int main(int argv, char *argc[])
@@ -41,7 +30,7 @@ int main(int argv, char *argc[])
 
     for (int i = 0 ; i < 15 ; ++i)
         insertNewMarca(marcas_teste[i], &root);
-    
+
 
     /* Teste 2 - carregamento de um arquivo de texto
     charge_file("Ford.txt", &root);
@@ -58,9 +47,7 @@ int main(int argv, char *argc[])
 
     CLEAR();
     printTree(root, tipo, "Marcas");
-
-    printf("\n Clique [enter] para terminar");
-    getchar();
+    enterpoint();
 
     /** Testes **/
     return 0;
@@ -68,3 +55,14 @@ int main(int argv, char *argc[])
 
 
 
+
+void freedom(void)
+{
+    animate("\n Limpando a memória", 40000);
+    animate("....", 900000);
+
+    if (root != NULL)
+        freetree(&root);  // Limpa root caso não for limpado antes
+
+    animate(" A memória foi limpa.\n Saindo da execução, obrigado por usar o programa!\n\n", 40000);
+}

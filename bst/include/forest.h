@@ -34,7 +34,6 @@ typedef struct _binarytree
     char *position, *tipo;
     int level;
 
-    /* union foi usado para previnir a alocação de memória desnecessária. */
     union
     {
         struct _modelo
@@ -46,23 +45,12 @@ typedef struct _binarytree
         {
             char nome[NOMEMAX];
             int qtdade_modelos, valor_total;
-            /* modelos aponta para uma árvore binária contendo todos os modelos dessa marca. */
+            /* modelos aponta para uma árvore binária, 
+               contendo todos os modelos dessa marca. */
             struct _binarytree *modelos;
         } marca;
     };
 } b_tree;
-
-
-/* Procura por um valor e retorna o nó que contém esse valor */
-void searchInTree(b_tree *root, int valor);
-
-
-/* Salva a árvore num arquivo. */
-void saveTreeOnFile(b_tree *root, const char* filename);
-
-
-/* Salva um nó binário num arquivo. */
-void saveBinaryNodeOnFile(b_tree *node, const char* filename);
 
 
 /* Elimina um valor da árvore. */
@@ -85,19 +73,25 @@ b_tree *createBinaryNode(char *position, b_tree *parent);
 
 /* Insere uma nova marca caso não existir na árvore binária. */
 void insertNewMarca(const char *nome, b_tree **root);
+/* Insere recursivamente uma marca na árvore */
 void _insert_marca_in_tree(const char *nome, b_tree **root, char *position,
     b_tree *parent);
+
+
+/* Procura e retorna o indereço da Marca na árvore. */
+b_tree *searchMarca(const char *nome, b_tree *root);
 
 
 /* Insere um novo modelo caso não existir na árvore binária. */
 void insertNewModelo(const char *nome, const char *marca, int ano,
     int preco, int qtdade, b_tree **root);
+/* Função recursiva que insere um modelo no marca determinada.  */
 void _insert_modelo_in_marca(const char *nome, int ano, int preco,
 	int qtdade, b_tree **root, char *position, b_tree *parent);
 
 
-/* Procura e retorna o indereço da Marca na árvore. */
-b_tree *searchMarca(const char *nome, b_tree *root);
+/* Procura e retorna um modelo em na árvore que se encontra dentro de uma marca. */
+b_tree *searchModelo(const char *nome, b_tree *marca_root);
 
 
 /* Limpa recursivamente uma árvore binária. */

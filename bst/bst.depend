@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1623849837 source:/home/anaximeno/Github/binarysearchtree/bst/main.c
+1623893825 source:/home/anaximeno/Github/binarysearchtree/bst/main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -13,10 +13,10 @@
 1623625741 /home/anaximeno/Github/binarysearchtree/bst/include/linkedlist.h
 	<stdbool.h>
 
-1623844162 /home/anaximeno/Github/binarysearchtree/bst/include/forest.h
+1623881686 /home/anaximeno/Github/binarysearchtree/bst/include/forest.h
 	<stdbool.h>
 
-1623849031 source:/home/anaximeno/Github/binarysearchtree/bst/src/forest.c
+1623850003 source:/home/anaximeno/Github/binarysearchtree/bst/src/forest.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -44,14 +44,14 @@
 	"forest.h"
 	"linkedlist.h"
 
-1623846879 source:/home/anaximeno/Github/binarysearchtree/bst/src/common.c
+1623895857 source:/home/anaximeno/Github/binarysearchtree/bst/src/common.c
 	<stdio.h>
 	<stdlib.h>
 	"common.h"
 	<unistd.h>
 	<Windows.h>
 
-1623846872 /home/anaximeno/Github/binarysearchtree/bst/include/common.h
+1623893222 /home/anaximeno/Github/binarysearchtree/bst/include/common.h
 	<unistd.h>
 	<Windows.h>
 
