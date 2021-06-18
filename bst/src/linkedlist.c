@@ -10,10 +10,21 @@
 */
 
 
-linked *createList(int value)
+void freeModelList(model_llist **root)
 {
-    linked *tmp;
-    tmp = (linked *) malloc(sizeof(linked));
+    if (*root == NULL)
+        return ;
+
+    freeModelList(&(*root)->next);
+    free(*root);
+    *root = NULL;
+}
+
+
+linked_number *createNumberList(int value)
+{
+    linked_number *tmp;
+    tmp = (linked_number *) malloc(sizeof(linked_number));
 
     if (tmp != NULL) {
         tmp->value = value;
@@ -24,18 +35,18 @@ linked *createList(int value)
 }
 
 
-void insertInList(linked **list, int value)
+void insertInNumberList(linked_number **list, int value)
 {
     if (*list == NULL)
-        *list = createList(value);
+        *list = createNumberList(value);
     else
-        insertInList(&(*list)->next, value);
+        insertInNumberList(&(*list)->next, value);
 }
 
 
-bool isInList(linked *list, int value)
+bool isInNumberList(linked_number *list, int value)
 {
-    linked *node = list;
+    linked_number *node = list;
 
     while (node != NULL) {
 
@@ -49,12 +60,58 @@ bool isInList(linked *list, int value)
 }
 
 
-void freeList(linked **list)
+void freeNumberList(linked_number **list)
 {
     if (*list == NULL)
         return ;
 
-    freeList(&(*list)->next);
+    freeNumberList(&(*list)->next);
 
     free(*list);
+}
+
+
+model_llist *createModelList(char *nome, int ano, int preco, int qtdade)
+{
+    model_llist *node = (model_llist *) malloc(sizeof(model_llist));
+
+    if (node != NULL) {
+        strcpy(node->nome, nome);
+        node->ano = ano;
+        node->preco = preco;
+        node->qtdade = qtdade;
+    }
+
+    return node;
+}
+
+
+void insertModelInList(model_llist **root, char *nome, int ano, int preco, int qtdade)
+{
+    if (*root == NULL)
+        *root = createModelList(nome, ano, preco,  qtdade);
+    else
+        insertModelInList(&(*root)->next, nome, ano, preco, qtdade);
+}
+
+
+void removeModel(model_llist **root, const char *nome)
+{
+    if (!strcmp((*root)->nome, nome)) {
+        model_llist *next = (*root)->next;
+        free(*root);
+        *root = next;
+    } else {
+        removeModel(&(*root)->next, nome);
+    }
+}
+
+
+void mostra_modelos(model_llist *root)
+{
+    model_llist *node = NULL;
+    printf(" [");
+    for (node=root ; node != NULL ; node=node->next)
+        printf(" %s", node->nome);
+    printf(" ]\n");
 }

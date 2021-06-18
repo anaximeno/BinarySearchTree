@@ -12,7 +12,7 @@
 
 /* Estrutura loja de carros que guarda a raíz das árvores, variável global. */
 STORE car_store = {
-    .nome="Amexus Car Store",
+    .nome="AMEXUS MOTORS",
     .total_marcas=0,
     .total_carros=0,
     .root=NULL
@@ -53,7 +53,7 @@ int main(int argv, char *argc[])
     /* Teste 2 - carregamento de um arquivo de texto */
     //charge_file("Ford.txt", &car_store);
     //charge_file("Mercedes.txt", &car_store);
-    //charge_file("Toyota.txt", &car_store);
+    charge_file("Toyota.txt", &car_store);
 
 
     /* Teste 2.0.1 - testa a abertura de um arquivo nao existente. */
@@ -65,6 +65,7 @@ int main(int argv, char *argc[])
     printf("\n Sua escolha : "); scanf(" %c", &tipo);
     setbuf(stdin, NULL);
 
+
     /* Teste 2.1) - Mostra o modelo Toyota inserido acima */
     //b_tree *brand = search_brand("Toyota", car_store.root);
     //if (brand != NULL)
@@ -75,13 +76,19 @@ int main(int argv, char *argc[])
     //tipo = 'a';
     print_tree(car_store.root, tipo, "Marcas");
 
+    /*
+    b_tree *toyo = search_brand("Toyota", car_store.root);
+    printf("\n Modelos da marca Toyota: ");
+    mostra_modelos(toyo->brand.models);
+    enterpoint(); */
+
     /* Teste 4) Tentando remover uma marca! */
-    //char *m = "Audi";
-    //printf("\n Agora tentando eliminar a marca '%s'!", m);
-    //fflush(stdout);
-    //sleep(1);
-    //remove_brand(&car_store.root, m);
-    //print_tree(car_store.root, tipo, "Marcas");
+    char *m = "Mercedes";
+    printf("\n Agora tentando eliminar a marca '%s'!", m);
+    fflush(stdout);
+    sleep(1);
+    remove_brand(&car_store.root, m);
+    print_tree(car_store.root, tipo, "Marcas");
     /** Testes **/
 
     return 0;
@@ -105,6 +112,6 @@ void freedom(void)
 
 void header(void)
 {
-    printf("\n LOJA : %s\n DATA : %s", car_store.nome, __DATE__);
-    printf("\n SECÇAO : Administrador\n");
+    printf("\n Empresa : %s\n DATA    : %s", car_store.nome, __DATE__);
+    printf("\n SECÇAO  : Administrador\n");
 }

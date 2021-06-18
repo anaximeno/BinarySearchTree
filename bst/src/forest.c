@@ -11,12 +11,10 @@
 
 void freetree(b_tree **root)
 {
-	if (*root == NULL) return ;
+	if (*root == NULL)
+		return ;
 
-
-	if ( !strcmp((*root)->tipo, "MARCA") )
-		freetree(&(*root)->brand.modelos);
-
+	freeModelList(&(*root)->brand.models);
 
 	freetree(&(*root)->left);
 	freetree(&(*root)->right);
@@ -29,32 +27,30 @@ void freetree(b_tree **root)
 bool charge_file(char* filename, STORE *store)
 {
 	char *marca = get_name(filename);
-    b_tree *brand = NULL;
+    b_tree **node = search_brand(marca, &store->root);
 
     /* Se a marca não for encontrada na arvore, cria nova árvore */
-	if ( (brand = search_brand(marca, store->root)) == NULL ) {
+	if ( *node == NULL ) {
 		insert_brand(marca, store);
-		brand = search_brand(marca, store->root);
+		node = search_brand(marca, &store->root);
 	}
 
 	free(marca);
 
-	if (brand != NULL) {
+	if ( *node != NULL ) {
 		FILE *f = fopen(filename, "rt");
 
-		if (f != NULL) {
-			char modelo[NOMEMAX];
+		if ( f != NULL ) {
+			char nome[NOMEMAX];
 			int ano, preco, qtdade;
 
-			while (fscanf(f, "%s %d %d %d", modelo, &ano, &preco, &qtdade) != EOF) {
-
-				_insert_model_in_brand(&brand, modelo, ano, preco, qtdade,
-                                         &brand->brand.modelos, "ROOT", NULL);
-
+			while (fscanf(f, "%s %d %d %d", nome, &ano, &preco, &qtdade) != EOF) {
+				insertModelInList(&(*node)->brand.models, nome, ano, preco, qtdade);
+				(*node)->brand.qtdade_modelos++;
+				(*node)->brand.valor_total += preco;
 			}
 
 			fclose(f);
-
 			return true;
 		} else {
             printf("\n Não foi possível abrir: '%s'!\n", filename);
@@ -89,8 +85,7 @@ void _insert_brand_in_tree(const char *nome, b_tree **root, char *position, b_tr
 			strcpy(node->brand.nome, nome);
 			node->brand.qtdade_modelos = 0;
 			node->brand.valor_total = 0;
-			node->brand.modelos = NULL;
-			node->tipo = "MARCA";
+			node->brand.models = NULL;
 
 			//char output[43+strlen(nome)];
 			//sprintf(output, "\n Marca '%s' foi introduzida na árvore!\n", nome);
@@ -109,59 +104,28 @@ void _insert_brand_in_tree(const char *nome, b_tree **root, char *position, b_tr
 }
 
 
-void _insert_model_in_brand(b_tree **brand, const char *nome, int ano, int preco,
-				int qtdade, b_tree **root, char *position, b_tree *parent)
+b_tree **search_brand(const char *nome, b_tree **root)
 {
-	if (*root == NULL) {
-		b_tree *modelo = create_binary_node(position, parent);
-
-		if (modelo != NULL) {
-			strcpy(modelo->model.nome, nome);
-			modelo->model.ano = ano;
-			modelo->model.preco = preco;
-			modelo->model.qtdade = qtdade;
-			modelo->tipo = "MODELO";
-
-			(*brand)->brand.qtdade_modelos++;
-			(*brand)->brand.valor_total += preco;
-
-			//char output[51+strlen(nome)];
-			//sprintf(output, "\n   Modelo : '%s' foi introduzido na marca '%s'!\n", nome, (*brand)->brand.nome);
-			//animate(output, 20000);
-		}
-
-        *root = modelo;
-
-	} else if (strcmp(nome, (*root)->model.nome) < 0) { // LEFT
-		_insert_model_in_brand(brand, nome, ano, preco, qtdade, &(*root)->left, L, *root);
-	} else if (strcmp(nome, (*root)->model.nome) > 0) { // RIGHT
-		_insert_model_in_brand(brand, nome, ano, preco, qtdade, &(*root)->right, R, *root);
-	} else {
-		printf("\n Modelo: '%s' já se encontra na árvore!\n", nome);
-	}
-}
-
-
-b_tree *search_brand(const char *nome, b_tree *root)
-{
-	if (root == NULL || !strcmp(root->tipo, "MODELO"))
+	if (root == NULL)
 		return NULL;
-	else if (strcmp(nome, root->brand.nome) < 0)
-		return search_brand(nome, root->left);
-	else if (strcmp(nome, root->brand.nome) > 0)
-		return search_brand(nome, root->right);
+	else if (strcmp(nome, (*root)->brand.nome) < 0)
+		return search_brand(nome, &(*root)->left);
+	else if (strcmp(nome, (*root)->brand.nome) > 0)
+		return search_brand(nome, &(*root)->right);
 	else
 		return root;
 }
 
 
-void insert_model(const char *nome, const char *marca,
+void insert_model(char *nome, char *marca,
 						int ano, int preco, int qtdade, b_tree **root)
 {
-	b_tree *brand = search_brand(marca, *root);
+	b_tree **node = search_brand(marca, root);
 
-	if (brand != NULL) {
-		_insert_model_in_brand(&brand, nome, ano, preco, qtdade, &brand->brand.modelos, "ROOT", NULL);
+	if (*node != NULL) {
+		insertModelInList(&(*node)->brand.models, nome, ano, preco, qtdade);
+		(*node)->brand.qtdade_modelos++;
+		(*node)->brand.valor_total += preco;
 	} else {
 		printf("\n Marca: '%s' não foi encontrada na árvore binária!", marca);
 	}
@@ -183,38 +147,28 @@ void inherit_position(b_tree *filho, b_tree *pai)
 
 
 
-b_tree *_leftest_node(b_tree *node)
+b_tree **_leftest_node(b_tree **node)
 {
-	if (node->left == NULL) {
-		/* Desconecta os nós ligados a esse nó. */
-		node->parent->left = node->right;
-		if (node->right != NULL)
-            inherit_position(node->right, node );
+	if ((*node)->left == NULL)
 		return node;
-	}
-	else return _leftest_node(node->left);
+	else return _leftest_node(&(*node)->left);
 }
 
 
 void remove_brand(b_tree **root, const char *marca)
 {
-	if (*root == NULL)
-		return ;
-	if (strcmp(marca, (*root)->brand.nome) < 0)
-		remove_brand(&(*root)->left, marca);
-	else if (strcmp(marca, (*root)->brand.nome) > 0)
-		remove_brand(&(*root)->right, marca);
-	else  // igual ao procurado
-		remove_binary_node(root);
+	b_tree **brand = search_brand(marca, root);
+	if (*brand != NULL)
+		remove_binary_node(brand);
+    else
+        printf("\n Marca '%s' não foi encontrada ná árvore! Impossível eliminar.", marca);
 }
 
 
-/* NOTE: Instável Ainda! */
 void remove_binary_node(b_tree **root)
 {
-	if (*root == NULL) {
+	if (*root == NULL)
 		return ;
-	}
 
 	if ( (*root)->left == NULL && (*root)->right == NULL ) {
 		free(*root);
@@ -230,19 +184,17 @@ void remove_binary_node(b_tree **root)
 		free(*root);
 		*root = right;
 	} else {
-		b_tree *tmp = _leftest_node((*root)->right);
-		inherit_position(tmp, *root);
+		b_tree **tmp = _leftest_node(&(*root)->right);
 
-		tmp->right = (*root)->right == tmp ? NULL : (*root)->right;
-		tmp->left = (*root)->left == tmp ? NULL : (*root)->left;
+		/* Copiando a informação para o nó atual. */
+		strcpy((*root)->brand.nome, (*tmp)->brand.nome);
+		(*root)->brand.qtdade_modelos = (*tmp)->brand.qtdade_modelos;
+		(*root)->brand.valor_total = (*tmp)->brand.valor_total;
+		(*root)->brand.models = (*tmp)->brand.models;
+		/* Desconecta tmp com a raíz dos modelos. */
+		(*tmp)->brand.models = NULL;
 
-		if ((*root)->right != NULL)
-            (*root)->right->parent = tmp;
-        if ((*root)->left != NULL) /** TODO: Corrige kel funçon li !*/
-            (*root)->left->parent = tmp;
-
-		free(*root);
-		*root = tmp;
+		remove_binary_node(tmp);
 	}
 }
 

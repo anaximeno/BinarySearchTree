@@ -28,21 +28,21 @@ void print_tree(b_tree *root, char tipo, const char *title);
 
 /**  Mostram a árvore em ordem. */
 
-linked *_in_order_branch_depths(b_tree *node, linked *list);
+linked_number *_in_order_branch_depths(b_tree *node, linked_number *list);
 char *_in_order_branch(b_tree *node);
 void _in_order(b_tree *root);
 
 
 /** Mostram a árvore em pré ordem.  */
 
-linked *_pre_order_branch_depths(b_tree *node, linked *list);
+linked_number *_pre_order_branch_depths(b_tree *node, linked_number *list);
 char *_pre_order_branch(b_tree *node);
 void _pre_order(b_tree *root);
 
 
 /** Mostram a árvore em pós ordem.  */
 
-linked *_post_order_branch_depths(b_tree *node, linked *list);
+linked_number *_post_order_branch_depths(b_tree *node, linked_number *list);
 char *_post_order_branch(b_tree *node);
 void _post_order(b_tree *root);
 

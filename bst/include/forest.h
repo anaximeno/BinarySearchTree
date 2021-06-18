@@ -3,6 +3,7 @@
 */
 #include <stdbool.h>
 #include "common.h"
+#include "linkedlist.h"
 
 #ifndef FOREST_H
 #define FOREST_H
@@ -25,25 +26,17 @@
 typedef struct _binarytree
 {
     struct _binarytree *parent, *left, *right;
-    char *position, *tipo;
+    char *position;
     int level;
 
-    union
+    struct _brand
     {
-        struct _model
-        {
-            char nome[NOMEMAX];
-            int ano, preco, qtdade;
-        } model;
-        struct _brand
-        {
-            char nome[NOMEMAX];
-            int qtdade_modelos, valor_total;
-            /* modelos aponta para uma árvore binária,
-               contendo todos os modelos dessa marca. */
-            struct _binarytree *modelos;
-        } brand;
-    };
+        char nome[NOMEMAX];
+        int qtdade_modelos, valor_total;
+        /* modelos aponta para uma lista,
+           contendo todos os modelos dessa marca. */
+        model_llist *models;
+    } brand;
 } b_tree;
 
 
@@ -80,16 +73,12 @@ void _insert_brand_in_tree(const char *nome, b_tree **root, char *position,
 
 
 /* Procura e retorna o indereço da Marca na árvore. */
-b_tree *search_brand(const char *nome, b_tree *root);
+b_tree **search_brand(const char *nome, b_tree **root);
 
 
 /* Insere um novo modelo caso não existir na árvore binária. */
-void insert_model(const char *nome, const char *marca, int ano,
+void insert_model(char *nome, char *marca, int ano,
     int preco, int qtdade, b_tree **root);
-/* Função recursiva que insere um modelo na marca determinada.  */
-void _insert_model_in_brand(b_tree **brand, const char *nome, int ano, int preco,
-	int qtdade, b_tree **root, char *position, b_tree *parent);
-
 
 /* Procura e retorna um modelo em na árvore que se encontra dentro de uma marca. */
 b_tree *search_modelo(const char *nome, b_tree *marca_root);
@@ -100,7 +89,7 @@ void freetree(b_tree **root);
 
 
 /* Retorna o nó mais à esquerda do nó indicado. */
-b_tree *_leftest_node(b_tree *node);
+b_tree **_leftest_node(b_tree **node);
 
 
 /* Elimina um nó da árvore. */

@@ -1,26 +1,54 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 #include <stdbool.h>
+#include "common.h"
 /* Guarda códigos de lista ligadas usadas no trabalho. */
 
 /* Estrutura de lista ligada com os campos:
     -> next (struct _linkedlist *): próxima estrutura,
     -> value (int): valor do nó. */
-typedef struct _linkedlist
+typedef struct _numbered_linkedlist
 {
     struct _linkedlist *next;
     int value;
-} linked;
+} linked_number;
+
+
+typedef struct _model_linkedlist
+{
+    struct _model_linkedlist *next;
+    char nome[NOMEMAX];
+    int ano, preco, qtdade;
+} model_llist;
+
 
 /* cria e retorna um nó de uma lista. */
-linked *createList(int value);
+linked_number *createNumberList(int value);
 
 /* insere um valor na lista. */
-void insertInList(linked **list, int value);
+void insertInNumberList(linked_number **list, int value);
 
 /* retorna se um valor está ou não numa lista. */
-bool isInList(linked *list, int value);
+bool isInNumberList(linked_number *list, int value);
 
 /* elimina (free) todos os nós de uma lista ligada. */
-void freeList(linked **list);
+void freeNumberList(linked_number **list);
+
+
+/* Cria e retorna um nó da lista de modelo. */
+model_llist *createModelList(char *nome, int ano, int preco, int qtdade);
+
+
+void insertModelInList(model_llist **root, char *nome, int ano, int preco, int qtdade);
+
+
+void removeModel(model_llist **root, const char *nome);
+
+
+void freeModelList(model_llist **root);
+
+
+void mostra_modelos(model_llist *root);
 #endif // LINKEDLIST_H
+
+
