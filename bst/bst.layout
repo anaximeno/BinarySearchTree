@@ -2,29 +2,34 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="include/treeprinter.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="55" topLine="1" />
-		</Cursor>
-	</File>
 	<File name="include/common.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="768" topLine="22" />
-		</Cursor>
-	</File>
-	<File name="include/forest.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2709" topLine="77" />
+			<Cursor1 position="305" topLine="1" />
 		</Cursor>
 	</File>
 	<File name="src/treeprinter.c" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="147" topLine="229" />
+			<Cursor1 position="399" topLine="2" />
 		</Cursor>
 	</File>
-	<File name="src/forest.c" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+	<File name="main.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2971" topLine="114" />
+			<Cursor1 position="2123" topLine="50" />
+		</Cursor>
+	</File>
+	<File name="src/forest.c" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5861" topLine="230" />
+		</Cursor>
+	</File>
+	<File name="src/common.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="607" topLine="57" />
+		</Cursor>
+	</File>
+	<File name="include/forest.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2993" topLine="39" />
 		</Cursor>
 	</File>
 	<File name="include/linkedlist.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -32,19 +37,14 @@
 			<Cursor1 position="62" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="include/treeprinter.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="55" topLine="1" />
+		</Cursor>
+	</File>
 	<File name="src/linkedlist.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="539" topLine="37" />
-		</Cursor>
-	</File>
-	<File name="src/common.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1155" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="main.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2064" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

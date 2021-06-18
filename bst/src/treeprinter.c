@@ -20,7 +20,7 @@
 
 void print_tree(b_tree *root, char tipo, const char *title)
 {
-    CLEAR();
+    clearScreen();
 	switch (tipo)
 	{
 	case 'a':
@@ -54,6 +54,7 @@ void print_tree(b_tree *root, char tipo, const char *title)
 		printf("\n erro: opção desconhecida, escolha entre (a, b ou c)!\n");
 		break;
 	}
+    enterpoint();
 }
 
 

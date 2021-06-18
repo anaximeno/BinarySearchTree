@@ -6,13 +6,25 @@
 
 #ifdef unix
     #include <unistd.h>
-    #define CLEAR() (system("clear"));
+    #define CLEAR "clear"
 #endif // linux
 
 #ifdef _WIN32
     #include <Windows.h>
-    #define CLEAR() (system("cls"))
+    #define CLEAR "cls"
 #endif // _WIN32
+
+
+/* Limpa/liberta as variáveis no final da execução. */
+void freedom(void);
+
+
+/* Mostra o cabeçalho do programa. */
+void header(void);
+
+
+/* Limpa o terminal. */
+void clearScreen(void);
 
 
 /* Limpa o buffer. */
@@ -33,11 +45,12 @@ void enterpoint(void);
 
 
 /* Mostra uma string de forma 'animada'
-em que cada carcatere aparece intervalado em 'microsecs'. */
+em que cada caractere aparece intervalado em 'microsecs'. */
 void animate(const char *texto, unsigned int microsecs);
 
 
 /* Retorna uma string sem a sua extensão. */
 char *get_name(char *txtname);
+
 
 #endif // COMMON_H

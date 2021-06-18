@@ -30,12 +30,12 @@ typedef struct _binarytree
 
     union
     {
-        struct _modelo
+        struct _model
         {
             char nome[NOMEMAX];
             int ano, preco, qtdade;
         } model;
-        struct _marca
+        struct _brand
         {
             char nome[NOMEMAX];
             int qtdade_modelos, valor_total;
@@ -56,8 +56,6 @@ typedef struct _store
 } STORE;
 
 
-/* Elimina um valor da árvore. */ /// TODO: fazi kel função li!!
-void eliminateBinaryNode(int valor, b_tree **root);
 
 
 /* Carrega um nó binário guardado no arquivo de nome [marca].txt com os elementos,
@@ -67,7 +65,7 @@ Organização do arquivo a ser lido:
     [nome do modelo]    [ano de lançamento]     [preço]     [quantidate]
 
 */
-bool charge_file(char *filename, b_tree **root);
+bool charge_file(char *filename, STORE *store);
 
 
 /* Cria e retorna um nó binário. */
@@ -75,7 +73,7 @@ b_tree *create_binary_node(char *position, b_tree *parent);
 
 
 /* Insere uma nova marca caso não existir na árvore binária. */
-void insert_brand(const char *nome, b_tree **root);
+void insert_brand(const char *nome, STORE *store);
 /* Insere recursivamente uma marca na árvore */
 void _insert_brand_in_tree(const char *nome, b_tree **root, char *position,
     b_tree *parent);
@@ -101,4 +99,24 @@ b_tree *search_modelo(const char *nome, b_tree *marca_root);
 void freetree(b_tree **root);
 
 
+/* Retorna o nó mais à esquerda do nó indicado. */
+b_tree *_leftest_node(b_tree *node);
+
+
+/* Elimina um nó da árvore. */
+void remove_binary_node(b_tree **root);
+
+
+/* Remove uma marca da árvore. */
+void remove_brand(b_tree **root, const char *marca);
+
+
+
+/* O nó filho herda alguns dados referentes a posição do nó pai.
+
+Os dados herdados são:
+    -> parent
+    -> position
+    -> level */
+void inherit_position(b_tree *filho, b_tree *pai);
 #endif // FOREST_H

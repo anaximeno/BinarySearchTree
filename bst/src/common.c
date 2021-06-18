@@ -1,6 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "forest.h"
 #include "common.h"
+
+
+void clearScreen(void)
+{
+    system(CLEAR);
+    header();
+}
 
 
 void enterpoint(void)
@@ -8,7 +16,7 @@ void enterpoint(void)
     printf("\n Clique [ENTER] para continuar");
     getchar();
     fflush(stdin);
-    CLEAR();
+    clearScreen();
 }
 
 
@@ -35,7 +43,8 @@ void cleanbuf(void)
 int get_int(void)
 {
 	int x;
-	while (!scanf("%d", &x)) {
+
+	while (!scanf(" %d", &x)) {
 		cleanbuf();
 		printf("\n Valor Inválido, insira um inteiro: ");
 	}
