@@ -2,6 +2,8 @@
 #define LINKEDLIST_H
 #include <stdbool.h>
 #include "common.h"
+
+
 /* Guarda códigos de lista ligadas usadas no trabalho. */
 
 /* Estrutura de lista ligada com os campos:
@@ -14,6 +16,14 @@ typedef struct _numbered_linkedlist
 } linked_number;
 
 
+/* Estrutura de lista ligadas que representam um modelo de carro.
+
+Tem os campos:
+    -> next (struct _model_linkedlist *) : proximo nó da lista,
+    -> nome (char []) : nome do modelo,
+    -> ano (int) : ano de lançamento do modelo,
+    -> preco (int) : preço do modelo,
+    -> qtdade (int) : quantidade de carros desse modelo. */
 typedef struct _model_linkedlist
 {
     struct _model_linkedlist *next;
@@ -43,13 +53,17 @@ model_llist *createModelList(char *nome, int ano, int preco, int qtdade);
 bool _insert_model_in_list(model_llist **root, char *nome, int ano, int preco, int qtdade);
 
 
+/* Remove um modelo da lista. */
 void removeModel(model_llist **root, const char *nome);
 
 
+/* Liberta a memória usada para alocar a lista de modelos. */
 void freeModelList(model_llist **root);
 
 
+/* Mostra a lista de modelos. */
 void mostra_modelos(model_llist *root);
+
 #endif // LINKEDLIST_H
 
 

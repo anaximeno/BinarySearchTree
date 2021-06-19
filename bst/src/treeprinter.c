@@ -8,14 +8,29 @@
 
 #define __author__ "Anaxímeno Brito"
 
-#define BRANCH_SPACES "  "
-#define VERTICAL_BRANCH "│ "
-#define LEFT_BRANCH "└──"
-#define RIGHT_BRANCH "┌──"
-#define ROOT_BRANCH "━"
-#define MIDDLE_BRANCH "├──"
+/* Para sistemas baseados em unix, o programa utilizará caracteres utf-8 para apresentar a árvore
+e para windows apenas caracteres ascii.*/
+#ifdef unix
+    #define BRANCH_SPACES "  "
+    #define VERTICAL_BRANCH "│ "
+    #define LEFT_BRANCH "└──"
+    #define RIGHT_BRANCH "┌──"
+    #define ROOT_BRANCH "━"
+    #define MIDDLE_BRANCH "├──"
+#endif // unix
 
-#define DEPTH_MULTIPLIER 2
+
+#ifdef _WIN32
+	#define BRANCH_SPACES "  "
+    #define VERTICAL_BRANCH "| "
+    #define LEFT_BRANCH "'--"
+    #define RIGHT_BRANCH ".--"
+    #define ROOT_BRANCH "-"
+    #define MIDDLE_BRANCH "|--"
+#endif // _WIN32
+
+
+#define DEPTH_MULTIPLIER 3
 
 
 void printTree(b_tree *root, char tipo, const char *title)

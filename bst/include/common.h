@@ -8,7 +8,7 @@
     #include <unistd.h>
     #define SLEEP(milisecs) ( usleep((milisecs*1000)) )
     #define CLEAR "clear"
-#endif // linux
+#endif // unix
 
 #ifdef _WIN32
     #include <Windows.h>
