@@ -1,3 +1,23 @@
+/** PROJETO DE AED: Sistema de uma loja de carros, usando árvores binárias.
+
+ *                                  *
+** ALGORÍTIMOS E ESTRUTURA DE DADOS **
+ *                                  *
+
+* TIPO DE PROJECTO: Projeto final de Cadeira
+
+* PARTICIPANTES DO PROJETO:
+    * Anaxímeno Brito
+    * Ângelo Carvalho
+    * Márcia Andrade
+
+* DATA: junho de 2021
+
+* CURSO: Engenharia Informática e de Computadores, 1º ano, 2º semestre
+
+* Professor: José Olavo da Paz
+
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -9,6 +29,7 @@
 #include "treeprinter.h"
 
 #define SENHA "1234"
+
 
 /* Estrutura loja de carros que guarda a raíz das árvores, variável global. */
 STORE car_store = {
