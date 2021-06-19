@@ -32,7 +32,7 @@ typedef struct _binarytree
     struct _brand
     {
         char nome[NOMEMAX];
-        int qtdade_modelos, valor_total;
+        int qtdade_modelos, valor_total, total_carros;
         /* modelos aponta para uma lista,
            contendo todos os modelos dessa marca. */
         model_llist *models;
@@ -43,7 +43,7 @@ typedef struct _binarytree
 /* Estrutura Macro (em termos de tamanho) que quarda a raíz das árvores. */
 typedef struct _store
 {
-    char *nome;
+    const char *nome;
     int total_marcas, total_carros;
     b_tree *root;
 } STORE;
@@ -67,8 +67,8 @@ b_tree *createBinaryNode(char *position, b_tree *parent);
 
 /* Insere uma nova marca caso não existir na árvore binária. */
 void insertBrand(const char *nome, STORE *store);
-/* Insere recursivamente uma marca na árvore */
-void _insert_brand_in_tree(const char *nome, b_tree **root, char *position,
+/* Tenta inserir recursivamente uma marca na árvore e retorna se foi inserida. */
+bool _insert_brand_in_tree(const char *nome, b_tree **root, char *position,
     b_tree *parent);
 
 
@@ -78,7 +78,7 @@ b_tree **searchBrand(const char *nome, b_tree **root);
 
 /* Insere um novo modelo caso não existir na árvore binária. */
 void insertModel(char *nome, char *marca, int ano,
-    int preco, int qtdade, b_tree **root);
+    int preco, int qtdade, STORE *store);
 
 /* Procura e retorna um modelo em na árvore que se encontra dentro de uma marca. */
 b_tree *search_modelo(const char *nome, b_tree *marca_root);

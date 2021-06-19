@@ -87,12 +87,14 @@ model_llist *createModelList(char *nome, int ano, int preco, int qtdade)
 }
 
 
-void insertModelInList(model_llist **root, char *nome, int ano, int preco, int qtdade)
+bool _insert_model_in_list(model_llist **root, char *nome, int ano, int preco, int qtdade)
 {
-    if (*root == NULL)
+    if (*root == NULL) {
         *root = createModelList(nome, ano, preco,  qtdade);
-    else
-        insertModelInList(&(*root)->next, nome, ano, preco, qtdade);
+        return *root != NULL ? true : false;
+    } else {
+        return _insert_model_in_list(&(*root)->next, nome, ano, preco, qtdade);
+    }
 }
 
 

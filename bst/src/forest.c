@@ -48,9 +48,11 @@ void chargeBrandFromFile(char* filename, STORE *store)
 		/* Liberta a variável marca não mais necessária. */
 		free(marca);
 		while ( fscanf(f, "%s %d %d %d", nome, &ano, &preco, &qtdade) != EOF ) {
-			insertModelInList(&(*node)->brand.models, nome, ano, preco, qtdade);
+			_insert_model_in_list(&(*node)->brand.models, nome, ano, preco, qtdade);
 			(*node)->brand.qtdade_modelos++;
 			(*node)->brand.valor_total += preco;
+			(*node)->brand.total_carros += qtdade;
+			store->total_carros += qtdade;
 		}
 
 		fclose(f);
@@ -76,10 +78,11 @@ b_tree *createBinaryNode(char *position, b_tree *parent)
 }
 
 
-void _insert_brand_in_tree(const char *nome, b_tree **root, char *position, b_tree *parent)
+bool _insert_brand_in_tree(const char *nome, b_tree **root, char *position, b_tree *parent)
 {
 	if (*root == NULL) {
 		b_tree *node = createBinaryNode(position, parent);
+        bool inserted = false;
 
 		if (node != NULL) {
 			strcpy(node->brand.nome, nome);
@@ -87,26 +90,30 @@ void _insert_brand_in_tree(const char *nome, b_tree **root, char *position, b_tr
 			node->brand.valor_total = 0;
 			node->brand.models = NULL;
 
-			//char output[43+strlen(nome)];
-			//sprintf(output, "\n Marca '%s' foi introduzida na árvore!\n", nome);
-			//animate(output, 25000);
-		}
+            inserted = true;
+			printf("\n Marca '%s' foi introduzida!\n", nome);
+		} else {
+            printf("\n Não foi possível alocar memória para inserir a marca '%s'\n", nome);
+        }
 
 		*root = node;
+		return inserted;
 
 	} else if (strcmp(nome, (*root)->brand.nome) < 0) { // LEFT
-		_insert_brand_in_tree(nome, &(*root)->left, L, *root);
+		return _insert_brand_in_tree(nome, &(*root)->left, L, *root);
 	} else if (strcmp(nome, (*root)->brand.nome) > 0) { // RIGHT
-		_insert_brand_in_tree(nome, &(*root)->right, R, *root);
+		return _insert_brand_in_tree(nome, &(*root)->right, R, *root);
 	} else {
 		printf("\n Marca: '%s' já se encontra na árvore!\n", nome);
+		return false;
 	}
 }
 
 
 void insertBrand(const char *nome, STORE *store)
 {
-	_insert_brand_in_tree(nome, &store->root, "ROOT", NULL);
+	if (_insert_brand_in_tree(nome, &store->root, "ROOT", NULL))
+        store->total_marcas++;
 }
 
 
@@ -126,14 +133,19 @@ b_tree **searchBrand(const char *nome, b_tree **root)
 
 
 void insertModel(char *nome, char *marca,
-						int ano, int preco, int qtdade, b_tree **root)
+						int ano, int preco, int qtdade, STORE *store)
 {
-	b_tree **node = searchBrand(marca, root);
+	b_tree **node = searchBrand(marca, &store->root);
 
 	if (*node != NULL) {
-		insertModelInList(&(*node)->brand.models, nome, ano, preco, qtdade);
-		(*node)->brand.qtdade_modelos++;
-		(*node)->brand.valor_total += preco;
+		if (_insert_model_in_list(&(*node)->brand.models, nome, ano, preco, qtdade)) {
+			(*node)->brand.qtdade_modelos++;
+			(*node)->brand.valor_total += preco;
+			store->total_carros += qtdade;
+			printf("\n Modelo '%s' inserido na marca '%s'\n", nome, marca);
+		} else {
+			printf("\n Não foi possível inserir o modelo '%s' na marca '%s'\n", nome, marca);
+		}
 	} else {
 		printf("\n Marca: '%s' não foi encontrada na árvore binária!", marca);
 	}

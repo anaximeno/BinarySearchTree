@@ -25,14 +25,14 @@ int main(int argv, char *argc[])
     setlocale(LC_ALL, "Portuguese");
 
     clearScreen();
-    animate("\n \t\t Seja Bem Vindo(a) ao programa.", 50000);
+    animate("\n \t\t Seja Bem Vindo(a) ao programa.", 50);
     printf("\n\n\n Digite a senha : ");
     char s[9];
     scanf(" %s", s);
 
 
     if (!strcmp(s, SENHA)) {
-        animate("\n Senha Correta, entrando no sistema.", 50000);
+        animate("\n Senha Correta, entrando no sistema.", 50);
         clearScreen();
     } else {
         printf("\n Senha errada!");
@@ -94,21 +94,21 @@ int main(int argv, char *argc[])
 void freedom(void)
 {
     if (car_store.root != NULL) {
-        animate("\n Limpando a memória", 30000);
-        animate("...", 700000);
+        animate("\n Limpando a memória", 30);
+        animate("...", 650);
 
         freetree(&car_store.root);  // Limpa root caso não for limpado antes
 
-        animate(" A memória foi limpa!", 30000);
+        animate(" A memória foi limpa!", 30);
     }
 
-    animate("\n Saindo da execução, obrigado por usar o programa!\n\n", 30500);
+    animate("\n Saindo da execução, obrigado por usar o programa!\n\n", 30);
 }
 
 
 void header(void)
 {
-    static char output[100];
+    static char output[NOMEMAX*4];
     sprintf(output, "\n  %s             %s             Administrador",
                                                 car_store.nome, __DATE__);
     printf(output);
@@ -116,4 +116,6 @@ void header(void)
     for (int i = 0 ; i < strlen(output)-1 ; ++i)
         printf("=");
     printf("\n");
+    //printf("\n Total Marcas: %d\n Total Carros: %d\n", car_store.total_marcas,
+    //                                                car_store.total_carros);
 }

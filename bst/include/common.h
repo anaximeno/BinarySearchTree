@@ -6,11 +6,13 @@
 
 #ifdef unix
     #include <unistd.h>
+    #define SLEEP(milisecs) ( usleep((milisecs*1000)) )
     #define CLEAR "clear"
 #endif // linux
 
 #ifdef _WIN32
     #include <Windows.h>
+    #define SLEEP(milisecs) ( sleep(milisecs) )
     #define CLEAR "cls"
 #endif // _WIN32
 
@@ -45,8 +47,8 @@ void enterpoint(void);
 
 
 /* Mostra uma string de forma 'animada'
-em que cada caractere aparece intervalado em 'microsecs'. */
-void animate(const char *texto, unsigned int microsecs);
+em que cada caractere aparece intervalado em 'milisecs'. */
+void animate(const char *texto, unsigned int milisecs);
 
 
 /* Retorna uma string sem a sua extensão. */

@@ -39,7 +39,8 @@ void freeNumberList(linked_number **lista);
 model_llist *createModelList(char *nome, int ano, int preco, int qtdade);
 
 
-void insertModelInList(model_llist **root, char *nome, int ano, int preco, int qtdade);
+/* Tenta inserir um modelo numa lista e retorna bool. */
+bool _insert_model_in_list(model_llist **root, char *nome, int ano, int preco, int qtdade);
 
 
 void removeModel(model_llist **root, const char *nome);

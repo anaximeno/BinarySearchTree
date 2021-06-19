@@ -13,7 +13,7 @@ void clearScreen(void)
 
 void enterpoint(void)
 {
-    printf("\n Clique [ENTER] para continuar");
+    printf("\n Clique em [ENTER] para continuar");
     getchar();
     fflush(stdin);
     clearScreen();
@@ -53,14 +53,14 @@ int get_int(void)
 }
 
 
-void animate(const char *texto, unsigned int microsecs)
+void animate(const char *texto, unsigned int milisecs)
 {
 	int i = 0;
 	while (texto[i] != '\0') {
 		fprintf(stdout, "%c", texto[i++]);
 		fflush(stdout);
 		if (texto[i] != '\n' || texto[i] != '\t')
-            usleep(microsecs);
+            SLEEP(milisecs);
 	}
 }
 
