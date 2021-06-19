@@ -110,7 +110,7 @@ void removeModel(model_llist **root, const char *nome)
 }
 
 
-void mostra_modelos(model_llist *root)
+void printModels(model_llist *root)
 {
     model_llist *node = NULL;
     printf(" [");

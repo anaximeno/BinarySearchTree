@@ -62,7 +62,7 @@ void freeModelList(model_llist **root);
 
 
 /* Mostra a lista de modelos. */
-void mostra_modelos(model_llist *root);
+void printModels(model_llist *root);
 
 #endif // LINKEDLIST_H
 

@@ -12,7 +12,7 @@
 
 #ifdef _WIN32
     #include <Windows.h>
-    #define SLEEP(milisecs) ( sleep(milisecs) )
+    #define SLEEP(milisecs) ( Sleep(milisecs) )
     #define CLEAR "cls"
 #endif // _WIN32
 

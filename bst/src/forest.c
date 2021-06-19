@@ -56,7 +56,7 @@ void chargeBrandFromFile(char* filename, STORE *store)
 		}
 
 		fclose(f);
-		printf("\n Arquivo '%s' foi carregado para a árvore!\n", filename);
+		printf("\n  Arquivo '%s' foi carregado para a árvore!\n", filename);
 	} else {
 		printf("\n Erro: Não foi possível abrir o arquivo: '%s'!\n", filename);
 	}
@@ -91,7 +91,10 @@ bool _insert_brand_in_tree(const char *nome, b_tree **root, char *position, b_tr
 			node->brand.models = NULL;
 
             inserted = true;
-			printf("\n Marca '%s' foi introduzida!\n", nome);
+
+			char output[NOMEMAX*2 + 1];
+			sprintf(output, "\n  Marca '%s' foi introduzida!\n", nome);
+			animate(output, 10);
 		} else {
             printf("\n Não foi possível alocar memória para inserir a marca '%s'\n", nome);
         }

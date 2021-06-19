@@ -1,19 +1,26 @@
 /** PROJETO DE AED: Sistema de uma loja de carros, usando árvores binárias.
 
+* CURSO: Engenharia Informática e de Computadores, 1º ano, 2º semestre
+
+* DATA: junho de 2021
+
+
  *                                  *
 ** ALGORÍTIMOS E ESTRUTURA DE DADOS **
  *                                  *
 
+
 * TIPO DE PROJECTO: Projeto final de Cadeira
 
+
+
 * PARTICIPANTES DO PROJETO:
+
     * Anaxímeno Brito
     * Ângelo Carvalho
     * Márcia Andrade
 
-* DATA: junho de 2021
 
-* CURSO: Engenharia Informática e de Computadores, 1º ano, 2º semestre
 
 * Professor: José Olavo da Paz
 
@@ -46,7 +53,7 @@ int main(int argv, char *argc[])
     setlocale(LC_ALL, "Portuguese");
 
     clearScreen();
-    animate("\n \t\t Seja Bem Vindo(a) ao programa.", 50);
+    animate("\n \tOi, Seja Bem Vindo(a) a AMEXUS MOTORS Store!", 50);
     printf("\n\n\n Digite a senha : ");
     char s[9];
     scanf(" %s", s);
@@ -95,16 +102,16 @@ int main(int argv, char *argc[])
     /* Teste 2.1) Mostra modelos de marcas */
     printf("\n TESTE 2.1) Modelos das marcas que foram carregadas:\n");
     printf("\n  Modelos da marca Toyota: ");
-    mostra_modelos((*searchBrand("Toyota", &car_store.root))->brand.models);
+    printModels((*searchBrand("Toyota", &car_store.root))->brand.models);
     printf("\n  Modelos da marca Mercedes: ");
-    mostra_modelos((*searchBrand("Mercedes", &car_store.root))->brand.models);
+    printModels((*searchBrand("Mercedes", &car_store.root))->brand.models);
     printf("\n  Modelos da marca Ford: ");
-    mostra_modelos((*searchBrand("Ford", &car_store.root))->brand.models);
+    printModels((*searchBrand("Ford", &car_store.root))->brand.models);
     enterpoint();
 
     /* Teste 3) Tentando remover uma marca! */
     char *m = "Mercedes";
-    printf("\n TESTE 3) Eliminar a marca '%s' da árvore\n", m);
+    printf("\n TESTE 3) A Eliminar a marca '%s' da árvore\n", m);
     enterpoint();
     removeBrand(&car_store.root, m);
     printTree(car_store.root, tipo, "Marcas, sem Mercedes");
