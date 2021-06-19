@@ -8,7 +8,7 @@
 #include "forest.h"
 #include "treeprinter.h"
 
-#define SENHA 1234
+#define SENHA "1234"
 
 /* Estrutura loja de carros que guarda a raíz das árvores, variável global. */
 STORE car_store = {
@@ -25,17 +25,18 @@ int main(int argv, char *argc[])
     setlocale(LC_ALL, "Portuguese");
 
     clearScreen();
-    animate("\n Seja Bem Vindo!", 50000);
-    /* */
-    printf("\n senha : ");
-    int s = get_int();
+    animate("\n \t\t Seja Bem Vindo(a) ao programa.", 50000);
+    printf("\n\n\n Digite a senha : ");
+    char s[9];
+    scanf(" %s", s);
 
-    if (s != SENHA) {
-        printf("\n Senha errada!");
-        exit(0);
-    } else {
+
+    if (!strcmp(s, SENHA)) {
         animate("\n Senha Correta, entrando no sistema.", 50000);
         clearScreen();
+    } else {
+        printf("\n Senha errada!");
+        exit(0);
     }
 
     /** Testes **/
@@ -47,48 +48,43 @@ int main(int argv, char *argc[])
                             "Volvo", "Volkswagen", "Tesla", "Seat", "Porsche"};
 
     for (int i = 0 ; i < 15 ; ++i)
-        insert_brand(marcas_teste[i], &car_store);
+        insertBrand(marcas_teste[i], &car_store);
 
 
-    /* Teste 2 - carregamento de um arquivo de texto */
-    //charge_file("Ford.txt", &car_store);
-    //charge_file("Mercedes.txt", &car_store);
-    charge_file("Toyota.txt", &car_store);
-
-
-    /* Teste 2.0.1 - testa a abertura de um arquivo nao existente. */
-    //charge_file("Popeye.xtx", &car_store.root);
-
-    /* Teste 3 - Impressão da árvore na tela */
+    /* Teste 1.1) - Mostra as marcas */
 
     printf("\n\n De que forma mostrar a árvore? (a - em ordem, b - pre ordem, c - pos ordem)");
     printf("\n Sua escolha : "); scanf(" %c", &tipo);
     setbuf(stdin, NULL);
 
+    printTree(car_store.root, tipo, "Marcas");
 
-    /* Teste 2.1) - Mostra o modelo Toyota inserido acima */
-    //b_tree *brand = search_brand("Toyota", car_store.root);
-    //if (brand != NULL)
-    //    print_tree(brand->marca.modelos, tipo, "Modelos");
+    /* Teste 2 - carregamento de um arquivo de texto */
+    printf("\n TESTE 2) Carregando marcas de arquivos para a árvore:\n");
+    chargeBrandFromFile("Ford.txt", &car_store);
+    chargeBrandFromFile("Mercedes.txt", &car_store);
+    chargeBrandFromFile("Toyota.txt", &car_store);
 
+    /* Teste 2.0.1 - testa a abertura de um arquivo nao existente. */
+    chargeBrandFromFile("Popeye.xtx", &car_store);
+    enterpoint();
 
-    /* Teste 1.1) - Mostra as marcas */
-    //tipo = 'a';
-    print_tree(car_store.root, tipo, "Marcas");
+    /* Teste 2.1) Mostra modelos de marcas */
+    printf("\n TESTE 2.1) Modelos das marcas que foram carregadas:\n");
+    printf("\n  Modelos da marca Toyota: ");
+    mostra_modelos((*searchBrand("Toyota", &car_store.root))->brand.models);
+    printf("\n  Modelos da marca Mercedes: ");
+    mostra_modelos((*searchBrand("Mercedes", &car_store.root))->brand.models);
+    printf("\n  Modelos da marca Ford: ");
+    mostra_modelos((*searchBrand("Ford", &car_store.root))->brand.models);
+    enterpoint();
 
-    /*
-    b_tree *toyo = search_brand("Toyota", car_store.root);
-    printf("\n Modelos da marca Toyota: ");
-    mostra_modelos(toyo->brand.models);
-    enterpoint(); */
-
-    /* Teste 4) Tentando remover uma marca! */
+    /* Teste 3) Tentando remover uma marca! */
     char *m = "Mercedes";
-    printf("\n Agora tentando eliminar a marca '%s'!", m);
-    fflush(stdout);
-    sleep(1);
-    remove_brand(&car_store.root, m);
-    print_tree(car_store.root, tipo, "Marcas");
+    printf("\n TESTE 3) Eliminar a marca '%s' da árvore\n", m);
+    enterpoint();
+    removeBrand(&car_store.root, m);
+    printTree(car_store.root, tipo, "Marcas, sem Mercedes");
     /** Testes **/
 
     return 0;
@@ -99,7 +95,7 @@ void freedom(void)
 {
     if (car_store.root != NULL) {
         animate("\n Limpando a memória", 30000);
-        animate("....", 700000);
+        animate("...", 700000);
 
         freetree(&car_store.root);  // Limpa root caso não for limpado antes
 
@@ -112,6 +108,12 @@ void freedom(void)
 
 void header(void)
 {
-    printf("\n Empresa : %s\n DATA    : %s", car_store.nome, __DATE__);
-    printf("\n SECÇAO  : Administrador\n");
+    static char output[100];
+    sprintf(output, "\n  %s             %s             Administrador",
+                                                car_store.nome, __DATE__);
+    printf(output);
+    printf("\n ");
+    for (int i = 0 ; i < strlen(output)-1 ; ++i)
+        printf("=");
+    printf("\n");
 }

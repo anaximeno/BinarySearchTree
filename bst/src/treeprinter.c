@@ -18,7 +18,7 @@
 #define DEPTH_MULTIPLIER 2
 
 
-void print_tree(b_tree *root, char tipo, const char *title)
+void printTree(b_tree *root, char tipo, const char *title)
 {
     clearScreen();
 	switch (tipo)

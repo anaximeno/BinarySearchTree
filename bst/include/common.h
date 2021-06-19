@@ -50,7 +50,7 @@ void animate(const char *texto, unsigned int microsecs);
 
 
 /* Retorna uma string sem a sua extensão. */
-char *get_name(char *txtname);
+char *getName(char *txtname);
 
 
 #endif // COMMON_H

@@ -58,26 +58,26 @@ Organização do arquivo a ser lido:
     [nome do modelo]    [ano de lançamento]     [preço]     [quantidate]
 
 */
-bool charge_file(char *filename, STORE *store);
+void chargeBrandFromFile(char *filename, STORE *store);
 
 
 /* Cria e retorna um nó binário. */
-b_tree *create_binary_node(char *position, b_tree *parent);
+b_tree *createBinaryNode(char *position, b_tree *parent);
 
 
 /* Insere uma nova marca caso não existir na árvore binária. */
-void insert_brand(const char *nome, STORE *store);
+void insertBrand(const char *nome, STORE *store);
 /* Insere recursivamente uma marca na árvore */
 void _insert_brand_in_tree(const char *nome, b_tree **root, char *position,
     b_tree *parent);
 
 
 /* Procura e retorna o indereço da Marca na árvore. */
-b_tree **search_brand(const char *nome, b_tree **root);
+b_tree **searchBrand(const char *nome, b_tree **root);
 
 
 /* Insere um novo modelo caso não existir na árvore binária. */
-void insert_model(char *nome, char *marca, int ano,
+void insertModel(char *nome, char *marca, int ano,
     int preco, int qtdade, b_tree **root);
 
 /* Procura e retorna um modelo em na árvore que se encontra dentro de uma marca. */
@@ -93,11 +93,11 @@ b_tree **_leftest_node(b_tree **node);
 
 
 /* Elimina um nó da árvore. */
-void remove_binary_node(b_tree **root);
+void removeBinaryNode(b_tree **root);
 
 
 /* Remove uma marca da árvore. */
-void remove_brand(b_tree **root, const char *marca);
+void removeBrand(b_tree **root, const char *marca);
 
 
 
@@ -107,5 +107,6 @@ Os dados herdados são:
     -> parent
     -> position
     -> level */
-void inherit_position(b_tree *filho, b_tree *pai);
+void _inherit_position(b_tree *filho, b_tree *pai);
+
 #endif // FOREST_H

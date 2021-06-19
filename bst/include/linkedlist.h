@@ -9,7 +9,7 @@
     -> value (int): valor do nó. */
 typedef struct _numbered_linkedlist
 {
-    struct _linkedlist *next;
+    struct _numbered_linkedlist *next;
     int value;
 } linked_number;
 
@@ -26,13 +26,13 @@ typedef struct _model_linkedlist
 linked_number *createNumberList(int value);
 
 /* insere um valor na lista. */
-void insertInNumberList(linked_number **list, int value);
+void insertInNumberList(linked_number **lista, int value);
 
 /* retorna se um valor está ou não numa lista. */
-bool isInNumberList(linked_number *list, int value);
+bool isInNumberList(linked_number *lista, int value);
 
 /* elimina (free) todos os nós de uma lista ligada. */
-void freeNumberList(linked_number **list);
+void freeNumberList(linked_number **lista);
 
 
 /* Cria e retorna um nó da lista de modelo. */

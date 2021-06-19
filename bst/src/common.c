@@ -59,12 +59,13 @@ void animate(const char *texto, unsigned int microsecs)
 	while (texto[i] != '\0') {
 		fprintf(stdout, "%c", texto[i++]);
 		fflush(stdout);
-		usleep(microsecs);
+		if (texto[i] != '\n' || texto[i] != '\t')
+            usleep(microsecs);
 	}
 }
 
 
-char *get_name(char *txtname)
+char *getName(char *txtname)
 {
 	char *txt = txtname;
 	int i, size = 0;

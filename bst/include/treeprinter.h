@@ -22,7 +22,7 @@ struct _divs *_get_divs(b_tree *node);
  *    -> a : em ordem,
  *    -> b : pré ordem,
  *    -> c : pós ordem. */
-void print_tree(b_tree *root, char tipo, const char *title);
+void printTree(b_tree *root, char tipo, const char *title);
 
 
 

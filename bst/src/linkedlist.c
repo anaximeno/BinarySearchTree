@@ -35,18 +35,18 @@ linked_number *createNumberList(int value)
 }
 
 
-void insertInNumberList(linked_number **list, int value)
+void insertInNumberList(linked_number **lista, int value)
 {
-    if (*list == NULL)
-        *list = createNumberList(value);
+    if (*lista == NULL)
+        *lista = createNumberList(value);
     else
-        insertInNumberList(&(*list)->next, value);
+        insertInNumberList(&(*lista)->next, value);
 }
 
 
-bool isInNumberList(linked_number *list, int value)
+bool isInNumberList(linked_number *lista, int value)
 {
-    linked_number *node = list;
+    linked_number *node = lista;
 
     while (node != NULL) {
 
@@ -60,14 +60,14 @@ bool isInNumberList(linked_number *list, int value)
 }
 
 
-void freeNumberList(linked_number **list)
+void freeNumberList(linked_number **lista)
 {
-    if (*list == NULL)
+    if (*lista == NULL)
         return ;
 
-    freeNumberList(&(*list)->next);
+    freeNumberList(&(*lista)->next);
 
-    free(*list);
+    free(*lista);
 }
 
 
@@ -80,6 +80,7 @@ model_llist *createModelList(char *nome, int ano, int preco, int qtdade)
         node->ano = ano;
         node->preco = preco;
         node->qtdade = qtdade;
+        node->next = NULL;
     }
 
     return node;
