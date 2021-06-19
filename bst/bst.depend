@@ -39,7 +39,7 @@
 	"linkedlist.h"
 	"forest.h"
 
-1624069489 source:/home/anaximeno/Github/binarysearchtree/bst/src/treeprinter.c
+1624070599 source:/home/anaximeno/Github/binarysearchtree/bst/src/treeprinter.c
 	<string.h>
 	<stdio.h>
 	<stdlib.h>
@@ -48,7 +48,7 @@
 	"linkedlist.h"
 	"common.h"
 
-1624067821 source:/home/anaximeno/Github/binarysearchtree/bst/src/common.c
+1624071181 source:/home/anaximeno/Github/binarysearchtree/bst/src/common.c
 	<stdio.h>
 	<stdlib.h>
 	"forest.h"

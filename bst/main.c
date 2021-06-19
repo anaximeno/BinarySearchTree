@@ -34,6 +34,7 @@ int main(int argv, char *argc[])
     if (!strcmp(s, SENHA)) {
         animate("\n Senha Correta, entrando no sistema.", 50);
         clearScreen();
+        cleanbuf();
     } else {
         printf("\n Senha errada!");
         exit(0);
@@ -47,12 +48,13 @@ int main(int argv, char *argc[])
                             "Audi", "Abarth", "Bentley", "Citroen", "Ford",
                             "Volvo", "Volkswagen", "Tesla", "Seat", "Porsche"};
 
+    printf("\n TESTE 1) Inserção de marcas na árvore: \n");
     for (int i = 0 ; i < 15 ; ++i)
         insertBrand(marcas_teste[i], &car_store);
 
+    enterpoint();
 
     /* Teste 1.1) - Mostra as marcas */
-
     printf("\n\n De que forma mostrar a árvore? (a - em ordem, b - pre ordem, c - pos ordem)");
     printf("\n Sua escolha : "); scanf(" %c", &tipo);
     setbuf(stdin, NULL);
