@@ -6,7 +6,6 @@
 #include "linkedlist.h"
 #include "common.h"
 
-#define __author__ "Anaxímeno Brito"
 
 /* Para sistemas baseados em unix, o programa utilizará caracteres utf-8 para apresentar a árvore
 e para windows apenas caracteres ascii.*/
