@@ -44,7 +44,7 @@ typedef struct _binarytree
 typedef struct _store
 {
     const char *nome;
-    int total_marcas, total_carros;
+    int total_marcas, total_modelos;
     b_tree *root;
 } STORE;
 

@@ -125,9 +125,19 @@ void listModels(model_llist *head)
     if (head == NULL)
         return ;
 
-    printf("\n   # '%s' - Ano : %d - Preco : %d$00 - Quantidade : %d",
+    printf("\n\n   # '%s' - Ano : %d - Preco : %d$00 - Quantidade : %d",
         head->nome, head->ano, head->preco, head->qtdade);
 
     listModels(head->next);
 }
 
+
+model_llist **searchModel(model_llist **head, const char *nome)
+{
+    if (*head == NULL)
+        return head;
+    else if (!strcmp(nome, (*head)->nome))
+        return head;
+    else
+        return searchModel(&(*head)->next, nome);
+}

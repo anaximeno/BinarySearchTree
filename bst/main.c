@@ -47,7 +47,7 @@ caracteres UTF-8, porem, foi-se feito o possível para que o programa funcione d
 STORE car_store = {
     .nome="AMEXUS MOTORS",
     .total_marcas=0,
-    .total_carros=0,
+    .total_modelos=0,
     .root=NULL
 };
 
@@ -89,13 +89,14 @@ int main(int argv, char *argc[])
             USER_TYPE = "Cliente";
 
             clientSection(&car_store);
-
+            USER_TYPE = "Undefinded";
             break;
         case 2:  // Admin
             USER_TYPE = "Administrador";
             clearScreen(false);
 
             adminSection(&car_store);
+            USER_TYPE = "Undefinded";
             break;
         case 0:  // Sair
             goto out;
@@ -140,9 +141,18 @@ void header(void)
 
 void clientSection(STORE *store)
 {
-    char nome_marca[NOMEMAX];
-    b_tree **marca;
+    char nome_marca[NOMEMAX],
+        nome_modelo[NOMEMAX],
+        output[NOMEMAX*4];
+
+    b_tree **marca = NULL;
+
+    model_llist **modelo = NULL;
+
     bool loop = true;
+
+    int media;
+
     animate("\n Entrando na secção Cliente", 50);
     animate("...", 650);
 
@@ -159,23 +169,94 @@ void clientSection(STORE *store)
             printf("\n Nome da marca > ");
             scanf("%s", nome_marca);
             cleanbuf();
-            marca = searchBrand(nome_marca, &store->root);
-            clearScreen(true);
 
-            if (*marca != NULL) {
-                if ((*marca)->brand.models == NULL) {
+            marca = searchBrand(nome_marca, &store->root);
+
+            clearScreen(true);
+            if (*marca != NULL)
+            {
+
+                if ((*marca)->brand.models == NULL)
+                {
                     printf("\n A marca '%s' tem 0 modelos.", nome_marca);
-                } else {
+                }
+                else
+                {
                     printf("\n Modelos da marca %s :", nome_marca);
                     listModels((*marca)->brand.models);
+                    media = (int) (*marca)->brand.valor_total / (*marca)->brand.total_carros;
+                    printf("\n\n Modelos: %d ______ Carros: %d ______ Media por Carro: %d$00\n",
+                        (*marca)->brand.qtdade_modelos, (*marca)->brand.total_carros, media);
                 }
-            } else {
+
+            }
+            else
+            {
                 printf("\n Marca '%s' não foi encontrada na base de dados!", nome_marca);
             }
 
             enterpoint(true);
             break;
         case 'b': // comprar modelo de Carro de uma marca
+            clearScreen(true);
+            listBrands(store);
+
+            printf("\n Nome da Marca Pretendida > ");
+            scanf("%s", nome_marca);
+            cleanbuf();
+
+            marca = searchBrand(nome_marca, &store->root);
+
+            if (*marca != NULL)
+            {
+                clearScreen(true);
+                if ((*marca)->brand.models != NULL)
+                {
+                    printf("\n Modelos da marca %s :", nome_marca);
+                    listModels((*marca)->brand.models);
+
+                    printf("\n\n Nome do Modelo a Comprar > ");
+                    scanf("%s", nome_modelo);
+                    cleanbuf();
+
+                    modelo = searchModel(&(*marca)->brand.models, nome_modelo);
+
+                    if (*modelo != NULL)
+                    {
+                        if ((*modelo)->qtdade > 0)
+                        {
+                            store->total_modelos--;
+                            (*marca)->brand.total_carros--;
+                            (*marca)->brand.valor_total -= (*modelo)->preco;
+                            (*modelo)->qtdade--;
+
+                            sprintf(output, "\n Parabéns acabaste de o carro '%s %s' por %d$00!",
+                                nome_marca, nome_modelo, (*modelo)->preco);
+
+                            animate(output, 40);
+                        }
+                        else
+                        {
+                            printf("\n Infelizmente não há mais '%s %s' a venda!",
+                                                        nome_marca, nome_modelo);
+                        }
+                    }
+                    else
+                    {
+                        printf("\n Modelo '%s' não foi encontrado na base de dados!",
+                                                                     nome_modelo);
+                    }
+                }
+                else
+                {
+                    printf("\n A marca %s não tem nenhum modelo a venda!", nome_marca);
+                }
+            }
+            else
+            {
+                printf("\n Marca '%s' não foi encontrada na base de dados!",
+                                                            nome_marca);
+            }
 
             enterpoint(true);
             break;
@@ -206,18 +287,20 @@ void adminSection(STORE *store)
         tentativas++;
         printf("\n Digite a senha de Administrador : ");
         scanf(" %s", senha);
-        fflush(stdin);
+        cleanbuf();
 
         if (strcmp(senha, SENHA_ADMIN) != 0) {
             clearScreen(false);
             printf("\n Senha Errada! Restam mais %d tentativas!", MAX_TRIES-tentativas);
-            if (tentativas == MAX_TRIES)
-                exit(0);  // Sai da execução
+            if (tentativas == MAX_TRIES) {
+                printf("\n Vai ser redirecionado para o menu inicial!");
+                enterpoint(true);
+                goto end;  // Volta para o menu anterior
+            }
         } else {
             animate("\n Senha Correta, entrando na secção Administrador", 50);
             animate("...", 650);
             clearScreen(true);
-            cleanbuf();
             break;  // Sai do loop e continua o programa
         }
     }
@@ -225,7 +308,7 @@ void adminSection(STORE *store)
     /* Teste 1.1) - Mostra as marcas */
     printf("\n\n De que forma mostrar a árvore? (a - em ordem, b - pre ordem, c - pos ordem)");
     printf("\n Sua escolha > "); scanf(" %c", &tipo);
-    setbuf(stdin, NULL);
+    cleanbuf();
 
     printTree(store->root, tipo, "Marcas");
 
@@ -242,8 +325,6 @@ void adminSection(STORE *store)
     printf("\n TESTE 2.1) Modelos das marcas que foram carregadas:\n");
     printf("\n  Modelos da marca Toyota: ");
     printModels((*searchBrand("Toyota", &store->root))->brand.models);
-    printf("\n  Modelos da marca Mercedes: ");
-    printModels((*searchBrand("Mercedes", &store->root))->brand.models);
     printf("\n  Modelos da marca Ford: ");
     printModels((*searchBrand("Ford", &store->root))->brand.models);
     enterpoint(true);
@@ -254,6 +335,6 @@ void adminSection(STORE *store)
 
     removeBrand(&store->root, m);
     printTree(store->root, tipo, "Marcas, sem Mercedes");
-
+end:
     clearScreen(false);
 }

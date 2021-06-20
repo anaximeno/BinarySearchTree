@@ -48,12 +48,15 @@ void chargeBrandFromFile(char* filename, STORE *store)
 
 		/* Liberta a variável marca não mais necessária. */
 		free(marca);
-		while ( fscanf(f, "%s %d %d %d", nome, &ano, &preco, &qtdade) != EOF ) {
-			_insert_model_in_list(&(*node)->brand.models, nome, ano, preco, qtdade);
-			(*node)->brand.qtdade_modelos++;
-			(*node)->brand.valor_total += preco;
-			(*node)->brand.total_carros += qtdade;
-			store->total_carros += qtdade;
+		while ( fscanf(f, "%s %d %d %d", nome, &ano, &preco, &qtdade) != EOF )
+		{
+			if(_insert_model_in_list(&(*node)->brand.models, nome, ano, preco, qtdade))
+			{
+                (*node)->brand.qtdade_modelos++;
+                (*node)->brand.valor_total += preco;
+                (*node)->brand.total_carros += qtdade;
+                store->total_modelos++;
+			}
 		}
 
 		fclose(f);
@@ -124,8 +127,8 @@ void insertBrand(const char *nome, STORE *store, bool verbose)
 
 b_tree **searchBrand(const char *nome, b_tree **root)
 {
-	if (root == NULL)
-		return NULL;
+	if (*root == NULL)
+		return root;
 	else if (strcmp(nome, (*root)->brand.nome) < 0)
 		return searchBrand(nome, &(*root)->left);
 	else if (strcmp(nome, (*root)->brand.nome) > 0)
@@ -146,7 +149,7 @@ void insertModel(char *nome, char *marca,
 		if (_insert_model_in_list(&(*node)->brand.models, nome, ano, preco, qtdade)) {
 			(*node)->brand.qtdade_modelos++;
 			(*node)->brand.valor_total += preco;
-			store->total_carros += qtdade;
+			store->total_modelos++;
 			printf("\n Modelo '%s' inserido na marca '%s'\n", nome, marca);
 		} else {
 			printf("\n Não foi possível inserir o modelo '%s' na marca '%s'\n", nome, marca);

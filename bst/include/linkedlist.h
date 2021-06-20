@@ -69,6 +69,8 @@ void printModels(model_llist *root);
 void listModels(model_llist *head);
 
 
+/* Procura e retorna o nó do modelo a pesquisar. */
+model_llist **searchModel(model_llist **head, const char *nome);
 #endif // LINKEDLIST_H
 
 
