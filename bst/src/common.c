@@ -1,22 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "forest.h"
 #include "common.h"
 
 
-void clearScreen(void)
+void clearScreen(bool show_header)
 {
     system(CLEAR);
-    header();
+    if (show_header == true)
+        header();
 }
 
 
-void enterpoint(void)
+void enterpoint(bool show_header)
 {
     printf("\n\n Clique em [ENTER] para continuar");
     getchar();
     fflush(stdin);
-    clearScreen();
+    clearScreen(show_header);
 }
 
 
@@ -31,7 +33,7 @@ void cleanbuf(void)
 		if (times++ > MAX_CLEAN_REPEAT_TIMES) {
 
 			printf("\n erro: atingiu-se o limite de falha!");
-			sleep(2);
+			SLEEP(2000);
 
 			exit(1);
 
@@ -81,4 +83,33 @@ char *getName(char *txtname)
 	name[i] = '\0';  // Adiciona o final da string
 
 	return name;
+}
+
+
+/* Mostra o primeiro menu do programa.*/
+int menu_1(void)
+{
+    printf("\n\n Opções:");
+    printf("\n    1 - Entrar como Cliente,");
+    printf("\n    2 - Entrar como Administrador,");
+    printf("\n    0 - Sair do programa.");
+    printf("\n Sua escolha > ");
+    return get_int();
+}
+
+
+char menu_2()
+{
+    printf("\n Escolha uma dessas opções:");
+    printf("\n    a - Consultar modelos de carros.");
+    printf("\n    b - Comprar modelo de carro de uma marca.");
+    printf("\n    q - Voltar ao menu inicial.");
+	printf("\n Sua escolha > ");
+
+	fflush(stdin);
+	char opt;
+	scanf(" %c", &opt);
+	cleanbuf();
+
+	return opt;
 }

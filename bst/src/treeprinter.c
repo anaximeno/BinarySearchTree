@@ -16,17 +16,17 @@ e para windows apenas caracteres ascii.*/
     #define RIGHT_BRANCH "┌──"
     #define ROOT_BRANCH "━"
     #define MIDDLE_BRANCH "├──"
-#endif // unix
+#endif // unix, UTF-8 characters
 
 
 #ifdef _WIN32
-	#define BRANCH_SPACES "  "
+    #define BRANCH_SPACES "  "
     #define VERTICAL_BRANCH "| "
     #define LEFT_BRANCH "'--"
     #define RIGHT_BRANCH ".--"
     #define ROOT_BRANCH "-"
     #define MIDDLE_BRANCH "|--"
-#endif // _WIN32
+#endif // _WIN32, ASCII characters
 
 
 #define DEPTH_MULTIPLIER 3
@@ -34,56 +34,58 @@ e para windows apenas caracteres ascii.*/
 
 void printTree(b_tree *root, char tipo, const char *title)
 {
-    clearScreen();
-	switch (tipo)
-	{
-	case 'a':
-		/* Mostra a árvore binária em ordem. */
-        printf("\n\n BINARY SEARCH TREE - %s", title);
-		printf(" - Em Ordem\n\n");
+    clearScreen(true);
+  	switch (tipo)
+  	{
+  	case 'a':
+  		/* Mostra a árvore binária em ordem. */
+          printf("\n\n BINARY SEARCH TREE - %s", title);
+  		printf(" - Em Ordem\n\n");
 
-		_in_order(root);
+  		_in_order(root);
 
-		putchar('\n');
-		break;
-	case 'b':
-		/* Mostra a árvore binária em pré ordem. */
-		printf("\n\n BINARY SEARCH TREE - %s", title);
-		printf(" - Pré Ordem\n\n");
+  		putchar('\n');
+  		break;
+  	case 'b':
+  		/* Mostra a árvore binária em pré ordem. */
+  		printf("\n\n BINARY SEARCH TREE - %s", title);
+  		printf(" - Pré Ordem\n\n");
 
-		_pre_order(root);
+  		_pre_order(root);
 
-		putchar('\n');
-		break;
-	case 'c':
-		/* Mostra a árvore binária em pós ordem. */
-		printf("\n\n BINARY SEARCH TREE - %s", title);
-		printf(" - Pós Ordem\n\n");
+  		putchar('\n');
+  		break;
+  	case 'c':
+  		/* Mostra a árvore binária em pós ordem. */
+  		printf("\n\n BINARY SEARCH TREE - %s", title);
+  		printf(" - Pós Ordem\n\n");
 
-		_post_order(root);
+  		_post_order(root);
 
-		putchar('\n');
-		break;
-	default:
-		printf("\n erro: opção desconhecida, escolha entre (a, b ou c)!\n");
-		break;
-	}
-    enterpoint();
+  		putchar('\n');
+  		break;
+  	default:
+  		printf("\n erro: opção desconhecida, escolha entre (a, b ou c)!\n");
+  		break;
+  	}
+    enterpoint(true);
 }
 
 
 struct _divs *_get_divs(b_tree *node)
 {
     DIVS *divs = (DIVS *) malloc (sizeof(DIVS));
-	if (divs != NULL) {
-		if (node->level == 0) {
-			divs->f = '[';
-			divs->s = ']';
-		} else {
-			divs->f = '<';
-			divs->s = '>';
-		}
-	}
+
+  	if (divs != NULL) {
+  		if (node->level == 0) {
+  			divs->f = '[';
+  			divs->s = ']';
+  		} else {
+  			divs->f = '<';
+  			divs->s = '>';
+  		}
+  	}
+
     return divs;
 }
 
@@ -268,4 +270,3 @@ void _post_order(b_tree *root)
 	printf("%s%c%s%c\n", _post_order_branch(root), divs->f, root->brand.nome, divs->s);
 	free(divs);
 }
-

@@ -3,7 +3,7 @@
 
 #define MAX_CLEAN_REPEAT_TIMES 32
 #define NOMEMAX 32
-
+///TODO: Salva árvore binária em arquivo '.bst'
 #ifdef unix
     #include <unistd.h>
     #define SLEEP(milisecs) ( usleep((milisecs*1000)) )
@@ -25,8 +25,8 @@ void freedom(void);
 void header(void);
 
 
-/* Limpa o terminal. */
-void clearScreen(void);
+/* Limpa o terminal, e mostra o header se show_header for true. */
+void clearScreen(bool show_header);
 
 
 /* Limpa o buffer. */
@@ -43,7 +43,7 @@ int get_int(void);
 
 /* Mostra uma mensagem que pede para clicar em
 enter para continuar e depois limpa a tela*/
-void enterpoint(void);
+void enterpoint(bool show_header);
 
 
 /* Mostra uma string de forma 'animada'
@@ -54,5 +54,12 @@ void animate(const char *texto, unsigned int milisecs);
 /* Retorna uma string sem a sua extensão. */
 char *getName(char *txtname);
 
+
+/* Mostra o primeiro menu do programa e retorna a opção.*/
+int menu_1(void);
+
+
+/* Mostra o menu do cliente e retorna a opção. */
+char menu_2(void);
 
 #endif // COMMON_H

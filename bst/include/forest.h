@@ -49,8 +49,6 @@ typedef struct _store
 } STORE;
 
 
-
-
 /* Carrega um nó binário guardado no arquivo de nome [marca].txt com os elementos,
 e retorna se conseguiu ou não carregar (bool).
 
