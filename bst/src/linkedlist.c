@@ -118,3 +118,16 @@ void printModels(model_llist *root)
         printf(" %s", node->nome);
     printf(" ]\n");
 }
+
+
+void listModels(model_llist *head)
+{
+    if (head == NULL)
+        return ;
+
+    printf("\n   # '%s' - Ano : %d - Preco : %d$00 - Quantidade : %d",
+        head->nome, head->ano, head->preco, head->qtdade);
+
+    listModels(head->next);
+}
+

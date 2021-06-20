@@ -6,6 +6,7 @@
 #include "forest.h"
 #include "linkedlist.h"
 #include "common.h"
+#include "treeprinter.h"
 
 
 
@@ -37,7 +38,7 @@ void chargeBrandFromFile(char* filename, STORE *store)
 
 		/* Se a marca não for encontrada na arvore, cria nova árvore */
 		if ( *node == NULL ) {
-			insertBrand(marca, store);
+			insertBrand(marca, store, false);
 			if ( (node = searchBrand(marca, &store->root)) == NULL ) {
 				printf("\n Erro: não foi possível criar marca '%s' na árvore!", marca);
 				fclose(f);
@@ -91,10 +92,6 @@ bool _insert_brand_in_tree(const char *nome, b_tree **root, char *position, b_tr
 			node->brand.models = NULL;
 
             inserted = true;
-
-			char output[NOMEMAX*2 + 1];
-			sprintf(output, "\n  Marca '%s' foi introduzida!\n", nome);
-			animate(output, 10);
 		} else {
             printf("\n Não foi possível alocar memória para inserir a marca '%s'\n", nome);
         }
@@ -113,12 +110,17 @@ bool _insert_brand_in_tree(const char *nome, b_tree **root, char *position, b_tr
 }
 
 
-void insertBrand(const char *nome, STORE *store)
+void insertBrand(const char *nome, STORE *store, bool verbose)
 {
-	if (_insert_brand_in_tree(nome, &store->root, "ROOT", NULL))
+	if (_insert_brand_in_tree(nome, &store->root, "ROOT", NULL)) {
         store->total_marcas++;
+        if (verbose == true) {
+            char output[NOMEMAX*2 + 1];
+            sprintf(output, "\n  Marca '%s' foi introduzida!\n", nome);
+            animate(output, 10);
+        }
+    }
 }
-
 
 b_tree **searchBrand(const char *nome, b_tree **root)
 {
@@ -221,4 +223,28 @@ void removeBinaryNode(b_tree **root)
 		removeBinaryNode(tmp);
 	}
 }
+
+
+void _list_brands(b_tree *node)
+{
+	if (node == NULL)
+        return ;
+
+	printf("\n  %s %s (%d modelos) ", VERTICAL_BRANCH,
+                node->brand.nome, node->brand.qtdade_modelos);
+
+	_list_brands(node->left);
+	_list_brands(node->right);
+}
+
+
+void listBrands(STORE *store)
+{
+	if (store->root != NULL) {
+		printf("\n  %s Marcas Disponiveis :", MIDDLE_BRANCH);
+		_list_brands(store->root);
+		printf("\n  %s%s%s\n", MIDDLE_BRANCH, LINE_BRANCH, LINE_BRANCH);
+	}
+}
+
 

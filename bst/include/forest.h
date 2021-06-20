@@ -64,7 +64,7 @@ b_tree *createBinaryNode(char *position, b_tree *parent);
 
 
 /* Insere uma nova marca caso não existir na árvore binária. */
-void insertBrand(const char *nome, STORE *store);
+void insertBrand(const char *nome, STORE *store, bool verbose);
 /* Tenta inserir recursivamente uma marca na árvore e retorna se foi inserida. */
 bool _insert_brand_in_tree(const char *nome, b_tree **root, char *position,
     b_tree *parent);
@@ -106,5 +106,9 @@ Os dados herdados são:
     -> position
     -> level */
 void _inherit_position(b_tree *filho, b_tree *pai);
+
+
+/* Lista todas as marcas da loja. */
+void listBrands(STORE *store);
 
 #endif // FOREST_H

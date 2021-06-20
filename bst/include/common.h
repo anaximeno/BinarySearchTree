@@ -1,7 +1,6 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#define MAX_CLEAN_REPEAT_TIMES 32
 #define NOMEMAX 32
 ///TODO: Salva árvore binária em arquivo '.bst'
 #ifdef unix
@@ -15,6 +14,10 @@
     #define SLEEP(milisecs) ( Sleep(milisecs) )
     #define CLEAR "cls"
 #endif // _WIN32
+
+
+/* Desenha uma linha de tamanho lim. */
+void line(int lim);
 
 
 /* Limpa/liberta as variáveis no final da execução. */

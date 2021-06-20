@@ -56,9 +56,9 @@ STORE car_store = {
 char *USER_TYPE = "Undefined";
 
 /* Chama a secção de administrador. */
-void adminSection(void);
+void adminSection(STORE *store);
 /* Chama a secção de cliente. */
-void clientSection(void);
+void clientSection(STORE *store);
 
 
 int main(int argv, char *argc[])
@@ -68,6 +68,15 @@ int main(int argv, char *argc[])
 
     char output[NOMEMAX*4];
 
+    /* Carregando o sistema com algumas marcas, para testes */
+    char *marcas_teste[] = {"Mercedes", "Toyota", "Renault", "Chevrolet", "Suzuki",
+                            "Audi", "Abarth", "Bentley", "Citroen", "Ford",
+                            "Volvo", "Volkswagen", "Tesla", "Seat", "Porsche"};
+
+    for (int i = 0 ; i < 15 ; ++i)
+        insertBrand(marcas_teste[i], &car_store, false);
+
+    chargeBrandFromFile("Mercedes.txt", &car_store);
 
     clearScreen(false);
     sprintf(output, "\n\t Oi, Seja Bem Vindo(a) a %s Store!", car_store.nome);
@@ -79,14 +88,14 @@ int main(int argv, char *argc[])
         case 1:  // Cliente
             USER_TYPE = "Cliente";
 
-            clientSection();
+            clientSection(&car_store);
 
             break;
         case 2:  // Admin
             USER_TYPE = "Administrador";
             clearScreen(false);
 
-            adminSection();
+            adminSection(&car_store);
             break;
         case 0:  // Sair
             goto out;
@@ -123,42 +132,69 @@ void header(void)
     sprintf(output, "\n  %s             %s             %s",
                                         car_store.nome, __DATE__, USER_TYPE);
     printf(output);
-    printf("\n ");
-    for (int i = 0 ; i < strlen(output)-1 ; ++i)
-        printf("=");
-    printf("\n");
+    line(strlen(output)-1);
     //printf("\n Total Marcas: %d\n Total Carros: %d\n", car_store.total_marcas,
     //                                                car_store.total_carros);
 }
 
 
-void clientSection(void)
+void clientSection(STORE *store)
 {
+    char nome_marca[NOMEMAX];
+    b_tree **marca;
     bool loop = true;
     animate("\n Entrando na secção Cliente", 50);
     animate("...", 650);
+
     while (loop) {
         clearScreen(true);
+        listBrands(store);
+
         switch(menu_2())
         {
         case 'a': // Consultar modelos de uma marca
+            clearScreen(true);
+            listBrands(store);
 
+            printf("\n Nome da marca > ");
+            scanf("%s", nome_marca);
+            cleanbuf();
+            marca = searchBrand(nome_marca, &store->root);
+            clearScreen(true);
+
+            if (*marca != NULL) {
+                if ((*marca)->brand.models == NULL) {
+                    printf("\n A marca '%s' tem 0 modelos.", nome_marca);
+                } else {
+                    printf("\n Modelos da marca %s :", nome_marca);
+                    listModels((*marca)->brand.models);
+                }
+            } else {
+                printf("\n Marca '%s' não foi encontrada na base de dados!", nome_marca);
+            }
+
+            enterpoint(true);
             break;
         case 'b': // comprar modelo de Carro de uma marca
+
+            enterpoint(true);
             break;
         case 'q':
-            clearScreen(false);
             loop = false;
             continue;
         default:
             printf("\n Opção desconhecida!");
             enterpoint(true);
+            fflush(stdin);
         }
+
     }
+
+    clearScreen(false);
 }
 
 
-void adminSection(void)
+void adminSection(STORE *store)
 {
     char senha[9];
     char tipo, *m;
@@ -186,50 +222,38 @@ void adminSection(void)
         }
     }
 
-
-
-    /* Teste 1 - inserção de marcas */
-    char *marcas_teste[] = {"Mercedes", "Toyota", "Renault", "Chevrolet", "Suzuki",
-                            "Audi", "Abarth", "Bentley", "Citroen", "Ford",
-                            "Volvo", "Volkswagen", "Tesla", "Seat", "Porsche"};
-
-    for (int i = 0 ; i < 15 ; ++i)
-        insertBrand(marcas_teste[i], &car_store);
-
-    enterpoint(true);
-
     /* Teste 1.1) - Mostra as marcas */
     printf("\n\n De que forma mostrar a árvore? (a - em ordem, b - pre ordem, c - pos ordem)");
     printf("\n Sua escolha > "); scanf(" %c", &tipo);
     setbuf(stdin, NULL);
 
-    printTree(car_store.root, tipo, "Marcas");
+    printTree(store->root, tipo, "Marcas");
 
     /* Teste 2 - carregamento de um arquivo de texto */
     printf("\n TESTE 2) Carregando marcas de arquivos para a árvore:\n");
-    chargeBrandFromFile("Ford.txt", &car_store);
-    chargeBrandFromFile("Mercedes.txt", &car_store);
-    chargeBrandFromFile("Toyota.txt", &car_store);
+    chargeBrandFromFile("Ford.txt", store);
+    chargeBrandFromFile("Toyota.txt", store);
 
     /* Teste 2.0.1 - testa a abertura de um arquivo nao existente. */
-    chargeBrandFromFile("Popeye.xtx", &car_store);
+    chargeBrandFromFile("Popeye.xtx", store);
     enterpoint(true);
 
     /* Teste 2.1) Mostra modelos de marcas */
     printf("\n TESTE 2.1) Modelos das marcas que foram carregadas:\n");
     printf("\n  Modelos da marca Toyota: ");
-    printModels((*searchBrand("Toyota", &car_store.root))->brand.models);
+    printModels((*searchBrand("Toyota", &store->root))->brand.models);
     printf("\n  Modelos da marca Mercedes: ");
-    printModels((*searchBrand("Mercedes", &car_store.root))->brand.models);
+    printModels((*searchBrand("Mercedes", &store->root))->brand.models);
     printf("\n  Modelos da marca Ford: ");
-    printModels((*searchBrand("Ford", &car_store.root))->brand.models);
+    printModels((*searchBrand("Ford", &store->root))->brand.models);
     enterpoint(true);
 
     m = "Mercedes";
     printf("\n TESTE 3) A Eliminar a marca '%s' da árvore\n", m);
     enterpoint(true);
 
-    removeBrand(&car_store.root, m);
-    printTree(car_store.root, tipo, "Marcas, sem Mercedes");
-    return ;
+    removeBrand(&store->root, m);
+    printTree(store->root, tipo, "Marcas, sem Mercedes");
+
+    clearScreen(false);
 }

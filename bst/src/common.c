@@ -3,11 +3,24 @@
 #include <stdbool.h>
 #include "forest.h"
 #include "common.h"
+#include "treeprinter.h"
+
+#define MAX_CLEAN_REPEAT_TIMES 32
+
+
+void line(int lim)
+{
+    printf("\n ");
+    for (int i = 0 ; i < lim ; ++i)
+        printf("%s", ROOT_BRANCH);
+    printf("\n");
+}
 
 
 void clearScreen(bool show_header)
 {
     system(CLEAR);
+
     if (show_header == true)
         header();
 }
@@ -15,6 +28,7 @@ void clearScreen(bool show_header)
 
 void enterpoint(bool show_header)
 {
+    fflush(stdin);
     printf("\n\n Clique em [ENTER] para continuar");
     getchar();
     fflush(stdin);
@@ -29,7 +43,6 @@ void cleanbuf(void)
 
 	/* Limpa o buffer, caso tiver muitas tentativas, termina a execução. */
 	while ((c = getc(stdin)) != '\n' && c != EOF) {
-
 		if (times++ > MAX_CLEAN_REPEAT_TIMES) {
 
 			printf("\n erro: atingiu-se o limite de falha!");
@@ -89,11 +102,12 @@ char *getName(char *txtname)
 /* Mostra o primeiro menu do programa.*/
 int menu_1(void)
 {
-    printf("\n\n Opções:");
+    printf("\n\n           Menu Inicial");
+    line(34);
     printf("\n    1 - Entrar como Cliente,");
     printf("\n    2 - Entrar como Administrador,");
     printf("\n    0 - Sair do programa.");
-    printf("\n Sua escolha > ");
+    printf("\n\n Sua escolha > ");
     return get_int();
 }
 
@@ -101,7 +115,7 @@ int menu_1(void)
 char menu_2()
 {
     printf("\n Escolha uma dessas opções:");
-    printf("\n    a - Consultar modelos de carros.");
+    printf("\n    a - Consultar modelos de uma marca.");
     printf("\n    b - Comprar modelo de carro de uma marca.");
     printf("\n    q - Voltar ao menu inicial.");
 	printf("\n Sua escolha > ");

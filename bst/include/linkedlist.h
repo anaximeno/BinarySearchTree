@@ -64,6 +64,11 @@ void freeModelList(model_llist **root);
 /* Mostra a lista de modelos. */
 void printModels(model_llist *root);
 
+
+/* Mostra listado todos os modelos de uma Marca. */
+void listModels(model_llist *head);
+
+
 #endif // LINKEDLIST_H
 
 
