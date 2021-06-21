@@ -28,7 +28,9 @@ void freetree(b_tree **root)
 void chargeBrandFromFile(char* filename, STORE *store)
 {
 	FILE *f = fopen(filename, "rt");
-	if ( f != NULL ) {
+
+	if (f != NULL)
+	{
 		char nome[NOMEMAX];
 		int ano, preco, qtdade;
 
@@ -37,9 +39,11 @@ void chargeBrandFromFile(char* filename, STORE *store)
 
 
 		/* Se a marca não for encontrada na arvore, cria nova árvore */
-		if ( *node == NULL ) {
+		if ( node == NULL )
+		{
 			insertBrand(marca, store, false);
-			if ( (node = searchBrand(marca, &store->root)) == NULL ) {
+			if ( (node = searchBrand(marca, &store->root)) == NULL )
+			{
 				printf("\n Erro: não foi possível criar marca '%s' na árvore!", marca);
 				fclose(f);
 				return ;
@@ -60,8 +64,12 @@ void chargeBrandFromFile(char* filename, STORE *store)
 		}
 
 		fclose(f);
-		printf("\n  Arquivo '%s' foi carregado para a árvore!\n", filename);
-	} else {
+		char output[NOMEMAX*4];
+		sprintf(output, "\n  Arquivo '%s' foi carregado para a árvore!\n", filename);
+		animate(output, 45);
+	}
+	else
+	{
 		printf("\n Erro: Não foi possível abrir o arquivo: '%s'!\n", filename);
 	}
 }
@@ -71,7 +79,8 @@ b_tree *createBinaryNode(char *position, b_tree *parent)
 {
 	b_tree *node = (b_tree *) malloc(sizeof(b_tree));
 
-	if (node != NULL) {
+	if (node != NULL)
+	{
 		node->level = parent == NULL ? 0 : parent->level+1;
 		node->left = node->right = NULL;
 		node->parent = parent;
@@ -84,29 +93,39 @@ b_tree *createBinaryNode(char *position, b_tree *parent)
 
 bool _insert_brand_in_tree(const char *nome, b_tree **root, char *position, b_tree *parent)
 {
-	if (*root == NULL) {
+	if (*root == NULL)
+	{
 		b_tree *node = createBinaryNode(position, parent);
         bool inserted = false;
 
-		if (node != NULL) {
+		if (node != NULL)
+		{
 			strcpy(node->brand.nome, nome);
 			node->brand.qtdade_modelos = 0;
 			node->brand.valor_total = 0;
 			node->brand.models = NULL;
 
             inserted = true;
-		} else {
+		}
+		else
+		{
             printf("\n Não foi possível alocar memória para inserir a marca '%s'\n", nome);
         }
 
 		*root = node;
 		return inserted;
 
-	} else if (strcmp(nome, (*root)->brand.nome) < 0) { // LEFT
+	}
+	else if (strcmp(nome, (*root)->brand.nome) < 0) // LEFT
+	{
 		return _insert_brand_in_tree(nome, &(*root)->left, L, *root);
-	} else if (strcmp(nome, (*root)->brand.nome) > 0) { // RIGHT
+	}
+	else if (strcmp(nome, (*root)->brand.nome) > 0) // RIGHT
+	{
 		return _insert_brand_in_tree(nome, &(*root)->right, R, *root);
-	} else {
+	}
+	else
+	{
 		printf("\n Marca: '%s' já se encontra na árvore!\n", nome);
 		return false;
 	}
@@ -115,9 +134,11 @@ bool _insert_brand_in_tree(const char *nome, b_tree **root, char *position, b_tr
 
 void insertBrand(const char *nome, STORE *store, bool verbose)
 {
-	if (_insert_brand_in_tree(nome, &store->root, "ROOT", NULL)) {
+	if (_insert_brand_in_tree(nome, &store->root, "ROOT", NULL))
+	{
         store->total_marcas++;
-        if (verbose == true) {
+        if (verbose == true)
+		{
             char output[NOMEMAX*2 + 1];
             sprintf(output, "\n Marca '%s' foi introduzida!\n", nome);
             animate(output, 10);
@@ -145,21 +166,60 @@ void insertModel(char *nome, char *marca,
 {
 	b_tree **node = searchBrand(marca, &store->root);
 
-	if (node != NULL) {
-		if (_insert_model_in_list(&(*node)->brand.models, nome, ano, preco, qtdade)) {
+	if (node != NULL)
+	{
+		if (_insert_model_in_list(&(*node)->brand.models, nome, ano, preco, qtdade))
+		{
 			(*node)->brand.qtdade_modelos++;
 			(*node)->brand.valor_total += preco*qtdade;
 			(*node)->brand.total_carros += qtdade;
 			store->total_modelos++;
-		} else {
+		}
+		else
+		{
 			printf("\n Não foi possível inserir o modelo '%s' na marca '%s'\n", nome, marca);
 		}
-	} else {
+	}
+	else
+	{
 		printf("\n Marca: '%s' não foi encontrada na árvore binária!", marca);
 	}
 }
 
 
+bool saveBrandInFile(STORE store, char *nome_marca)
+{
+	b_tree **brand = searchBrand(nome_marca, &store.root);
+
+	if(brand != NULL)
+	{
+		FILE *f = fopen(strcat(nome_marca, ".txt"), "wt");
+
+		if(f != NULL)
+		{
+			model_llist *node = (*brand)->brand.models;
+			while(node != NULL)
+			{
+				fprintf(f, "%s	%d	%d	%d\n", node->nome, node->ano,
+					node->preco, node->qtdade);
+				node = node->next;
+			}
+
+			fclose(f);
+			return true;
+		}
+		else
+		{
+			printf("\n Nao foi possível criar arquivo para guardar!");
+		}
+	}
+	else
+	{
+		printf("\n Marca: '%s' nao foi encontrada na arvore!", nome_marca);
+	}
+
+	return false;
+}
 
 
 void _inherit_position(b_tree *filho, b_tree *pai)
@@ -194,25 +254,32 @@ void removeBinaryNode(b_tree **root)
 	if (*root == NULL)
 		return ;
 
-	if ( (*root)->left == NULL && (*root)->right == NULL ) {
+	if ( (*root)->left == NULL && (*root)->right == NULL )
+	{
 		freeModelList(&(*root)->brand.models);
 		free(*root);
 		*root = NULL;
-	} else if ( (*root)->left != NULL && (*root)->right == NULL ) {
+	}
+	else if ( (*root)->left != NULL && (*root)->right == NULL )
+	{
 		b_tree *left = (*root)->left;
 		_inherit_position(left, *root);
 
 		freeModelList(&(*root)->brand.models);
 		free(*root);
 		*root = left;
-	} else if ( (*root)->right != NULL && (*root)->left == NULL ) {
+	}
+	else if ( (*root)->right != NULL && (*root)->left == NULL )
+	{
 		b_tree *right = (*root)->right;
 		_inherit_position(right, *root);
 
 		freeModelList(&(*root)->brand.models);
 		free(*root);
 		*root = right;
-	} else {
+	}
+	else
+	{
 		b_tree **tmp = _leftest_node(&(*root)->right);
 
 		/* Copiando a informação para o nó atual. */
@@ -243,11 +310,10 @@ void _list_brands(b_tree *node)
 
 void listBrands(STORE *store)
 {
-	if (store->root != NULL) {
+	if (store->root != NULL)
+	{
 		printf("\n  %s Marcas Disponiveis :", MIDDLE_BRANCH);
 		_list_brands(store->root);
 		printf("\n  %s%s%s\n", MIDDLE_BRANCH, LINE_BRANCH, LINE_BRANCH);
 	}
 }
-
-

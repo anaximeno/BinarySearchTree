@@ -76,11 +76,14 @@ int main(int argv, char *argc[])
     for (int i = 0 ; i < 15 ; ++i)
         insertBrand(marcas_teste[i], &car_store, false);
 
-    chargeBrandFromFile("Mercedes.txt", &car_store);
+    // chargeBrandFromFile("Mercedes.txt", &car_store);
 
     clearScreen(false);
     sprintf(output, "\n\t Oi, Seja Bem Vindo(a) a %s Store!", car_store.nome);
-    animate(output, 50);
+    animate(output, 60);
+    animate("\n\t\t Entrando no sistema", 60);
+    animate("....", 550);
+    clearScreen(false);
     while (true)
     {
         switch (menu_1())
@@ -89,20 +92,21 @@ int main(int argv, char *argc[])
             USER_TYPE = "Cliente";
 
             clientSection(&car_store);
-            USER_TYPE = "Undefinded";
+
+            USER_TYPE = "Undefined";
             break;
         case 2:  // Admin
             USER_TYPE = "Administrador";
             clearScreen(false);
 
             adminSection(&car_store);
-            USER_TYPE = "Undefinded";
+
+            USER_TYPE = "Undefined";
             break;
         case 0:  // Sair
             goto out;
         default:
             printf("\n Opção desconhecida!");
-            freebuffer();
             enterpoint(false);
         }
     }
@@ -154,7 +158,7 @@ void clientSection(STORE *store)
     int media;
 
     animate("\n Entrando na secção Cliente", 50);
-    animate("...", 650);
+    animate("...", 550);
 
     while (loop) {
         clearScreen(true);
@@ -283,7 +287,8 @@ void adminSection(STORE *store)
          nome_modelo[NOMEMAX],
          nome_marca[NOMEMAX],
          escolha,
-         output[NOMEMAX*4];
+         output[NOMEMAX*4],
+         nome_ficheiro[NOMEMAX];
 
     int tentativas = 0,
         tipo, opt, ano, preco, qtdade;
@@ -293,23 +298,28 @@ void adminSection(STORE *store)
     model_llist **modelo = NULL;
 
     putchar('\n');
-    while (tentativas < MAX_TRIES) {
+    while (tentativas < MAX_TRIES)
+    {
         tentativas++;
         printf("\n Digite a senha de Administrador : ");
         scanf(" %s", senha);
         freebuffer();
 
-        if (strcmp(senha, SENHA_ADMIN) != 0) {
+        if (strcmp(senha, SENHA_ADMIN) != 0)
+        {
             clearScreen(false);
-            printf("\n Senha Errada! Restam mais %d tentativas!", MAX_TRIES-tentativas);
-            if (tentativas == MAX_TRIES) {
+            printf("\n Senha Errada! Restam mais '%d' tentativas!", MAX_TRIES-tentativas);
+            if (tentativas == MAX_TRIES)
+            {
                 printf("\n Vai ser redirecionado para o menu inicial!");
                 enterpoint(true);
                 goto end;  // Volta para o menu anterior
             }
-        } else {
+        } 
+        else
+        {
             animate("\n Senha Correta, entrando na secção Administrador", 50);
-            animate("...", 650);
+            animate("...", 550);
             clearScreen(true);
             break;  // Sai do loop e continua o programa
         }
@@ -525,6 +535,47 @@ insert_marca:
             default:
                 printf("\n Opção desconhecida, escolha uma das opcoes indicadas!");
             }
+            enterpoint(true);
+            break;
+        case 'e': // Carregar marcas e modelos de um ficheiro
+            clearScreen(true);
+
+            printf("\n O ficheiro precisa ter a seguinte estrutura");
+            printf(" nome_da_marca.txt,\n com todos os modelos e seus dados escritos dentro!\n");
+            printf("\n Nome do ficheiro a Carregar : ");
+            scanf("%s", nome_ficheiro);
+            freebuffer();
+
+            chargeBrandFromFile(nome_ficheiro, store);
+
+            enterpoint(true);
+            break;
+        case 'f':
+            clearScreen(true);
+            printf("\n Nome da marca a guardar em arqivo : ");
+            scanf("%s", nome_marca);
+            freebuffer();
+
+            saveBrandInFile(*store, nome_marca);
+
+            enterpoint(true);
+            break;
+        case 'g':
+            clearScreen(true);
+            printf("\n Tem certeza que quer eliminar todos os dados da loda ? Sim (s) ou Nao (n) : ");
+            scanf(" %c", &escolha);
+
+            if (escolha == 's' || escolha == 'S')
+            {
+                animate("\n A eliminar todos os dados da loja", 50);
+                animate("....", 650);
+
+                freetree(&store->root);
+
+                animate("\n Todas as Marcas e Modelos foram apagados!", 40);
+            }
+            else
+                printf("\n Voltando ao menu anterior.");
             enterpoint(true);
             break;
         case 'q':  // Sair para o menu anterior

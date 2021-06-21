@@ -20,8 +20,7 @@
  *    -> valor (int) : guarda um valor inteiro
  *    -> level (int) : nivel do nó na árvore
  *    -> position (char *) : posicao da árvore pode ser "RIGHT", "LEFT" ou "ROOT"
- *    -> model (union struct _modelo) : estrutura que representa um modelo
- *    -> brand (union struct _marca) : estrutura que representa uma marca.
+ *    -> brand (struct _brand) : estrutura que representa uma marca.
  * */
 typedef struct _binarytree
 {
@@ -80,6 +79,10 @@ void insertModel(char *nome, char *marca, int ano,
 
 /* Procura e retorna um modelo em na árvore que se encontra dentro de uma marca. */
 b_tree *search_modelo(const char *nome, b_tree *marca_root);
+
+
+/* Guarda Marca e seus modelos em um arquivo, com nome_da_marca.txt */
+bool saveBrandInFile(STORE store, char *nome_marca);
 
 
 /* Limpa recursivamente uma árvore binária. */
