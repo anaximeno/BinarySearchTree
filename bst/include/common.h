@@ -33,7 +33,7 @@ void clearScreen(bool show_header);
 
 
 /* Limpa o buffer. */
-void cleanbuf(void);
+void freebuffer(void);
 
 
 /* Mostra o menu e retorna a opção escolhida. */
@@ -64,5 +64,8 @@ int menu_1(void);
 
 /* Mostra o menu do cliente e retorna a opção. */
 char menu_2(void);
+
+/* Mostra o menu de Administrador e retorna a opção escolhida. */
+char menu_3(void);
 
 #endif // COMMON_H

@@ -13,43 +13,41 @@
 #define DEPTH_MULTIPLIER 3
 
 
-void printTree(b_tree *root, char tipo, const char *title)
+void printTree(STORE store, int tipo, const char *title)
 {
-    clearScreen(true);
   	switch (tipo)
   	{
-  	case 'a':
+  	case 1:
   		/* Mostra a árvore binária em ordem. */
           printf("\n\n BINARY SEARCH TREE - %s", title);
   		printf(" - Em Ordem\n\n");
 
-  		_in_order(root);
+  		_in_order(store.root);
 
   		putchar('\n');
   		break;
-  	case 'b':
+  	case 2:
   		/* Mostra a árvore binária em pré ordem. */
   		printf("\n\n BINARY SEARCH TREE - %s", title);
   		printf(" - Pré Ordem\n\n");
 
-  		_pre_order(root);
+  		_pre_order(store.root);
 
   		putchar('\n');
   		break;
-  	case 'c':
+  	case 3:
   		/* Mostra a árvore binária em pós ordem. */
   		printf("\n\n BINARY SEARCH TREE - %s", title);
   		printf(" - Pós Ordem\n\n");
 
-  		_post_order(root);
+  		_post_order(store.root);
 
   		putchar('\n');
   		break;
   	default:
-  		printf("\n erro: opção desconhecida, escolha entre (a, b ou c)!\n");
+  		printf("\n erro: opção desconhecida, escolha entre (1, 2 ou 3)!\n");
   		break;
   	}
-    enterpoint(true);
 }
 
 

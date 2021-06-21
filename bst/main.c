@@ -102,7 +102,7 @@ int main(int argv, char *argc[])
             goto out;
         default:
             printf("\n Opção desconhecida!");
-            cleanbuf();
+            freebuffer();
             enterpoint(false);
         }
     }
@@ -168,12 +168,12 @@ void clientSection(STORE *store)
 
             printf("\n Nome da marca > ");
             scanf("%s", nome_marca);
-            cleanbuf();
+            freebuffer();
 
             marca = searchBrand(nome_marca, &store->root);
 
             clearScreen(true);
-            if (*marca != NULL)
+            if (marca != NULL)
             {
 
                 if ((*marca)->brand.models == NULL)
@@ -203,11 +203,11 @@ void clientSection(STORE *store)
 
             printf("\n Nome da Marca Pretendida > ");
             scanf("%s", nome_marca);
-            cleanbuf();
+            freebuffer();
 
             marca = searchBrand(nome_marca, &store->root);
 
-            if (*marca != NULL)
+            if (marca != NULL)
             {
                 clearScreen(true);
                 if ((*marca)->brand.models != NULL)
@@ -217,11 +217,11 @@ void clientSection(STORE *store)
 
                     printf("\n\n Nome do Modelo a Comprar > ");
                     scanf("%s", nome_modelo);
-                    cleanbuf();
+                    freebuffer();
 
                     modelo = searchModel(&(*marca)->brand.models, nome_modelo);
 
-                    if (*modelo != NULL)
+                    if (modelo != NULL)
                     {
                         if ((*modelo)->qtdade > 0)
                         {
@@ -277,17 +277,27 @@ void clientSection(STORE *store)
 
 void adminSection(STORE *store)
 {
-    char senha[9];
-    char tipo, *m;
-    int tentativas = 0;
+    bool loop = true;
 
+    char senha[9],
+         nome_modelo[NOMEMAX],
+         nome_marca[NOMEMAX],
+         escolha,
+         output[NOMEMAX*4];
+
+    int tentativas = 0,
+        tipo, opt, ano, preco, qtdade;
+
+    b_tree **marca = NULL;
+
+    model_llist **modelo = NULL;
 
     putchar('\n');
     while (tentativas < MAX_TRIES) {
         tentativas++;
         printf("\n Digite a senha de Administrador : ");
         scanf(" %s", senha);
-        cleanbuf();
+        freebuffer();
 
         if (strcmp(senha, SENHA_ADMIN) != 0) {
             clearScreen(false);
@@ -305,36 +315,226 @@ void adminSection(STORE *store)
         }
     }
 
-    /* Teste 1.1) - Mostra as marcas */
-    printf("\n\n De que forma mostrar a árvore? (a - em ordem, b - pre ordem, c - pos ordem)");
-    printf("\n Sua escolha > "); scanf(" %c", &tipo);
-    cleanbuf();
+    while (loop)
+    {
+       switch(menu_3())
+        {
+        case 'a':  // Ver arvore de marcas
+            clearScreen(true);
 
-    printTree(store->root, tipo, "Marcas");
+            printf("\n De que forma mostrar a arvore? (1 - em ordem, 2 - pre ordem, 3 - pos ordem)");
+            printf("\n Sua escolha > ");
+            tipo = get_int();
 
-    /* Teste 2 - carregamento de um arquivo de texto */
-    printf("\n TESTE 2) Carregando marcas de arquivos para a árvore:\n");
-    chargeBrandFromFile("Ford.txt", store);
-    chargeBrandFromFile("Toyota.txt", store);
+            clearScreen(true);
+            printTree(*store, tipo, "Marcas");
+            enterpoint(true);
+            break;
+        case 'b': // Ver modelos de uma marca
+            clearScreen(true);
+            printf("\n Nome da marca > ");
+            scanf("%s", nome_marca),
+            freebuffer();
 
-    /* Teste 2.0.1 - testa a abertura de um arquivo nao existente. */
-    chargeBrandFromFile("Popeye.xtx", store);
-    enterpoint(true);
+            marca = searchBrand(nome_marca, &store->root);
 
-    /* Teste 2.1) Mostra modelos de marcas */
-    printf("\n TESTE 2.1) Modelos das marcas que foram carregadas:\n");
-    printf("\n  Modelos da marca Toyota: ");
-    printModels((*searchBrand("Toyota", &store->root))->brand.models);
-    printf("\n  Modelos da marca Ford: ");
-    printModels((*searchBrand("Ford", &store->root))->brand.models);
-    enterpoint(true);
+            if(marca != NULL)
+            {
+                clearScreen(true);
+                printf("\n Modelos da marca %s : ", nome_marca);
+                printModels((*marca)->brand.models);
+            }
+            else
+            {
+                clearScreen(true);
+                printf("\n Marca: '%s' não foi encontrada na base de dados!", nome_marca);
+            }
 
-    m = "Mercedes";
-    printf("\n TESTE 3) A Eliminar a marca '%s' da árvore\n", m);
-    enterpoint(true);
+            enterpoint(true);
+            break;
+        case 'c':  // Inserir Marca ou Modelo na store
+            clearScreen(true);
 
-    removeBrand(&store->root, m);
-    printTree(store->root, tipo, "Marcas, sem Mercedes");
+            printf("\n Queres inserir uma Marca (1) ou um Modelo (2) ?");
+            printf("\n Sua opcao > ");
+            opt = get_int();
+            switch(opt)
+            {
+            case 1:  // Inserir Marca
+                clearScreen(true);
+                printf("\n Nome da Marca : ");
+                scanf("%s", nome_marca);
+                freebuffer();
+insert_marca:
+                insertBrand(nome_marca, store, true);
+                break;
+            case 2: // Inserir Modelo
+                clearScreen(true);
+                printf("\n Nome da Marca a inserir Modelo : ");
+                scanf("%s", nome_marca);
+                freebuffer();
+
+                marca = searchBrand(nome_marca, &store->root);
+
+                if (marca != NULL)
+                {
+                    printf("\n Nome do modelo : ");
+                    scanf("%s", nome_modelo);
+                    freebuffer();
+
+                    modelo = searchModel(&(*marca)->brand.models, nome_modelo);
+
+                    if (modelo == NULL)
+                    {
+                        printf("\n Ano : ");
+                        ano = get_int();
+
+                        printf("\n Preco : ");
+                        preco = get_int();
+
+                        printf("\n Quantidade : ");
+                        qtdade = get_int();
+
+                        if (_insert_model_in_list(&(*marca)->brand.models,
+                                            nome_modelo, ano, preco, qtdade))
+                        {
+                            (*marca)->brand.total_carros += qtdade;
+                            (*marca)->brand.valor_total += preco * qtdade;
+                            (*marca)->brand.qtdade_modelos++;
+                            store->total_modelos++;
+
+                            sprintf(output, "\n Modelo '%s' foi inserido na Marca '%s'!\n",
+                                                            nome_modelo, nome_marca);
+                            animate(output, 40);
+                        }
+                        else
+                        {
+                            printf("\n Não foi possível alocar memória para inserir a marca '%s'\n",
+                                                                nome_marca);
+                        }
+
+                    }
+                    else
+                    {
+                        printf("\n Modelo: '%s' já se encontra introduzido!", nome_modelo);
+                        printf("\n Quer adicionar mais desse a marca, Sim (s) ou Nao (n) ? > ");
+                        scanf(" %c", &escolha);
+                        freebuffer();
+                        if (escolha == 's' || escolha == 'S')
+                        {
+                            printf("\n Quantos mais adicionar ?");
+                            printf("\n Quantidade :");
+                            qtdade = get_int();
+
+                            (*modelo)->qtdade += qtdade;
+                            (*marca)->brand.total_carros += qtdade;
+                            (*marca)->brand.valor_total += (*modelo)->preco * qtdade;
+                            break;
+                        }
+                        else
+                        {
+                            printf("\n Cancelando a introducao de modelo e voltando ao menu anterior!");
+                        }
+                    }
+                }
+                else
+                {
+                    clearScreen(true);
+                    printf("\n Marca: '%s' não foi encontrada na base e dados!", nome_marca);
+                    printf("\n Inserir, Sim (s) ou Nao (n)? > ");
+                    scanf(" %c", &escolha);
+                    freebuffer();
+
+                    if (escolha == 's' || escolha == 'n')
+                        goto insert_marca;
+                }
+            default:
+                printf("\n Opcao desconhecida!");
+                fflush(stdin);
+            }
+            enterpoint(true);
+            break;
+        case 'd':  // Remover uma marca ou modelo
+            clearScreen(true);
+            printf("\n Quer remover uma Marca (1) ou Modelo (2) ? > ");
+            opt = get_int();
+
+            switch(opt)
+            {
+            case 1:  // Remover Marca
+                printf("\n Nome da marca a remover : ");
+                scanf("%s", nome_marca);
+                freebuffer();
+
+                marca = searchBrand(nome_marca, &store->root);
+
+                if (marca != NULL)
+                {
+                    clearScreen(true);
+                    sprintf(output, "\n A remover a marca %s", nome_marca);
+                    animate(output, 40);
+                    animate("...", 650);
+
+                    removeBinaryNode(marca);
+
+                    animate("\n A marca foi removida!", 40);
+                }
+                else
+                {
+                    clearScreen(true);
+                    printf("\n Marca: '%s' não foi encontrada na base de dados!", nome_marca);
+                }
+                break;
+            case 2:  // Remover Modelo
+                printf("\n Nome da Marca do Modelo : ");
+                scanf("%s", nome_marca);
+                freebuffer();
+
+                if ((marca = searchBrand(nome_marca, &store->root)) != NULL)
+                {
+                    printf("\n Nome do modelo a remover : ");
+                    scanf("%s", nome_modelo);
+                    freebuffer();
+
+                    modelo = searchModel(&(*marca)->brand.models, nome_modelo);
+
+                    if(modelo != NULL)
+                    {
+                        clearScreen(true);
+                        sprintf(output, "\n A remover a modelo %s da marca %s", nome_modelo, nome_marca);
+                        animate(output, 40);
+                        animate("...", 650);
+
+                        removeModel(&(*marca)->brand.models, nome_modelo);
+
+                        animate("\n O modelo foi removido!", 40);
+                    }
+                    else
+                    {
+                        clearScreen(true);
+                        printf("\n Modelo: '%s' não foi encontrada na base de dados!", nome_modelo);
+                    }
+                }
+                else
+                {
+                    clearScreen(true);
+                    printf("\n Marca: '%s' não foi encontrada na base de dados!", nome_marca);
+                }
+                break;
+            default:
+                printf("\n Opção desconhecida!");
+            }
+            enterpoint(true);
+            break;
+        case 'q':  // Sair para o menu anterior
+            goto end;
+        default:
+            printf("\n Opção desconhecida!");
+            enterpoint(true);
+            fflush(stdin);
+        }
+    }
+
 end:
     clearScreen(false);
 }

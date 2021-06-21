@@ -53,7 +53,7 @@ void chargeBrandFromFile(char* filename, STORE *store)
 			if(_insert_model_in_list(&(*node)->brand.models, nome, ano, preco, qtdade))
 			{
                 (*node)->brand.qtdade_modelos++;
-                (*node)->brand.valor_total += preco;
+                (*node)->brand.valor_total += preco*qtdade;
                 (*node)->brand.total_carros += qtdade;
                 store->total_modelos++;
 			}
@@ -119,7 +119,7 @@ void insertBrand(const char *nome, STORE *store, bool verbose)
         store->total_marcas++;
         if (verbose == true) {
             char output[NOMEMAX*2 + 1];
-            sprintf(output, "\n  Marca '%s' foi introduzida!\n", nome);
+            sprintf(output, "\n Marca '%s' foi introduzida!\n", nome);
             animate(output, 10);
         }
     }
@@ -128,7 +128,7 @@ void insertBrand(const char *nome, STORE *store, bool verbose)
 b_tree **searchBrand(const char *nome, b_tree **root)
 {
 	if (*root == NULL)
-		return root;
+		return NULL;
 	else if (strcmp(nome, (*root)->brand.nome) < 0)
 		return searchBrand(nome, &(*root)->left);
 	else if (strcmp(nome, (*root)->brand.nome) > 0)
@@ -145,12 +145,12 @@ void insertModel(char *nome, char *marca,
 {
 	b_tree **node = searchBrand(marca, &store->root);
 
-	if (*node != NULL) {
+	if (node != NULL) {
 		if (_insert_model_in_list(&(*node)->brand.models, nome, ano, preco, qtdade)) {
 			(*node)->brand.qtdade_modelos++;
-			(*node)->brand.valor_total += preco;
+			(*node)->brand.valor_total += preco*qtdade;
+			(*node)->brand.total_carros += qtdade;
 			store->total_modelos++;
-			printf("\n Modelo '%s' inserido na marca '%s'\n", nome, marca);
 		} else {
 			printf("\n Não foi possível inserir o modelo '%s' na marca '%s'\n", nome, marca);
 		}
@@ -182,7 +182,7 @@ b_tree **_leftest_node(b_tree **node)
 void removeBrand(b_tree **root, const char *marca)
 {
 	b_tree **brand = searchBrand(marca, root);
-	if (*brand != NULL)
+	if (brand != NULL)
 		removeBinaryNode(brand);
     else
         printf("\n Marca '%s' não foi encontrada ná árvore! Impossível eliminar.", marca);

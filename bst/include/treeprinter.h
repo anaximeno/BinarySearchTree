@@ -42,10 +42,10 @@ struct _divs *_get_divs(b_tree *node);
 
 
 /**  Mostra recursivamente uma árvore binária. Tem os tipos :
- *    -> a : em ordem,
- *    -> b : pré ordem,
- *    -> c : pós ordem. */
-void printTree(b_tree *root, char tipo, const char *title);
+ *    -> 1 : em ordem,
+ *    -> 2 : pré ordem,
+ *    -> 3 : pós ordem. */
+void printTree(STORE store, int tipo, const char *title);
 
 
 

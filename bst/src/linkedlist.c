@@ -98,23 +98,23 @@ bool _insert_model_in_list(model_llist **root, char *nome, int ano, int preco, i
 }
 
 
-void removeModel(model_llist **root, const char *nome)
+void removeModel(model_llist **head, const char *nome)
 {
-    if (!strcmp((*root)->nome, nome)) {
-        model_llist *next = (*root)->next;
-        free(*root);
-        *root = next;
+    if (!strcmp((*head)->nome, nome)) {
+        model_llist *next = (*head)->next;
+        free(*head);
+        *head = next;
     } else {
-        removeModel(&(*root)->next, nome);
+        removeModel(&(*head)->next, nome);
     }
 }
 
 
-void printModels(model_llist *root)
+void printModels(model_llist *head)
 {
     model_llist *node = NULL;
     printf(" [");
-    for (node=root ; node != NULL ; node=node->next)
+    for (node=head ; node != NULL ; node=node->next)
         printf(" %s", node->nome);
     printf(" ]\n");
 }
@@ -135,7 +135,7 @@ void listModels(model_llist *head)
 model_llist **searchModel(model_llist **head, const char *nome)
 {
     if (*head == NULL)
-        return head;
+        return NULL;
     else if (!strcmp(nome, (*head)->nome))
         return head;
     else

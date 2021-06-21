@@ -36,7 +36,7 @@ void enterpoint(bool show_header)
 }
 
 
-void cleanbuf(void)
+void freebuffer(void)
 {
 	int times = 0;
 	char c;
@@ -60,10 +60,11 @@ int get_int(void)
 	int x;
 
 	while (!scanf(" %d", &x)) {
-		cleanbuf();
+		freebuffer();
 		printf("\n Valor Inválido, insira um inteiro: ");
 	}
 
+    freebuffer();
 	return x;
 }
 
@@ -112,18 +113,44 @@ int menu_1(void)
 }
 
 
-char menu_2()
+char menu_2(void)
 {
     printf("\n Escolha uma dessas opções:");
+
     printf("\n    a - Consultar modelos de uma marca.");
     printf("\n    b - Comprar modelo de carro de uma marca.");
     printf("\n    q - Voltar ao menu inicial.");
+
 	printf("\n Sua escolha > ");
 
 	fflush(stdin);
 	char opt;
 	scanf(" %c", &opt);
-	cleanbuf();
+	freebuffer();
 
 	return opt;
+}
+
+
+char menu_3(void)
+{
+    printf("\n Escolha uma dessas opções:");
+
+    printf("\n   a - Ver Arvore de marcas,");
+    printf("\n   b - Ver Modelos de uma Marca,");
+    printf("\n   c - Inserir Marca ou Modelo,");
+    printf("\n   d - Remover Marca ou Modelo,");
+    printf("\n   e - Carregar Marcas e Modelos de um ficheiro,");
+    printf("\n   f - Salvar marca e seus modelos num ficheiro,");
+    printf("\n   g - Apagar todos os dados da loja,");
+    printf("\n   q - Sair da administracao da loja.");
+
+    printf("\n Sua escolha > ");
+
+    fflush(stdin);
+    char opt;
+    scanf(" %c", &opt);
+    freebuffer();
+
+    return opt;
 }
