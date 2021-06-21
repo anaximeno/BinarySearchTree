@@ -10,7 +10,7 @@
 
 
 
-#define DEPTH_MULTIPLIER 3
+#define DEPTH_MULTIPLIER 2
 
 
 void printTree(STORE store, int tipo, const char *title)

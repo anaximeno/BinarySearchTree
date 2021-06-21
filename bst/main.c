@@ -417,13 +417,13 @@ insert_marca:
                     else
                     {
                         printf("\n Modelo: '%s' já se encontra introduzido!", nome_modelo);
-                        printf("\n Quer adicionar mais desse a marca, Sim (s) ou Nao (n) ? > ");
+                        printf("\n Quer adicionar mais desse modelo, Sim (s) ou Nao (n) ? > ");
                         scanf(" %c", &escolha);
                         freebuffer();
                         if (escolha == 's' || escolha == 'S')
                         {
                             printf("\n Quantos mais adicionar ?");
-                            printf("\n Quantidade :");
+                            printf("\n Quantidade : ");
                             qtdade = get_int();
 
                             (*modelo)->qtdade += qtdade;
@@ -523,7 +523,7 @@ insert_marca:
                 }
                 break;
             default:
-                printf("\n Opção desconhecida!");
+                printf("\n Opção desconhecida, escolha uma das opcoes indicadas!");
             }
             enterpoint(true);
             break;
