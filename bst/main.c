@@ -230,7 +230,7 @@ void clientSection(STORE *store)
                             (*marca)->brand.valor_total -= (*modelo)->preco;
                             (*modelo)->qtdade--;
 
-                            sprintf(output, "\n Parabéns acabaste de o carro '%s %s' por %d$00!",
+                            sprintf(output, "\n Parabéns acabaste de comprar o carro '%s %s' por %d$00!",
                                 nome_marca, nome_modelo, (*modelo)->preco);
 
                             animate(output, 40);
@@ -448,6 +448,7 @@ insert_marca:
                     if (escolha == 's' || escolha == 'n')
                         goto insert_marca;
                 }
+	    	break;
             default:
                 printf("\n Opcao desconhecida!");
                 fflush(stdin);
