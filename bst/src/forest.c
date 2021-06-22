@@ -312,7 +312,9 @@ void listBrands(STORE *store)
 {
 	if (store->root != NULL)
 	{
-		printf("\n  %s Marcas Disponiveis :", MIDDLE_BRANCH);
+        printf("\n     %s%s%s", RIGHT_BRANCH, LINE_BRANCH, LINE_BRANCH);
+		printf("\n  %s%s Marcas Disponiveis", MIDDLE_BRANCH, VERTICAL_BRANCH);
+		printf("\n  %s %s%s%s", VERTICAL_BRANCH, LEFT_BRANCH, LINE_BRANCH, LINE_BRANCH);
 		_list_brands(store->root);
 		printf("\n  %s%s%s\n", MIDDLE_BRANCH, LINE_BRANCH, LINE_BRANCH);
 	}
