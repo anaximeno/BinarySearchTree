@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1624318086 source:/home/anaximeno/Github/binarysearchtree/bst/main.c
+1624320104 source:/home/anaximeno/Github/binarysearchtree/bst/main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>

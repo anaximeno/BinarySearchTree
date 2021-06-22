@@ -315,7 +315,7 @@ void adminSection(STORE *store)
                 enterpoint(true);
                 goto end;  // Volta para o menu anterior
             }
-        } 
+        }
         else
         {
             animate("\n Senha Correta, entrando na secção Administrador", 50);
@@ -563,7 +563,7 @@ insert_marca:
         case 'g':
             clearScreen(true);
             printf("\n Tem certeza que quer eliminar todos os dados da loda ? Sim (s) ou Nao (n) : ");
-            scanf(" %c", &escolha);
+            scanf(" %c", &escolha); freebuffer();
 
             if (escolha == 's' || escolha == 'S')
             {
