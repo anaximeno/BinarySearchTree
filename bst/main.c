@@ -106,7 +106,7 @@ int main(int argv, char *argc[])
         case 0:  // Sair
             goto out;
         default:
-            printf("\n Opção desconhecida!");
+            printf("\n Opcao desconhecida!");
             enterpoint(false);
         }
     }
@@ -119,15 +119,15 @@ out:
 void freedom(void)
 {
     if (car_store.root != NULL) {
-        animate("\n Limpando a memória", 30);
+        animate("\n Limpando a memoria", 30);
         animate("...", 650);
 
         freetree(&car_store.root);  // Limpa root caso não for limpado antes
 
-        animate(" A memória foi limpa!", 30);
+        animate(" A memoria foi limpa!", 30);
     }
 
-    animate("\n Saindo da execução, obrigado por usar o programa!\n\n", 30);
+    animate("\n Saindo da execucao, obrigado por usar o programa!\n\n", 30);
 }
 
 
@@ -157,7 +157,7 @@ void clientSection(STORE *store)
 
     int media;
 
-    animate("\n Entrando na secção Cliente", 50);
+    animate("\n Entrando na seccao Cliente", 50);
     animate("...", 550);
 
     while (loop) {
@@ -196,7 +196,7 @@ void clientSection(STORE *store)
             }
             else
             {
-                printf("\n Marca '%s' não foi encontrada na base de dados!", nome_marca);
+                printf("\n Marca '%s' nao foi encontrada na base de dados!", nome_marca);
             }
 
             enterpoint(true);
@@ -234,31 +234,31 @@ void clientSection(STORE *store)
                             (*marca)->brand.valor_total -= (*modelo)->preco;
                             (*modelo)->qtdade--;
 
-                            sprintf(output, "\n Parabéns acabaste de comprar o carro '%s %s' por %d$00!",
+                            sprintf(output, "\n Parabens acabaste de comprar o carro '%s %s' por %d$00!",
                                 nome_marca, nome_modelo, (*modelo)->preco);
 
                             animate(output, 40);
                         }
                         else
                         {
-                            printf("\n Infelizmente não há mais '%s %s' a venda!",
+                            printf("\n Infelizmente nao ha mais '%s %s' a venda!",
                                                         nome_marca, nome_modelo);
                         }
                     }
                     else
                     {
-                        printf("\n Modelo '%s' não foi encontrado na base de dados!",
+                        printf("\n Modelo '%s' nao foi encontrado na base de dados!",
                                                                      nome_modelo);
                     }
                 }
                 else
                 {
-                    printf("\n A marca %s não tem nenhum modelo a venda!", nome_marca);
+                    printf("\n A marca %s nao tem nenhum modelo a venda!", nome_marca);
                 }
             }
             else
             {
-                printf("\n Marca '%s' não foi encontrada na base de dados!",
+                printf("\n Marca '%s' nao foi encontrada na base de dados!",
                                                             nome_marca);
             }
 
@@ -268,7 +268,7 @@ void clientSection(STORE *store)
             loop = false;
             continue;
         default:
-            printf("\n Opção desconhecida!");
+            printf("\n Opcao desconhecida!");
             enterpoint(true);
             fflush(stdin);
         }
@@ -318,7 +318,7 @@ void adminSection(STORE *store)
         }
         else
         {
-            animate("\n Senha Correta, entrando na secção Administrador", 50);
+            animate("\n Senha Correta, entrando na seccao Administrador", 50);
             animate("...", 550);
             clearScreen(true);
             break;  // Sai do loop e continua o programa
@@ -357,7 +357,7 @@ void adminSection(STORE *store)
             else
             {
                 clearScreen(true);
-                printf("\n Marca: '%s' não foi encontrada na base de dados!", nome_marca);
+                printf("\n Marca: '%s' nao foi encontrada na base de dados!", nome_marca);
             }
 
             enterpoint(true);
@@ -419,14 +419,14 @@ insert_marca:
                         }
                         else
                         {
-                            printf("\n Não foi possível alocar memória para inserir a marca '%s'\n",
+                            printf("\n Nao foi possivel alocar memoria para inserir a marca '%s'\n",
                                                                 nome_marca);
                         }
 
                     }
                     else
                     {
-                        printf("\n Modelo: '%s' já se encontra introduzido!", nome_modelo);
+                        printf("\n Modelo: '%s' ja se encontra introduzido!", nome_modelo);
                         printf("\n Quer adicionar mais desse modelo, Sim (s) ou Nao (n) ? > ");
                         scanf(" %c", &escolha);
                         freebuffer();
@@ -450,7 +450,7 @@ insert_marca:
                 else
                 {
                     clearScreen(true);
-                    printf("\n Marca: '%s' não foi encontrada na base e dados!", nome_marca);
+                    printf("\n Marca: '%s' nao foi encontrada na base e dados!", nome_marca);
                     printf("\n Inserir, Sim (s) ou Nao (n)? > ");
                     scanf(" %c", &escolha);
                     freebuffer();
@@ -493,7 +493,7 @@ insert_marca:
                 else
                 {
                     clearScreen(true);
-                    printf("\n Marca: '%s' não foi encontrada na base de dados!", nome_marca);
+                    printf("\n Marca: '%s' nao foi encontrada na base de dados!", nome_marca);
                 }
                 break;
             case 2:  // Remover Modelo
@@ -523,17 +523,17 @@ insert_marca:
                     else
                     {
                         clearScreen(true);
-                        printf("\n Modelo: '%s' não foi encontrada na base de dados!", nome_modelo);
+                        printf("\n Modelo: '%s' nao foi encontrada na base de dados!", nome_modelo);
                     }
                 }
                 else
                 {
                     clearScreen(true);
-                    printf("\n Marca: '%s' não foi encontrada na base de dados!", nome_marca);
+                    printf("\n Marca: '%s' nao foi encontrada na base de dados!", nome_marca);
                 }
                 break;
             default:
-                printf("\n Opção desconhecida, escolha uma das opcoes indicadas!");
+                printf("\n Opcao desconhecida, escolha uma das opcoes indicadas!");
             }
             enterpoint(true);
             break;
@@ -562,7 +562,7 @@ insert_marca:
             break;
         case 'g':
             clearScreen(true);
-            printf("\n Tem certeza que quer eliminar todos os dados da loda ? Sim (s) ou Nao (n) : ");
+            printf("\n Tem certeza que quer eliminar todos os dados da loja ? Sim (s) ou Nao (n) : ");
             scanf(" %c", &escolha); freebuffer();
 
             if (escolha == 's' || escolha == 'S')
@@ -581,7 +581,7 @@ insert_marca:
         case 'q':  // Sair para o menu anterior
             goto end;
         default:
-            printf("\n Opção desconhecida!");
+            printf("\n Opccao desconhecida!");
             enterpoint(true);
             fflush(stdin);
         }
