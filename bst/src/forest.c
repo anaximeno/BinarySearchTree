@@ -6,7 +6,6 @@
 #include "forest.h"
 #include "linkedlist.h"
 #include "common.h"
-#include "treeprinter.h"
 
 
 

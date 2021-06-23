@@ -46,17 +46,12 @@ void insertInNumberList(linked_number **lista, int value)
 
 bool isInNumberList(linked_number *lista, int value)
 {
-    linked_number *node = lista;
-
-    while (node != NULL) {
-
-        if (node->value == value)
-            return true;
-
-        node = node->next;
-    }
-
-    return false;
+    if (lista == NULL)
+        return false;
+    else if (lista->value == value)
+        return true;
+    else
+        return isInNumberList(lista->next, value);
 }
 
 
@@ -75,7 +70,8 @@ model_llist *createModelList(char *nome, int ano, int preco, int qtdade)
 {
     model_llist *node = (model_llist *) malloc(sizeof(model_llist));
 
-    if (node != NULL) {
+    if (node != NULL)
+    {
         strcpy(node->nome, nome);
         node->ano = ano;
         node->preco = preco;
@@ -89,10 +85,13 @@ model_llist *createModelList(char *nome, int ano, int preco, int qtdade)
 
 bool _insert_model_in_list(model_llist **root, char *nome, int ano, int preco, int qtdade)
 {
-    if (*root == NULL) {
+    if (*root == NULL)
+    {
         *root = createModelList(nome, ano, preco,  qtdade);
-        return *root != NULL ? true : false;
-    } else {
+        return (bool) (*root != NULL);
+    }
+    else
+    {
         return _insert_model_in_list(&(*root)->next, nome, ano, preco, qtdade);
     }
 }
@@ -100,11 +99,14 @@ bool _insert_model_in_list(model_llist **root, char *nome, int ano, int preco, i
 
 void removeModel(model_llist **head, const char *nome)
 {
-    if (!strcmp((*head)->nome, nome)) {
+    if (!strcmp((*head)->nome, nome))
+    {
         model_llist *next = (*head)->next;
         free(*head);
         *head = next;
-    } else {
+    }
+    else
+    {
         removeModel(&(*head)->next, nome);
     }
 }

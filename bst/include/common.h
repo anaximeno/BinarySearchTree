@@ -2,17 +2,31 @@
 #define COMMON_H
 
 #define NOMEMAX 32
-///TODO: Salva árvore binária em arquivo '.bst'
+
 #ifdef unix
     #include <unistd.h>
     #define SLEEP(milisecs) ( usleep((milisecs*1000)) )
     #define CLEAR "clear"
+    #define BRANCH_SPACES "  "
+    #define VERTICAL_BRANCH "│ "
+    #define LEFT_BRANCH "└──"
+    #define RIGHT_BRANCH "┌──"
+    #define ROOT_BRANCH "━"
+    #define MIDDLE_BRANCH "├──"
+    #define LINE_BRANCH "───"
 #endif // unix
 
 #ifdef _WIN32
     #include <Windows.h>
     #define SLEEP(milisecs) ( Sleep(milisecs) )
     #define CLEAR "cls"
+    #define BRANCH_SPACES "  "
+    #define VERTICAL_BRANCH "| "
+    #define LEFT_BRANCH "'--"
+    #define RIGHT_BRANCH ".--"
+    #define ROOT_BRANCH "="
+    #define MIDDLE_BRANCH "|--"
+    #define LINE_BRANCH "---"
 #endif // _WIN32
 
 

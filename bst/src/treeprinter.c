@@ -55,11 +55,15 @@ struct _divs *_get_divs(b_tree *node)
 {
     DIVS *divs = (DIVS *) malloc (sizeof(DIVS));
 
-  	if (divs != NULL) {
-  		if (node->level == 0) {
+  	if (divs != NULL)
+	  {
+  		if (node->level == 0)
+		{
   			divs->f = '[';
   			divs->s = ']';
-  		} else {
+  		}
+		else
+		{
   			divs->f = '<';
   			divs->s = '>';
   		}
