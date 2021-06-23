@@ -29,7 +29,7 @@ void printTree(STORE store, int tipo, const char *title)
   	case 2:
   		/* Mostra a árvore binária em pré ordem. */
   		printf("\n\n BINARY SEARCH TREE - %s", title);
-  		printf(" - Pré Ordem\n\n");
+  		printf(" - Pre Ordem\n\n");
 
   		_pre_order(store.root);
 
@@ -45,7 +45,7 @@ void printTree(STORE store, int tipo, const char *title)
   		putchar('\n');
   		break;
   	default:
-  		printf("\n erro: opção desconhecida, escolha entre (1, 2 ou 3)!\n");
+  		printf("\n erro: opcao desconhecida, escolha entre (1, 2 ou 3)!\n");
   		break;
   	}
 }

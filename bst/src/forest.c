@@ -44,7 +44,7 @@ void chargeBrandFromFile(char* filename, STORE *store)
 			insertBrand(marca, store, false);
 			if ( (node = searchBrand(marca, &store->root)) == NULL )
 			{
-				printf("\n Erro: não foi possível criar marca '%s' na árvore!", marca);
+				printf("\n Erro: nao foi possivel criar marca '%s' na arvore!", marca);
 				fclose(f);
 				return ;
 			}
@@ -65,12 +65,12 @@ void chargeBrandFromFile(char* filename, STORE *store)
 
 		fclose(f);
 		char output[NOMEMAX*4];
-		sprintf(output, "\n  Arquivo '%s' foi carregado para a árvore!\n", filename);
+		sprintf(output, "\n  Arquivo '%s' foi carregado para a arvore!\n", filename);
 		animate(output, 45);
 	}
 	else
 	{
-		printf("\n Erro: Não foi possível abrir o arquivo: '%s'!\n", filename);
+		printf("\n Erro: Nao foi possivel abrir o arquivo: '%s'!\n", filename);
 	}
 }
 
@@ -109,7 +109,7 @@ bool _insert_brand_in_tree(const char *nome, b_tree **root, char *position, b_tr
 		}
 		else
 		{
-            printf("\n Não foi possível alocar memória para inserir a marca '%s'\n", nome);
+            printf("\n Nao foi possivel alocar memoria para inserir a marca '%s'\n", nome);
         }
 
 		*root = node;
@@ -126,7 +126,7 @@ bool _insert_brand_in_tree(const char *nome, b_tree **root, char *position, b_tr
 	}
 	else
 	{
-		printf("\n Marca: '%s' já se encontra na árvore!\n", nome);
+		printf("\n Marca: '%s' ja se encontra na arvore!\n", nome);
 		return false;
 	}
 }
@@ -177,12 +177,12 @@ void insertModel(char *nome, char *marca,
 		}
 		else
 		{
-			printf("\n Não foi possível inserir o modelo '%s' na marca '%s'\n", nome, marca);
+			printf("\n Nao foi possivel inserir o modelo '%s' na marca '%s'\n", nome, marca);
 		}
 	}
 	else
 	{
-		printf("\n Marca: '%s' não foi encontrada na árvore binária!", marca);
+		printf("\n Marca: '%s' nao foi encontrada na arvore binaria!", marca);
 	}
 }
 
@@ -210,7 +210,7 @@ bool saveBrandInFile(STORE store, char *nome_marca)
 		}
 		else
 		{
-			printf("\n Nao foi possível criar arquivo para guardar!");
+			printf("\n Nao foi possivel criar arquivo para guardar!");
 		}
 	}
 	else
@@ -245,7 +245,7 @@ void removeBrand(b_tree **root, const char *marca)
 	if (brand != NULL)
 		removeBinaryNode(brand);
     else
-        printf("\n Marca '%s' não foi encontrada ná árvore! Impossível eliminar.", marca);
+        printf("\n Marca '%s' nao foi encontrada na arvore! Impossivel eliminar.", marca);
 }
 
 

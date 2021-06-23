@@ -61,7 +61,7 @@ int get_int(void)
 
 	while (!scanf(" %d", &x)) {
 		freebuffer();
-		printf("\n Valor Inválido, insira um inteiro: ");
+		printf("\n Valor Invalido, insira um inteiro: ");
 	}
 
     freebuffer();
@@ -115,7 +115,7 @@ int menu_1(void)
 
 char menu_2(void)
 {
-    printf("\n Escolha uma dessas opções:");
+    printf("\n Escolha uma dessas opcoes:");
 
     printf("\n    a - Consultar modelos de uma marca.");
     printf("\n    b - Comprar modelo de carro de uma marca.");
@@ -134,7 +134,7 @@ char menu_2(void)
 
 char menu_3(void)
 {
-    printf("\n Escolha uma dessas opções:");
+    printf("\n Escolha uma dessas opcoes:");
 
     printf("\n   a - Ver Arvore de marcas,");
     printf("\n   b - Ver Modelos de uma Marca,");
