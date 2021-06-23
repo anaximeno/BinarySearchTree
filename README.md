@@ -1,9 +1,22 @@
-# Binary Search Tree (BST)
+# Gerenciador de loja de Carros V=1.1 
+## Binary Search Tree (BST) and Linked Lists
 Trabalho universitário, utilizando árvores binárias de pesquisa.
 
-O objetivo do trabalho e criar um gerenciador de uma loja de carros que guarda e agrupa os dados em duas árvores binárias:
+O objetivo do trabalho e criar um gerenciador de uma loja de carros que guarda e agrupa os dados em uma árvores binária e uma lista dentro de cada nó da árvore. Assim temos que:
 
- * Uma que guarda a as Marcas dos carros,
- * E outra que guarda modelos de carros das marcas.
+ * A árvore binária de pesquisa guarda as Marcas de Carros e,
+ * As listas dentro de cada nó da árvore guardam os respetivos modelos.
 
-As marcas encontram-se na árvore principal e os modelos encontram-se dentro de uma árvore dentro das marcas, então cada marca guarda a raiz dos seus modelos dentro delas. 
+
+## Utilização do Programa
+
+**OBS:** Primeiramente, antes da execução do programa aconselhamos usar a janela do terminal (ou command prompt) de forma maximizada para permitir uma melhor experiência!
+
+O programa é bastante intuitivo, e pode-se facilmente entender o seu funcionamento.   
+
+**Para ter acesso a secção Administrador do programa deve-se introduzir a chave: 1234**.
+
+Inicialmente foram deixadas alguns arquivos de marcas de carros salvos dentro da pasta principal. Esses arquivos devem ser utilizados para experimentar a opção de carregar uma Marca de um arquivo na secção Administrador, o usuário apenas tem de escrever o nome do arquivo que será carregado para a árvore binária.
+
+**Nota:** Embora não estritamente necessário, aconselha-se o uso de Sistemas Operativos baseados em UNIX (Linux, OS X, FreeBSD, etc) para a utilização do programa, devido a menor adaptabilidade do Windows OS com caracteres UTF-8 que foram principalmente usados de forma gráfica, porém ainda assim o programa é bastante apresentável no formato para Windows OS.
+
