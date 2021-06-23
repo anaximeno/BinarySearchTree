@@ -26,7 +26,7 @@
 
 * OBS: Recomendamos o uso de Sistemas Operativos baseados em unix (linux, mac os, freebsd, etc),
 para a utilização do programa pois, permitem uma melhor experiência gráfica devido a maior compatibilidade com
-caracteres UTF-8, porem, foi-se feito o possível para que o programa funcione de maneira satisfatória no Windows SO.
+caracteres UTF-8, porem, foi-se feito o possível para que o programa funcione de maneira satisfatória no Windows OS.
 
 **/
 #include <stdio.h>
@@ -134,10 +134,10 @@ void freedom(void)
 void header(void)
 {
     static char output[NOMEMAX*4];
-    sprintf(output, "\n  %s             %s             %s",
+    sprintf(output, "\n  %s             %s             %s\n",
                                         car_store.nome, __DATE__, USER_TYPE);
     printf(output);
-    line(ROOT_BRANCH, strlen(output)-1);
+    line(ROOT_BRANCH, strlen(output)-2);
     //printf("\n Total Marcas: %d\n Total Carros: %d\n", car_store.total_marcas,
     //                                                car_store.total_carros);
 }
@@ -265,7 +265,7 @@ void clientSection(STORE *store)
             enterpoint(true);
             break;
         case 'q':
-            animate("\n Saindo da seccao cliente", 35);
+            animate("\n Saindo da seccao Cliente", 35);
             loop = false;
             animate("...", 550);
             continue;
@@ -585,7 +585,7 @@ insert_marca:
             enterpoint(true);
             break;
         case 'q':  // Sair para o menu anterior
-            animate("\n Saindo da seccao administrador", 35);
+            animate("\n Saindo da seccao Administrador", 35);
             animate("...", 550);
             goto end;
         default:
