@@ -103,11 +103,13 @@ char *getName(char *txtname)
 /* Mostra o primeiro menu do programa.*/
 int menu_1(void)
 {
-    printf("\n\n           Menu Inicial");
-    line(ROOT_BRANCH, 34);
-    printf("\n    1 - Entrar como Cliente,");
-    printf("\n    2 - Entrar como Administrador,");
-    printf("\n    0 - Sair do programa.");
+    printf("\n\n                                 M E N U    I N I C I A L                                     ");
+    line(ROOT_BRANCH, 88);
+    printf("\n                                  1 - Entrar como Cliente                                        ");
+    printf("\n                               2 - Entrar como Administrador                                     ");
+    printf("\n                                  0 - Sair  do  programa                                         ");
+    printf("\n");
+    line(ROOT_BRANCH, 88);
     printf("\n\n Sua escolha > ");
     return get_int();
 }
@@ -120,8 +122,9 @@ char menu_2(void)
     printf("\n    a - Consultar modelos de uma marca.");
     printf("\n    b - Comprar modelo de carro de uma marca.");
     printf("\n    q - Voltar ao menu inicial.");
-
-	printf("\n Sua escolha > ");
+    printf("\n");
+    line(ROOT_BRANCH, 59);
+	printf(" Sua escolha > ");
 
 	fflush(stdin);
 	char opt;
@@ -144,8 +147,9 @@ char menu_3(void)
     printf("\n   f - Salvar marca e seus modelos num ficheiro,");
     printf("\n   g - Apagar todos os dados da loja,");
     printf("\n   q - Sair da administracao da loja.");
-
-    printf("\n Sua escolha > ");
+    printf("\n");
+    line(ROOT_BRANCH, 65);
+    printf(" Sua escolha > ");
 
     fflush(stdin);
     char opt;

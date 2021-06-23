@@ -184,3 +184,64 @@
 	"common.h"
 	"treeprinter.h"
 
+1624456537 source:c:\users\Ângelo carvalho\downloads\binarysearchtree-main\bst\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	<locale.h>
+	"common.h"
+	"linkedlist.h"
+	"forest.h"
+	"treeprinter.h"
+
+1624456537 c:\users\Ângelo carvalho\downloads\binarysearchtree-main\bst\include\common.h
+	<unistd.h>
+	<Windows.h>
+
+1624456537 c:\users\Ângelo carvalho\downloads\binarysearchtree-main\bst\include\linkedlist.h
+	<stdbool.h>
+	"common.h"
+
+1624456537 c:\users\Ângelo carvalho\downloads\binarysearchtree-main\bst\include\forest.h
+	<stdbool.h>
+	"common.h"
+	"linkedlist.h"
+
+1624456537 c:\users\Ângelo carvalho\downloads\binarysearchtree-main\bst\include\treeprinter.h
+	"linkedlist.h"
+	"forest.h"
+
+1624476772 source:c:\users\Ângelo carvalho\downloads\binarysearchtree-main\bst\src\common.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"forest.h"
+	"common.h"
+	"treeprinter.h"
+
+1624456537 source:c:\users\Ângelo carvalho\downloads\binarysearchtree-main\bst\src\forest.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	"forest.h"
+	"linkedlist.h"
+	"common.h"
+
+1624456537 source:c:\users\Ângelo carvalho\downloads\binarysearchtree-main\bst\src\linkedlist.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	"linkedlist.h"
+
+1624456537 source:c:\users\Ângelo carvalho\downloads\binarysearchtree-main\bst\src\treeprinter.c
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	"treeprinter.h"
+	"forest.h"
+	"linkedlist.h"
+	"common.h"
+
