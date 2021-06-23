@@ -38,7 +38,7 @@ void printTree(STORE store, int tipo, const char *title)
   	case 3:
   		/* Mostra a árvore binária em pós ordem. */
   		printf("\n\n BINARY SEARCH TREE - %s", title);
-  		printf(" - Pós Ordem\n\n");
+  		printf(" - Pos Ordem\n\n");
 
   		_post_order(store.root);
 

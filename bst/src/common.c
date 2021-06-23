@@ -8,11 +8,11 @@
 #define MAX_CLEAN_REPEAT_TIMES 32
 
 
-void line(int lim)
+void line(char *symbol, int times)
 {
     printf("\n ");
-    for (int i = 0 ; i < lim ; ++i)
-        printf("%s", ROOT_BRANCH);
+    for (int i = 0 ; i < times ; ++i)
+        printf("%s", symbol);
     printf("\n");
 }
 
@@ -104,7 +104,7 @@ char *getName(char *txtname)
 int menu_1(void)
 {
     printf("\n\n           Menu Inicial");
-    line(34);
+    line(ROOT_BRANCH, 34);
     printf("\n    1 - Entrar como Cliente,");
     printf("\n    2 - Entrar como Administrador,");
     printf("\n    0 - Sair do programa.");

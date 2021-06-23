@@ -193,7 +193,9 @@ bool saveBrandInFile(STORE store, char *nome_marca)
 
 	if(brand != NULL)
 	{
-		FILE *f = fopen(strcat(nome_marca, ".txt"), "wt");
+        char nome[NOMEMAX];
+        strcpy(nome, nome_marca);
+		FILE *f = fopen(strcat(nome, ".txt"), "wt");
 
 		if(f != NULL)
 		{

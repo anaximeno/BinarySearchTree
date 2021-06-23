@@ -17,7 +17,7 @@
 
 
 /* Desenha uma linha de tamanho lim. */
-void line(int lim);
+void line(char *symbol, int times);
 
 
 /* Limpa/liberta as variáveis no final da execução. */

@@ -80,8 +80,8 @@ int main(int argv, char *argc[])
 
     clearScreen(false);
     sprintf(output, "\n\t Oi, Seja Bem Vindo(a) a %s Store!", car_store.nome);
-    animate(output, 60);
-    animate("\n\t\t Entrando no sistema", 60);
+    animate(output, 30);
+    animate("\n\t\t Entrando no sistema", 30);
     animate("....", 550);
     clearScreen(false);
     while (true)
@@ -137,7 +137,7 @@ void header(void)
     sprintf(output, "\n  %s             %s             %s",
                                         car_store.nome, __DATE__, USER_TYPE);
     printf(output);
-    line(strlen(output)-1);
+    line(ROOT_BRANCH, strlen(output)-1);
     //printf("\n Total Marcas: %d\n Total Carros: %d\n", car_store.total_marcas,
     //                                                car_store.total_carros);
 }
@@ -237,7 +237,7 @@ void clientSection(STORE *store)
                             sprintf(output, "\n Parabens acabaste de comprar o carro '%s %s' por %d$00!",
                                 nome_marca, nome_modelo, (*modelo)->preco);
 
-                            animate(output, 40);
+                            animate(output, 35);
                         }
                         else
                         {
@@ -265,7 +265,9 @@ void clientSection(STORE *store)
             enterpoint(true);
             break;
         case 'q':
+            animate("\n Saindo da seccao cliente", 35);
             loop = false;
+            animate("...", 550);
             continue;
         default:
             printf("\n Opcao desconhecida!");
@@ -513,8 +515,8 @@ insert_marca:
                     {
                         clearScreen(true);
                         sprintf(output, "\n A remover a modelo %s da marca %s", nome_modelo, nome_marca);
-                        animate(output, 40);
-                        animate("...", 650);
+                        animate(output, 30);
+                        animate("...", 550);
 
                         removeModel(&(*marca)->brand.models, nome_modelo);
 
@@ -556,7 +558,11 @@ insert_marca:
             scanf("%s", nome_marca);
             freebuffer();
 
-            saveBrandInFile(*store, nome_marca);
+            if(saveBrandInFile(*store, nome_marca))
+            {
+                sprintf(output, "\n Marca: '%s' foi salva como '%s.txt'", nome_marca, nome_marca);
+                animate(output, 35);
+            }
 
             enterpoint(true);
             break;
@@ -567,18 +573,20 @@ insert_marca:
 
             if (escolha == 's' || escolha == 'S')
             {
-                animate("\n A eliminar todos os dados da loja", 50);
-                animate("....", 650);
+                animate("\n A eliminar todos os dados da loja", 40);
+                animate("....", 550);
 
                 freetree(&store->root);
 
-                animate("\n Todas as Marcas e Modelos foram apagados!", 40);
+                animate("\n Todas as Marcas e Modelos foram apagados!", 35);
             }
             else
                 printf("\n Voltando ao menu anterior.");
             enterpoint(true);
             break;
         case 'q':  // Sair para o menu anterior
+            animate("\n Saindo da seccao administrador", 35);
+            animate("...", 550);
             goto end;
         default:
             printf("\n Opccao desconhecida!");
