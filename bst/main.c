@@ -133,10 +133,10 @@ void freedom(void)
 
 void header(void)
 {
-    static char output[NOMEMAX*4];
-    sprintf(output, "\n  %s             %s             %s\n",
+    char output[NOMEMAX*4];
+    sprintf(output, "\n  %s             %s             %s",
                                         car_store.nome, __DATE__, USER_TYPE);
-    printf(output);
+    puts(output);
     line(ROOT_BRANCH, strlen(output)-2);
     //printf("\n Total Marcas: %d\n Total Carros: %d\n", car_store.total_marcas,
     //                                                car_store.total_carros);
@@ -151,11 +151,14 @@ void clientSection(STORE *store)
 
     b_tree **marca = NULL;
 
+    struct _brand *brand = NULL;
+
     model_llist **modelo = NULL;
 
     bool loop = true;
 
     int media;
+
 
     animate("\n Entrando na seccao Cliente", 50);
     animate("...", 550);
@@ -179,18 +182,23 @@ void clientSection(STORE *store)
             clearScreen(true);
             if (marca != NULL)
             {
-
-                if ((*marca)->brand.models == NULL)
+                brand = &(*marca)->brand;
+                if (brand->models == NULL)
                 {
                     printf("\n A marca '%s' tem 0 modelos.", nome_marca);
                 }
                 else
                 {
                     printf("\n Modelos da marca %s :", nome_marca);
-                    listModels((*marca)->brand.models);
-                    media = (int) (*marca)->brand.valor_total / (*marca)->brand.total_carros;
-                    printf("\n\n Modelos: %d ______ Carros: %d ______ Media por Carro: %d$00\n",
-                        (*marca)->brand.qtdade_modelos, (*marca)->brand.total_carros, media);
+                    listModels(brand->models);
+
+                    if (brand->total_carros > 0)
+                        media = brand->valor_total / brand->total_carros;
+                    else
+                        media = 0;
+
+                    printf("\n\n Modelos: %d ______ Total Carros: %d ______ Media por Carro: %d$00\n",
+                        brand->qtdade_modelos, brand->total_carros, media);
                 }
 
             }
@@ -214,24 +222,24 @@ void clientSection(STORE *store)
             if (marca != NULL)
             {
                 clearScreen(true);
-                if ((*marca)->brand.models != NULL)
+                if (brand->models != NULL)
                 {
                     printf("\n Modelos da marca %s :", nome_marca);
-                    listModels((*marca)->brand.models);
+                    listModels(brand->models);
 
                     printf("\n\n Nome do Modelo a Comprar > ");
                     scanf("%s", nome_modelo);
                     freebuffer();
 
-                    modelo = searchModel(&(*marca)->brand.models, nome_modelo);
+                    modelo = searchModel(&brand->models, nome_modelo);
 
                     if (modelo != NULL)
                     {
                         if ((*modelo)->qtdade > 0)
                         {
                             store->total_modelos--;
-                            (*marca)->brand.total_carros--;
-                            (*marca)->brand.valor_total -= (*modelo)->preco;
+                            brand->total_carros--;
+                            brand->valor_total -= (*modelo)->preco;
                             (*modelo)->qtdade--;
 
                             sprintf(output, "\n Parabens acabaste de comprar o carro '%s %s' por %d$00!",
@@ -297,6 +305,8 @@ void adminSection(STORE *store)
 
     b_tree **marca = NULL;
 
+    struct _brand *brand = NULL;
+
     model_llist **modelo = NULL;
 
     putchar('\n');
@@ -353,8 +363,9 @@ void adminSection(STORE *store)
             if(marca != NULL)
             {
                 clearScreen(true);
+                brand = &(*marca)->brand;
                 printf("\n Modelos da marca %s : ", nome_marca);
-                printModels((*marca)->brand.models);
+                printModels(brand->models);
             }
             else
             {
@@ -390,11 +401,12 @@ insert_marca:
 
                 if (marca != NULL)
                 {
+                    brand = &(*marca)->brand;
                     printf("\n Nome do modelo : ");
                     scanf("%s", nome_modelo);
                     freebuffer();
 
-                    modelo = searchModel(&(*marca)->brand.models, nome_modelo);
+                    modelo = searchModel(&brand->models, nome_modelo);
 
                     if (modelo == NULL)
                     {
@@ -407,12 +419,12 @@ insert_marca:
                         printf("\n Quantidade : ");
                         qtdade = get_int();
 
-                        if (_insert_model_in_list(&(*marca)->brand.models,
-                                            nome_modelo, ano, preco, qtdade))
+                        if ( _insert_model_in_list(&brand->models, nome_modelo,
+                            ano, preco, qtdade))
                         {
-                            (*marca)->brand.total_carros += qtdade;
-                            (*marca)->brand.valor_total += preco * qtdade;
-                            (*marca)->brand.qtdade_modelos++;
+                            brand->total_carros += qtdade;
+                            brand->valor_total += preco * qtdade;
+                            brand->qtdade_modelos++;
                             store->total_modelos++;
 
                             sprintf(output, "\n Modelo '%s' foi inserido na Marca '%s'!\n",
@@ -439,8 +451,8 @@ insert_marca:
                             qtdade = get_int();
 
                             (*modelo)->qtdade += qtdade;
-                            (*marca)->brand.total_carros += qtdade;
-                            (*marca)->brand.valor_total += (*modelo)->preco * qtdade;
+                            brand->total_carros += qtdade;
+                            brand->valor_total += (*modelo)->preco * qtdade;
                             break;
                         }
                         else
@@ -460,7 +472,7 @@ insert_marca:
                     if (escolha == 's' || escolha == 'n')
                         goto insert_marca;
                 }
-	    	break;
+                break;
             default:
                 printf("\n Opcao desconhecida!");
                 fflush(stdin);
@@ -509,7 +521,9 @@ insert_marca:
                     scanf("%s", nome_modelo);
                     freebuffer();
 
-                    modelo = searchModel(&(*marca)->brand.models, nome_modelo);
+                    brand = &(*marca)->brand;
+
+                    modelo = searchModel(&brand->models, nome_modelo);
 
                     if(modelo != NULL)
                     {
@@ -518,7 +532,8 @@ insert_marca:
                         animate(output, 30);
                         animate("...", 550);
 
-                        removeModel(&(*marca)->brand.models, nome_modelo);
+
+                        removeModel(&brand->models, nome_modelo);
 
                         animate("\n O modelo foi removido!", 40);
                     }

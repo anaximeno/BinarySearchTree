@@ -13,6 +13,17 @@
 
 
 
+
+struct _brand
+{
+    char nome[NOMEMAX];
+    int qtdade_modelos,
+        valor_total,
+        total_carros;
+    /* modelos aponta para uma lista, contendo todos os modelos dessa marca. */
+    model_llist *models;
+};
+
 /* Estrutura de árvore binária, com os campos:
  *    -> parent (struct _binarytree *) : estrutura pai do nó atual
  *    -> left (struct _binarytree *) : estrutura do lado esquerdo
@@ -28,14 +39,7 @@ typedef struct _binarytree
     char *position;
     int level;
 
-    struct _brand
-    {
-        char nome[NOMEMAX];
-        int qtdade_modelos, valor_total, total_carros;
-        /* modelos aponta para uma lista,
-           contendo todos os modelos dessa marca. */
-        model_llist *models;
-    } brand;
+    struct _brand brand;
 } b_tree;
 
 

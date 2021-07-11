@@ -102,6 +102,7 @@ bool _insert_brand_in_tree(const char *nome, b_tree **root, char *position, b_tr
 			strcpy(node->brand.nome, nome);
 			node->brand.qtdade_modelos = 0;
 			node->brand.valor_total = 0;
+			node->brand.total_carros = 0;
 			node->brand.models = NULL;
 
             inserted = true;
@@ -147,7 +148,7 @@ void insertBrand(const char *nome, STORE *store, bool verbose)
 
 b_tree **searchBrand(const char *nome, b_tree **root)
 {
-	if (*root == NULL)
+	if (root == NULL)
 		return NULL;
 	else if (strcmp(nome, (*root)->brand.nome) < 0)
 		return searchBrand(nome, &(*root)->left);
