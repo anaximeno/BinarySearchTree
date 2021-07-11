@@ -14,7 +14,7 @@ O objetivo do trabalho e criar um gerenciador de uma loja de carros que guarda e
 
 O programa é bastante intuitivo, e pode-se facilmente entender o seu funcionamento.   
 
-**Para ter acesso a secção Administrador do programa deve-se introduzir a chave: 1234**.
+***Para ter acesso a secção Administrador do programa deve-se introduzir a chave: 1234***.
 
 Inicialmente foram deixadas alguns arquivos de marcas de carros salvos dentro da pasta principal. Esses arquivos devem ser utilizados para experimentar a opção de carregar uma Marca de um arquivo na secção Administrador, o usuário apenas tem de escrever o nome do arquivo que será carregado para a árvore binária.
 
