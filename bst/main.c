@@ -104,6 +104,7 @@ int main(int argv, char *argc[])
             USER_TYPE = "Undefined";
             break;
         case 0:  // Sair
+            clearScreen(false);
             goto out;
         default:
             printf("\n Opcao desconhecida!");

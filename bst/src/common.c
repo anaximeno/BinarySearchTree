@@ -107,15 +107,18 @@ char *getName(char *txtname)
 /* Mostra o primeiro menu do programa.*/
 int menu_1(void)
 {
-    printf("\n\n                                 M E N U    I N I C I A L                                     \n");
-    printf("          "); line(ROOT_BRANCH, 71);
-    printf("\n                                  1 - Entrar como Cliente                                        ");
-    printf("\n\n                               2 - Entrar como Administrador                                     ");
-    printf("\n\n                                  0 - Sair  do  programa                                         \n");
+    printf("\n\n                            M E N U    I N I C I A L                                     \n");
+    printf("          "); line(ROOT_BRANCH, 59);
+    printf("\n                             1 - Entrar como Cliente                                        ");
+    printf("\n\n                         2 - Entrar como Administrador                                     ");
+    printf("\n\n                             0 - Sair  do  programa                                         \n");
     printf("\n");
-    printf("          "); line(ROOT_BRANCH, 71);
-    printf("\n\n Sua escolha > ");
-    return get_int();
+    printf("          "); line(ROOT_BRANCH, 59);
+    printf("\n                SUA ESCOLHA : ");
+    int opt = get_int();;
+
+    putchar('\n');
+    return opt;
 }
 
 
