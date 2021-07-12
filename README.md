@@ -1,4 +1,4 @@
-# Gerenciador de loja de Carros V=1.1 
+# Gerenciador de loja de Carros V=1.2 
 ## Binary Search Tree (BST) and Linked Lists
 Trabalho universitário, utilizando árvores binárias de pesquisa.
 
