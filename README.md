@@ -12,7 +12,7 @@ O objetivo do trabalho e criar um gerenciador de uma loja de carros que guarda e
 
 **OBS:** Primeiramente, antes da execução do programa aconselhamos usar a janela do terminal (ou command prompt) de forma maximizada para permitir uma melhor experiência!
 
-O programa é bastante intuitivo, e pode-se facilmente entender o seu funcionamento.   
+O programa é bastante intuitivo e facilmente entendível.
 
 ***Para ter acesso a secção Administrador do programa deve-se introduzir a chave: 1234***.
 
