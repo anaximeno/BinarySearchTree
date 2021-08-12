@@ -122,7 +122,7 @@ void _in_order(b_tree *root)
 
     DIVS *divs = _get_divs(root);
 
-	printf("%s%c%s%c\n", _in_order_branch(root), divs->f, root->brand.nome, divs->s);
+	printf("%s%c%s%c\n", _in_order_branch(root), divs->f, root->nome, divs->s);
 	free(divs);
 
 	_in_order(root->right);
@@ -185,7 +185,7 @@ void _pre_order(b_tree *root)
 
 	DIVS *divs = _get_divs(root);
 
-	printf("%s%c%s%c\n", _pre_order_branch(root), divs->f, root->brand.nome, divs->s);
+	printf("%s%c%s%c\n", _pre_order_branch(root), divs->f, root->nome, divs->s);
 
 	free(divs);
 	_pre_order(root->left);
@@ -250,6 +250,6 @@ void _post_order(b_tree *root)
 
 	DIVS *divs = _get_divs(root);
 
-	printf("%s%c%s%c\n", _post_order_branch(root), divs->f, root->brand.nome, divs->s);
+	printf("%s%c%s%c\n", _post_order_branch(root), divs->f, root->nome, divs->s);
 	free(divs);
 }

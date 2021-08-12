@@ -9,15 +9,15 @@
 
 
 
-void freetree(b_tree **root)
+void freeTree(b_tree **root)
 {
 	if (*root == NULL)
 		return ;
 
-	freeModelList(&(*root)->brand.models);
+	freeModelList(&(*root)->models);
 
-	freetree(&(*root)->left);
-	freetree(&(*root)->right);
+	freeTree(&(*root)->left);
+	freeTree(&(*root)->right);
 
 	free(*root);
 	*root = NULL;
@@ -30,7 +30,7 @@ void chargeBrandFromFile(char* filename, STORE *store)
 
 	if (f != NULL)
 	{
-		char nome[NOMEMAX];
+		char nome[NORMAL_STRING_SIZE];
 		int ano, preco, qtdade;
 
 		char *marca = getName(filename);
@@ -53,19 +53,19 @@ void chargeBrandFromFile(char* filename, STORE *store)
 		free(marca);
 		while ( fscanf(f, "%s %d %d %d", nome, &ano, &preco, &qtdade) != EOF )
 		{
-			if(_insert_model_in_list(&(*node)->brand.models, nome, ano, preco, qtdade))
+			if(_insert_model_in_list(&(* node)->models, nome, ano, preco, qtdade))
 			{
-                (*node)->brand.qtdade_modelos++;
-                (*node)->brand.valor_total += preco*qtdade;
-                (*node)->brand.total_carros += qtdade;
-                store->total_modelos++;
+                (* node)->qtdadeModelos++;
+                (* node)->valorTotal += preco*qtdade;
+                (* node)->totalCarros += qtdade;
+                store->totalModels++;
 			}
 		}
 
 		fclose(f);
-		char output[NOMEMAX*4];
+		char output[NORMAL_STRING_SIZE*4];
 		sprintf(output, "\n  Arquivo '%s' foi carregado para a arvore!\n", filename);
-		animate(output, 45);
+		animateOutput(output, 45);
 	}
 	else
 	{
@@ -99,11 +99,11 @@ bool _insert_brand_in_tree(const char *nome, b_tree **root, char *position, b_tr
 
 		if (node != NULL)
 		{
-			strcpy(node->brand.nome, nome);
-			node->brand.qtdade_modelos = 0;
-			node->brand.valor_total = 0;
-			node->brand.total_carros = 0;
-			node->brand.models = NULL;
+			strcpy(node->nome, nome);
+			node->qtdadeModelos = 0;
+			node->valorTotal = 0;
+			node->totalCarros = 0;
+			node->models = NULL;
 
             inserted = true;
 		}
@@ -116,11 +116,11 @@ bool _insert_brand_in_tree(const char *nome, b_tree **root, char *position, b_tr
 		return inserted;
 
 	}
-	else if (strcmp(nome, (*root)->brand.nome) < 0) // LEFT
+	else if (strcmp(nome, (*root)->nome) < 0) // LEFT
 	{
 		return _insert_brand_in_tree(nome, &(*root)->left, L, *root);
 	}
-	else if (strcmp(nome, (*root)->brand.nome) > 0) // RIGHT
+	else if (strcmp(nome, (*root)->nome) > 0) // RIGHT
 	{
 		return _insert_brand_in_tree(nome, &(*root)->right, R, *root);
 	}
@@ -136,12 +136,12 @@ void insertBrand(const char *nome, STORE *store, bool verbose)
 {
 	if (_insert_brand_in_tree(nome, &store->root, "ROOT", NULL))
 	{
-        store->total_marcas++;
+        store->totalMarcas++;
         if (verbose == true)
 		{
-            char output[NOMEMAX*2 + 1];
+            char output[NORMAL_STRING_SIZE*2 + 1];
             sprintf(output, "\n Marca '%s' foi introduzida!\n", nome);
-            animate(output, 10);
+            animateOutput(output, 10);
         }
     }
 }
@@ -150,9 +150,9 @@ b_tree **searchBrand(const char *nome, b_tree **root)
 {
 	if (root == NULL)
 		return NULL;
-	else if (strcmp(nome, (*root)->brand.nome) < 0)
+	else if (strcmp(nome, (*root)->nome) < 0)
 		return searchBrand(nome, &(*root)->left);
-	else if (strcmp(nome, (*root)->brand.nome) > 0)
+	else if (strcmp(nome, (*root)->nome) > 0)
 		return searchBrand(nome, &(*root)->right);
 	else
 		return root;
@@ -168,12 +168,12 @@ void insertModel(char *nome, char *marca,
 
 	if (node != NULL)
 	{
-		if (_insert_model_in_list(&(*node)->brand.models, nome, ano, preco, qtdade))
+		if (_insert_model_in_list(&(*node)->models, nome, ano, preco, qtdade))
 		{
-			(*node)->brand.qtdade_modelos++;
-			(*node)->brand.valor_total += preco*qtdade;
-			(*node)->brand.total_carros += qtdade;
-			store->total_modelos++;
+			(*node)->qtdadeModelos++;
+			(*node)->valorTotal += preco*qtdade;
+			(*node)->totalCarros += qtdade;
+			store->totalModels++;
 		}
 		else
 		{
@@ -193,13 +193,13 @@ bool saveBrandInFile(STORE store, char *nome_marca)
 
 	if(brand != NULL)
 	{
-        char nome[NOMEMAX];
+        char nome[NORMAL_STRING_SIZE];
         strcpy(nome, nome_marca);
 		FILE *f = fopen(strcat(nome, ".txt"), "wt");
 
 		if(f != NULL)
 		{
-			model_llist *node = (*brand)->brand.models;
+			model_llist *node = (* brand)->models;
 			while(node != NULL)
 			{
 				fprintf(f, "%s	%d	%d	%d\n", node->nome, node->ano,
@@ -258,7 +258,7 @@ void removeBinaryNode(b_tree **root)
 
 	if ( (*root)->left == NULL && (*root)->right == NULL )
 	{
-		freeModelList(&(*root)->brand.models);
+		freeModelList(&(*root)->models);
 		free(*root);
 		*root = NULL;
 	}
@@ -267,7 +267,7 @@ void removeBinaryNode(b_tree **root)
 		b_tree *left = (*root)->left;
 		_inherit_position(left, *root);
 
-		freeModelList(&(*root)->brand.models);
+		freeModelList(&(*root)->models);
 		free(*root);
 		*root = left;
 	}
@@ -276,7 +276,7 @@ void removeBinaryNode(b_tree **root)
 		b_tree *right = (*root)->right;
 		_inherit_position(right, *root);
 
-		freeModelList(&(*root)->brand.models);
+		freeModelList(&(*root)->models);
 		free(*root);
 		*root = right;
 	}
@@ -285,12 +285,12 @@ void removeBinaryNode(b_tree **root)
 		b_tree **tmp = _leftest_node(&(*root)->right);
 
 		/* Copiando a informação para o nó atual. */
-		strcpy((*root)->brand.nome, (*tmp)->brand.nome);
-		(*root)->brand.qtdade_modelos = (*tmp)->brand.qtdade_modelos;
-		(*root)->brand.valor_total = (*tmp)->brand.valor_total;
-		(*root)->brand.models = (*tmp)->brand.models;
+		strcpy((* root)->nome, (* tmp)->nome);
+		(* root)->qtdadeModelos = (* tmp)->qtdadeModelos;
+		(* root)->valorTotal = (* tmp)->valorTotal;
+		(* root)->models = (* tmp)->models;
 		/* Desconecta tmp com a raíz dos modelos. */
-		(*tmp)->brand.models = NULL;
+		(* tmp)->models = NULL;
 
 		removeBinaryNode(tmp);
 	}
@@ -302,8 +302,7 @@ void _list_brands(b_tree *node)
 	if (node == NULL)
         return ;
 
-	printf("\n  %s %s (%d modelos) ", VERTICAL_BRANCH,
-                node->brand.nome, node->brand.qtdade_modelos);
+	printf("\n  %s %s (%d modelos) ", VERTICAL_BRANCH, node->nome, node->qtdadeModelos);
 
 	_list_brands(node->left);
 	_list_brands(node->right);

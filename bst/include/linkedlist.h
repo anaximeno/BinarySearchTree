@@ -19,15 +19,15 @@ typedef struct _numbered_linkedlist
 /* Estrutura de lista ligadas que representam um modelo de carro.
 
 Tem os campos:
-    -> next (struct _model_linkedlist *) : proximo nó da lista,
+    -> next (struct _linkedModel *) : proximo nó da lista,
     -> nome (char []) : nome do modelo,
     -> ano (int) : ano de lançamento do modelo,
     -> preco (int) : preço do modelo,
     -> qtdade (int) : quantidade de carros desse modelo. */
-typedef struct _model_linkedlist
+typedef struct _linkedModel
 {
-    struct _model_linkedlist *next;
-    char nome[NOMEMAX];
+    struct _linkedModel *next;
+    char nome[NORMAL_STRING_SIZE];
     int ano, preco, qtdade;
 } model_llist;
 

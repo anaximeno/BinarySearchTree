@@ -245,7 +245,7 @@
 	"linkedlist.h"
 	"common.h"
 
-1626129744 source:/home/anaximeno/Git/binarysearchtree/bst/src/common.c
+1628788924 source:/home/anaximeno/Git/binarysearchtree/bst/src/common.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -253,24 +253,24 @@
 	"common.h"
 	"treeprinter.h"
 
-1626127987 /home/anaximeno/Git/binarysearchtree/bst/include/forest.h
+1628793752 /home/anaximeno/Git/binarysearchtree/bst/include/forest.h
 	<stdbool.h>
 	"common.h"
 	"linkedlist.h"
 
-1626127987 /home/anaximeno/Git/binarysearchtree/bst/include/common.h
+1628793121 /home/anaximeno/Git/binarysearchtree/bst/include/common.h
 	<unistd.h>
 	<Windows.h>
 
-1626127987 /home/anaximeno/Git/binarysearchtree/bst/include/linkedlist.h
+1628789522 /home/anaximeno/Git/binarysearchtree/bst/include/linkedlist.h
 	<stdbool.h>
 	"common.h"
 
-1626127987 /home/anaximeno/Git/binarysearchtree/bst/include/treeprinter.h
+1628550977 /home/anaximeno/Git/binarysearchtree/bst/include/treeprinter.h
 	"linkedlist.h"
 	"forest.h"
 
-1626127988 source:/home/anaximeno/Git/binarysearchtree/bst/src/forest.c
+1628794444 source:/home/anaximeno/Git/binarysearchtree/bst/src/forest.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -279,14 +279,14 @@
 	"linkedlist.h"
 	"common.h"
 
-1626127988 source:/home/anaximeno/Git/binarysearchtree/bst/src/linkedlist.c
+1628795452 source:/home/anaximeno/Git/binarysearchtree/bst/src/linkedlist.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	<string.h>
 	"linkedlist.h"
 
-1626127988 source:/home/anaximeno/Git/binarysearchtree/bst/src/treeprinter.c
+1628794501 source:/home/anaximeno/Git/binarysearchtree/bst/src/treeprinter.c
 	<string.h>
 	<stdio.h>
 	<stdlib.h>
@@ -295,7 +295,7 @@
 	"linkedlist.h"
 	"common.h"
 
-1626129783 source:/home/anaximeno/Git/binarysearchtree/bst/main.c
+1628794883 source:/home/anaximeno/Git/binarysearchtree/bst/main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>

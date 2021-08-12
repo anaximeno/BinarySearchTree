@@ -1,7 +1,8 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#define NOMEMAX 32
+#define NORMAL_STRING_SIZE 32
+#define BIG_STRING_SIZE 4*NORMAL_STRING_SIZE
 
 #ifdef unix
     #include <unistd.h>
@@ -31,11 +32,11 @@
 
 
 /* Desenha uma linha de tamanho lim. */
-void line(char *symbol, int times);
+void drawLine(char *symbol, int times);
 
 
 /* Limpa/liberta as variáveis no final da execução. */
-void freedom(void);
+void freeMemory(void);
 
 
 /* Mostra o cabeçalho do programa. */
@@ -47,7 +48,7 @@ void clearScreen(bool show_header);
 
 
 /* Limpa o buffer. */
-void freebuffer(void);
+void freeBuffer(void);
 
 
 /* Mostra o menu e retorna a opção escolhida. */
@@ -55,7 +56,7 @@ int menu(void);
 
 
 /* Toma e retorna um valor inteiro do stdin. */
-int get_int(void);
+int get_int(void);      // TODO: put to receive an string and outputs it when getting the value
 
 
 /* Mostra uma mensagem que pede para clicar em
@@ -65,7 +66,7 @@ void enterpoint(bool show_header);
 
 /* Mostra uma string de forma 'animada'
 em que cada caractere aparece intervalado em 'milisecs'. */
-void animate(const char *texto, unsigned int milisecs);
+void animateOutput(const char *texto, unsigned int milisecs);
 
 
 /* Retorna uma string sem a sua extensão. */

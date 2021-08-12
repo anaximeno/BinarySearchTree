@@ -1,33 +1,19 @@
-/** PROJETO DE AED: Sistema de uma loja de carros, usando árvores binárias de pesquisa.
+/**                Sistema de uma loja de carros, usando árvores binárias de pesquisa e listas ligadas.
+@CURSO: Engenharia Informática e de Computadores, 1º ano, 2º semestre
+@DATA: junho de 2021
 
-* CURSO: Engenharia Informática e de Computadores, 1º ano, 2º semestre
+        *                                  *
+      **  ALGORÍTIMOS E ESTRUTURA DE DADOS  **
+        *                                  *
 
-* DATA: junho de 2021
-
-
- *                                  *
-** ALGORÍTIMOS E ESTRUTURA DE DADOS **
- *                                  *
-
-
-* PROJECTO: TIPO: Projeto final de Cadeira
-
-
-
-* DISCENTES:
-
-    * Anaxímeno Brito
-    * Ângelo Carvalho
-    * Márcia Andrade
-
-
-
-* PROFESSOR: José Olavo da Paz
-
-* OBS: Recomendamos o uso de Sistemas Operativos baseados em unix (linux, mac os, freebsd, etc),
+@DISCENTES:
+    - Anaxímeno Brito
+    - Ângelo Carvalho
+    - Márcia Andrade
+@PROFESSOR: José Olavo da Paz
+@OBS: Recomendamos o uso de Sistemas Operativos baseados em unix (linux, mac os, freebsd, etc),
 para a utilização do programa pois, permitem uma melhor experiência gráfica devido a maior compatibilidade com
 caracteres UTF-8, porem, foi-se feito o possível para que o programa funcione de maneira satisfatória no Windows OS.
-
 **/
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,439 +25,383 @@ caracteres UTF-8, porem, foi-se feito o possível para que o programa funcione d
 #include "forest.h"
 #include "treeprinter.h"
 
-#define SENHA_ADMIN "1234"
-#define MAX_TRIES 3
+#define ADMIN_PASSWORD "1234"
+#define MAX_ADMIN_ENTRY_TRIES 3
+
+// Chama a secção de administrador.
+void adminSection(void);
+// Chama a secção de cliente.
+void clientSection(void);
+
+/* Variável global que determina o tipo de usuário. */
+char *userType = "indefinido";
 
 
 /* Estrutura loja de carros que guarda a raíz das árvores, variável global. */
-STORE car_store = {
+STORE carStore = {
     .nome="AMEXUS MOTORS",
-    .total_marcas=0,
-    .total_modelos=0,
+    .totalMarcas=0,
+    .totalModels=0,
     .root=NULL
 };
 
 
-/* Variável global que determina o tipo de usuário. */
-char *USER_TYPE = "Undefined";
+// Liberta a memória utilizada pela árvore binária
+void freeMemory(void)
+{
+    if (carStore.root != NULL)
+    {
+        animateOutput("\n Limpando a memoria", 30);
+        animateOutput("...", 650);
+        // Limpa root caso não for limpado antes
+        freeTree(&carStore.root);
+        animateOutput(" A memoria foi limpa!", 30);
+    }
+    animateOutput("\n Saindo da execucao, obrigado por usar o programa!\n\n", 30);
+}
 
-/* Chama a secção de administrador. */
-void adminSection(STORE *store);
-/* Chama a secção de cliente. */
-void clientSection(STORE *store);
+
+// Chama e executa as intruções do primeiro menu
+static int runner()
+{
+    setlocale(LC_ALL, "Portuguese");
+    static bool stop = false;
+    int tries = 0;
+    char senha[NORMAL_STRING_SIZE];
+    switch (menu_1())
+    {
+        case 0:
+            clearScreen(false);
+            stop = true;
+            break;
+        case 1:
+            animateOutput("\n\t\tEntrando na seccao Cliente", 50);
+            animateOutput("...", 550);
+            userType = "Cliente";
+            clientSection();
+            break;
+        case 2:
+            clearScreen(false);
+            putchar('\n');
+            while (tries < MAX_ADMIN_ENTRY_TRIES)
+            {
+                tries++;
+                printf("\n Digite a senha de Administrador : ");
+                scanf(" %s", senha);
+                freeBuffer();
+
+                if (strcmp(senha, ADMIN_PASSWORD) != 0) {
+                    clearScreen(false);
+                    printf("\n Senha Errada! Restam mais '%d' tentativas!", MAX_ADMIN_ENTRY_TRIES-tries);
+                    if (tries == MAX_ADMIN_ENTRY_TRIES) {
+                        printf("\n Vai ser redirecionado para o menu inicial");
+                        animateOutput("...", 550);
+                        stop = true;
+                        break;
+                    }
+                } else {
+                    userType = "Administrador";
+                    animateOutput("\n Senha Correta, entrando na seccao Administrador", 50);
+                    animateOutput("...", 550);
+                    clearScreen(true);
+                    adminSection();
+                    break;
+                }
+            }
+            break;
+        default:
+            printf("\n Opcao desconhecida!");
+            enterpoint(false);
+    }
+    userType = "indefinido";
+    if (!stop)
+        return runner();
+    else
+        return 0;
+}
 
 
 int main(int argv, char *argc[])
 {
-    atexit(freedom);
+    char output[BIG_STRING_SIZE];
     setlocale(LC_ALL, "Portuguese");
+    atexit(freeMemory);
 
-    char output[NOMEMAX*4];
+    sprintf(output, "\n\t Oi, Seja Bem Vindo(a) a %s Store!", carStore.nome);
 
     /* Carregando o sistema com algumas marcas, para testes */
-    char *marcas_teste[] = {"Mercedes", "Toyota", "Renault", "Chevrolet", "Suzuki",
-                            "Audi", "Abarth", "Bentley", "Citroen", "Ford",
-                            "Volvo", "Volkswagen", "Tesla", "Seat", "Porsche"};
+    char *marcasTeste[] = {
+        "Mercedes", "Toyota", "Renault", "Chevrolet", "Suzuki",
+        "Audi", "Abarth", "Bentley", "Citroen", "Ford",
+        "Volvo", "Volkswagen", "Tesla", "Seat", "Porsche"
+    };
 
     for (int i = 0 ; i < 15 ; ++i)
-        insertBrand(marcas_teste[i], &car_store, false);
-
-    // chargeBrandFromFile("Mercedes.txt", &car_store);
+        insertBrand(marcasTeste[i], &carStore, false);
 
     clearScreen(false);
-    sprintf(output, "\n\t Oi, Seja Bem Vindo(a) a %s Store!", car_store.nome);
-    animate(output, 30);
-    animate("\n\t\t Entrando no sistema", 30);
-    animate("....", 550);
+    animateOutput(output, 30);
+    animateOutput("\n\t\t Entrando no sistema", 30);
+    animateOutput("....", 550);
     clearScreen(false);
-    while (true)
-    {
-        switch (menu_1())
-        {
-        case 1:  // Cliente
-            USER_TYPE = "Cliente";
 
-            clientSection(&car_store);
-
-            USER_TYPE = "Undefined";
-            break;
-        case 2:  // Admin
-            USER_TYPE = "Administrador";
-            clearScreen(false);
-
-            adminSection(&car_store);
-
-            USER_TYPE = "Undefined";
-            break;
-        case 0:  // Sair
-            clearScreen(false);
-            goto out;
-        default:
-            printf("\n Opcao desconhecida!");
-            enterpoint(false);
-        }
-    }
-
-out:
-    return 0;
-}
-
-
-void freedom(void)
-{
-    if (car_store.root != NULL) {
-        animate("\n Limpando a memoria", 30);
-        animate("...", 650);
-
-        freetree(&car_store.root);  // Limpa root caso não for limpado antes
-
-        animate(" A memoria foi limpa!", 30);
-    }
-
-    animate("\n Saindo da execucao, obrigado por usar o programa!\n\n", 30);
+    return runner();
 }
 
 
 void header(void)
 {
-    char output[NOMEMAX*4];
-    sprintf(output, "\n  %s             %s             %s",
-                                        car_store.nome, __DATE__, USER_TYPE);
+    char output[BIG_STRING_SIZE];
+    sprintf(output, "\n  %s             %s             %s", carStore.nome, __DATE__, userType);
     puts(output);
-    line(ROOT_BRANCH, strlen(output)-2);
-    //printf("\n Total Marcas: %d\n Total Carros: %d\n", car_store.total_marcas,
-    //                                                car_store.total_carros);
+    drawLine(ROOT_BRANCH, strlen(output)-2);
 }
 
 
-void clientSection(STORE *store)
+void clientSection(void)
 {
-    char nome_marca[NOMEMAX],
-        nome_modelo[NOMEMAX],
-        output[NOMEMAX*4];
-
-    b_tree **marca = NULL;
-
-    struct _brand *brand = NULL;
-
-    model_llist **modelo = NULL;
-
+    char nomeDaMarca[NORMAL_STRING_SIZE], nomeDoModelo[NORMAL_STRING_SIZE], output[BIG_STRING_SIZE];
+    b_tree **nodeMarca = NULL;
+    b_tree *brand = NULL;
+    struct _linkedModel **nodeModelo = NULL;
+    struct _linkedModel *model = NULL;
     bool loop = true;
+    int media = 0;
 
-    int media;
-
-
-    animate("\n Entrando na seccao Cliente", 50);
-    animate("...", 550);
-
-    while (loop) {
+    while (loop == true)
+    {
         clearScreen(true);
-        listBrands(store);
-
+        listBrands(&carStore);
         switch(menu_2())
         {
-        case 'a': // Consultar modelos de uma marca
+        case 'a': /* Consultar modelos de uma marca */
             clearScreen(true);
-            listBrands(store);
-
-            printf("\n Nome da marca > ");
-            scanf("%s", nome_marca);
-            freebuffer();
-
-            marca = searchBrand(nome_marca, &store->root);
-
+            listBrands(&carStore);
+            printf("\n Nome da marca a consultar > ");
+            scanf("%s", nomeDaMarca);
+            freeBuffer();
             clearScreen(true);
-            if (marca != NULL)
-            {
-                brand = &(*marca)->brand;
-                if (brand->models == NULL)
-                {
-                    printf("\n A marca '%s' tem 0 modelos.", nome_marca);
-                }
-                else
-                {
-                    printf("\n Modelos da marca %s :", nome_marca);
-                    listModels(brand->models);
 
-                    if (brand->total_carros > 0)
-                        media = brand->valor_total / brand->total_carros;
-                    else
-                        media = 0;
+            nodeMarca = searchBrand(nomeDaMarca, &carStore.root);
 
-                    printf("\n\n Modelos: %d ______ Total Carros: %d ______ Media por Carro: %d$00\n",
-                        brand->qtdade_modelos, brand->total_carros, media);
-                }
-
+            if (nodeMarca == NULL) {
+                printf("\n Marca '%s' nao foi encontrada na base de dados!", nomeDaMarca);
+                enterpoint(true);
+                break;
+            } else if ((* nodeMarca)->models == NULL) {
+                printf("\n A marca '%s' nao tem nenhum modelo disponivel!", nomeDaMarca);
+                enterpoint(true);
+                break;
             }
-            else
-            {
-                printf("\n Marca '%s' nao foi encontrada na base de dados!", nome_marca);
-            }
+
+            brand = *nodeMarca;
+            media = brand->totalCarros > 0 ? brand->valorTotal / brand->totalCarros : 0;
+
+            printf("\n Modelos da marca %s :", nomeDaMarca);
+            listModels(brand->models);
+            // TODO: Criar uma opção de ver os dados dos modelos separadamente 
+            printf("\n\n Modelos: %d ______ Total Carros: %d ______ Media por Carro: %d$00\n",
+                brand->qtdadeModelos, brand->totalCarros, media);
 
             enterpoint(true);
             break;
-        case 'b': // comprar modelo de Carro de uma marca
+        case 'b': /* comprar modelo de Carro de uma marca */
             clearScreen(true);
-            listBrands(store);
+            listBrands(&carStore);
 
             printf("\n Nome da Marca Pretendida > ");
-            scanf("%s", nome_marca);
-            freebuffer();
+            scanf("%s", nomeDaMarca);
+            freeBuffer();
 
-            marca = searchBrand(nome_marca, &store->root);
+            nodeMarca = searchBrand(nomeDaMarca, &carStore.root);
 
-            if (marca != NULL)
-            {
-                clearScreen(true);
-                if (brand->models != NULL)
-                {
-                    printf("\n Modelos da marca %s :", nome_marca);
-                    listModels(brand->models);
-
-                    printf("\n\n Nome do Modelo a Comprar > ");
-                    scanf("%s", nome_modelo);
-                    freebuffer();
-
-                    modelo = searchModel(&brand->models, nome_modelo);
-
-                    if (modelo != NULL)
-                    {
-                        if ((*modelo)->qtdade > 0)
-                        {
-                            store->total_modelos--;
-                            brand->total_carros--;
-                            brand->valor_total -= (*modelo)->preco;
-                            (*modelo)->qtdade--;
-
-                            sprintf(output, "\n Parabens acabaste de comprar o carro '%s %s' por %d$00!",
-                                nome_marca, nome_modelo, (*modelo)->preco);
-
-                            animate(output, 35);
-                        }
-                        else
-                        {
-                            printf("\n Infelizmente nao ha mais '%s %s' a venda!",
-                                                        nome_marca, nome_modelo);
-                        }
-                    }
-                    else
-                    {
-                        printf("\n Modelo '%s' nao foi encontrado na base de dados!",
-                                                                     nome_modelo);
-                    }
-                }
-                else
-                {
-                    printf("\n A marca %s nao tem nenhum modelo a venda!", nome_marca);
-                }
-            }
-            else
-            {
-                printf("\n Marca '%s' nao foi encontrada na base de dados!",
-                                                            nome_marca);
+            if (nodeMarca == NULL) {
+                printf("\n Marca '%s' nao foi encontrada na base de dados!", nomeDaMarca);
+                enterpoint(true);
+                break;
+            } else if ((* nodeMarca)->models == NULL) {
+                printf("\n A marca '%s' nao tem nenhum modelo disponivel!", nomeDaMarca);
+                enterpoint(true);
+                break;
             }
 
+            brand = *nodeMarca;
+
+            printf("\n Modelos da marca %s :", nomeDaMarca);
+            listModels(brand->models);
+            printf("\n\n Nome do Modelo a Comprar > ");
+            scanf("%s", nomeDoModelo);
+            freeBuffer();
+
+            nodeModelo = searchModel(&brand->models, nomeDoModelo);
+
+            if (nodeModelo == NULL) {
+                printf("\n O modelo '%s' nao foi encontrado na base de dados!", nomeDoModelo);
+                enterpoint(true);
+                break;
+            } else if ((* nodeModelo)->qtdade <= 0) {
+                printf("\n Nao ha stock do modelo '%s %s' na store!", nomeDaMarca, nomeDoModelo);
+                enterpoint(true);
+                break;
+            }
+
+            model = *nodeModelo;
+
+            model->qtdade -= 1;
+            brand->totalCarros -= 1;
+            brand->valorTotal -= model->preco;
+            carStore.totalModels -= 1;
+
+            sprintf(output, "\n Parabens acabaste de comprar o carro '%s %s' por %d$00!",
+                nomeDaMarca, nomeDoModelo, model->preco);
+
+            animateOutput(output, 35);
             enterpoint(true);
             break;
         case 'q':
-            animate("\n Saindo da seccao Cliente", 35);
+            animateOutput("\n Saindo da seccao Cliente", 35);
+            animateOutput("...", 550);
             loop = false;
-            animate("...", 550);
             continue;
         default:
             printf("\n Opcao desconhecida!");
             enterpoint(true);
             fflush(stdin);
         }
-
-    }
-
-    clearScreen(false);
+    } clearScreen(false);
 }
 
 
-void adminSection(STORE *store)
+void adminSection()
 {
     bool loop = true;
+    char escolha,
+         nomeDoModelo[NORMAL_STRING_SIZE],
+         nomeDaMarca[NORMAL_STRING_SIZE],
+         output[BIG_STRING_SIZE],
+         nomeFicheiro[NORMAL_STRING_SIZE];
+    int tipo, ano, preco, qtdade;
+    b_tree **nodeMarca = NULL;
+    b_tree *brand = NULL;
+    struct _linkedModel **nodeModelo = NULL;
+    struct _linkedModel *model = NULL;
 
-    char senha[9],
-         nome_modelo[NOMEMAX],
-         nome_marca[NOMEMAX],
-         escolha,
-         output[NOMEMAX*4],
-         nome_ficheiro[NOMEMAX];
 
-    int tentativas = 0,
-        tipo, opt, ano, preco, qtdade;
-
-    b_tree **marca = NULL;
-
-    struct _brand *brand = NULL;
-
-    model_llist **modelo = NULL;
-
-    putchar('\n');
-    while (tentativas < MAX_TRIES)
-    {
-        tentativas++;
-        printf("\n Digite a senha de Administrador : ");
-        scanf(" %s", senha);
-        freebuffer();
-
-        if (strcmp(senha, SENHA_ADMIN) != 0)
-        {
-            clearScreen(false);
-            printf("\n Senha Errada! Restam mais '%d' tentativas!", MAX_TRIES-tentativas);
-            if (tentativas == MAX_TRIES)
-            {
-                printf("\n Vai ser redirecionado para o menu inicial!");
-                enterpoint(true);
-                goto end;  // Volta para o menu anterior
-            }
-        }
-        else
-        {
-            animate("\n Senha Correta, entrando na seccao Administrador", 50);
-            animate("...", 550);
-            clearScreen(true);
-            break;  // Sai do loop e continua o programa
-        }
-    }
-
-    while (loop)
+    while (loop == true)
     {
        switch(menu_3())
         {
         case 'a':  // Ver arvore de marcas
             clearScreen(true);
-
             printf("\n De que forma mostrar a arvore? (1 - em ordem, 2 - pre ordem, 3 - pos ordem)");
             printf("\n Sua escolha > ");
             tipo = get_int();
-
             clearScreen(true);
-            printTree(*store, tipo, "Marcas");
+            printTree(carStore, tipo, "Marcas");
             enterpoint(true);
             break;
         case 'b': // Ver modelos de uma marca
             clearScreen(true);
             printf("\n Nome da marca > ");
-            scanf("%s", nome_marca),
-            freebuffer();
+            scanf("%s", nomeDaMarca),
+            freeBuffer();
 
-            marca = searchBrand(nome_marca, &store->root);
+            nodeMarca = searchBrand(nomeDaMarca, &carStore.root);
 
-            if(marca != NULL)
-            {
+            if (nodeMarca == NULL) {
                 clearScreen(true);
-                brand = &(*marca)->brand;
-                printf("\n Modelos da marca %s : ", nome_marca);
-                printModels(brand->models);
+                printf("\n Marca: '%s' nao foi encontrada na base de dados!", nomeDaMarca);
+                enterpoint(true);
+                break;
             }
-            else
-            {
-                clearScreen(true);
-                printf("\n Marca: '%s' nao foi encontrada na base de dados!", nome_marca);
-            }
-
+            brand = *nodeMarca;
+            clearScreen(true);
+            printf("\n Modelos da marca %s : ", nomeDaMarca);
+            printModels(brand->models);
             enterpoint(true);
             break;
-        case 'c':  // Inserir Marca ou Modelo na store
+        case 'c':  // Inserir Marca ou Modelo na carStore
             clearScreen(true);
-
             printf("\n Queres inserir uma Marca (1) ou um Modelo (2) ?");
             printf("\n Sua opcao > ");
-            opt = get_int();
-            switch(opt)
+            switch(get_int())
             {
             case 1:  // Inserir Marca
                 clearScreen(true);
                 printf("\n Nome da Marca : ");
-                scanf("%s", nome_marca);
-                freebuffer();
-insert_marca:
-                insertBrand(nome_marca, store, true);
+                scanf("%s", nomeDaMarca);
+                freeBuffer();
+$insert_marca:
+                insertBrand(nomeDaMarca, &carStore, true);
                 break;
             case 2: // Inserir Modelo
                 clearScreen(true);
                 printf("\n Nome da Marca a inserir Modelo : ");
-                scanf("%s", nome_marca);
-                freebuffer();
+                scanf("%s", nomeDaMarca);
+                freeBuffer();
 
-                marca = searchBrand(nome_marca, &store->root);
+                nodeMarca = searchBrand(nomeDaMarca, &carStore.root);
 
-                if (marca != NULL)
-                {
-                    brand = &(*marca)->brand;
-                    printf("\n Nome do modelo : ");
-                    scanf("%s", nome_modelo);
-                    freebuffer();
-
-                    modelo = searchModel(&brand->models, nome_modelo);
-
-                    if (modelo == NULL)
-                    {
-                        printf("\n Ano : ");
-                        ano = get_int();
-
-                        printf("\n Preco : ");
-                        preco = get_int();
-
-                        printf("\n Quantidade : ");
-                        qtdade = get_int();
-
-                        if ( _insert_model_in_list(&brand->models, nome_modelo,
-                            ano, preco, qtdade))
-                        {
-                            brand->total_carros += qtdade;
-                            brand->valor_total += preco * qtdade;
-                            brand->qtdade_modelos++;
-                            store->total_modelos++;
-
-                            sprintf(output, "\n Modelo '%s' foi inserido na Marca '%s'!\n",
-                                                            nome_modelo, nome_marca);
-                            animate(output, 40);
-                        }
-                        else
-                        {
-                            printf("\n Nao foi possivel alocar memoria para inserir a marca '%s'\n",
-                                                                nome_marca);
-                        }
-
-                    }
-                    else
-                    {
-                        printf("\n Modelo: '%s' ja se encontra introduzido!", nome_modelo);
-                        printf("\n Quer adicionar mais desse modelo, Sim (s) ou Nao (n) ? > ");
-                        scanf(" %c", &escolha);
-                        freebuffer();
-                        if (escolha == 's' || escolha == 'S')
-                        {
-                            printf("\n Quantos mais adicionar ?");
-                            printf("\n Quantidade : ");
-                            qtdade = get_int();
-
-                            (*modelo)->qtdade += qtdade;
-                            brand->total_carros += qtdade;
-                            brand->valor_total += (*modelo)->preco * qtdade;
-                            break;
-                        }
-                        else
-                        {
-                            printf("\n Cancelando a introducao de modelo e voltando ao menu anterior!");
-                        }
-                    }
-                }
-                else
-                {
+                if (nodeMarca == NULL) {
                     clearScreen(true);
-                    printf("\n Marca: '%s' nao foi encontrada na base e dados!", nome_marca);
+                    printf("\n Marca: '%s' nao foi encontrada na base e dados!", nomeDaMarca);
                     printf("\n Inserir, Sim (s) ou Nao (n)? > ");
                     scanf(" %c", &escolha);
-                    freebuffer();
+                    freeBuffer();
 
-                    if (escolha == 's' || escolha == 'n')
-                        goto insert_marca;
+                    if (escolha == 's' || escolha == 'S')
+                        goto $insert_marca;
+                    else {
+                        break;
+                    }
+                }
+
+                brand = *nodeMarca;
+
+                printf("\n Nome do modelo : ");
+                scanf("%s", nomeDoModelo);
+                freeBuffer();
+
+                nodeModelo = searchModel(&brand->models, nomeDoModelo);
+
+                if (nodeModelo == NULL) {
+                    printf("\n Ano : ");
+                    ano = get_int();
+                    printf("\n Preco : ");
+                    preco = get_int();
+                    printf("\n Quantidade : ");
+                    qtdade = get_int();
+
+                    if (_insert_model_in_list(&brand->models, nomeDoModelo, ano, preco, qtdade)) {
+                        brand->totalCarros += qtdade;
+                        brand->valorTotal += preco * qtdade;
+                        brand->qtdadeModelos++;
+                        carStore.totalModels++;
+
+                        sprintf(output, "\n Modelo '%s' foi inserido na Marca '%s'!\n", nomeDoModelo, nomeDaMarca);
+                        animateOutput(output, 40);
+                    } else {
+                        printf("\n Nao foi possivel alocar memoria para inserir a marca '%s'\n", nomeDaMarca);
+                    }
+                } else {
+                    model = *nodeModelo;
+                    printf("\n Modelo: '%s' ja se encontra introduzido!", nomeDoModelo);
+                    printf("\n Quer adicionar mais desse modelo, Sim (s) ou Nao (n) ? > ");
+                    scanf(" %c", &escolha);
+                    freeBuffer();
+                    if (escolha == 's' || escolha == 'S')
+                    {
+                        printf("\n Quantos mais adicionar ?");
+                        printf("\n Quantidade : ");
+                        qtdade = get_int();
+                        model->qtdade += qtdade;
+                        brand->totalCarros += qtdade;
+                        brand->valorTotal += model->preco * qtdade;
+                        break;
+                    } else {
+                        printf("\n Cancelando a introducao de modelo e voltando ao menu anterior!");
+                        animateOutput("...", 300);
+                    }
                 }
                 break;
             default:
@@ -483,72 +413,64 @@ insert_marca:
         case 'd':  // Remover uma marca ou modelo
             clearScreen(true);
             printf("\n Quer remover uma Marca (1) ou Modelo (2) ? > ");
-            opt = get_int();
-
-            switch(opt)
+            switch(get_int())
             {
             case 1:  // Remover Marca
                 printf("\n Nome da marca a remover : ");
-                scanf("%s", nome_marca);
-                freebuffer();
+                scanf("%s", nomeDaMarca);
+                freeBuffer();
 
-                marca = searchBrand(nome_marca, &store->root);
+                nodeMarca = searchBrand(nomeDaMarca, &carStore.root);
 
-                if (marca != NULL)
-                {
+                if (nodeMarca == NULL) {
                     clearScreen(true);
-                    sprintf(output, "\n A remover a marca %s", nome_marca);
-                    animate(output, 40);
-                    animate("...", 650);
-
-                    removeBinaryNode(marca);
-
-                    animate("\n A marca foi removida!", 40);
+                    printf("\n Marca: '%s' nao foi encontrada na base de dados!", nomeDaMarca);
+                    break;
                 }
-                else
-                {
-                    clearScreen(true);
-                    printf("\n Marca: '%s' nao foi encontrada na base de dados!", nome_marca);
-                }
+
+                clearScreen(true);
+                sprintf(output, "\n A remover a marca %s", nomeDaMarca);
+                animateOutput(output, 40);
+                animateOutput("...", 650);
+
+                removeBinaryNode(nodeMarca);
+
+                animateOutput("\n A marca foi removida!", 40);
                 break;
             case 2:  // Remover Modelo
                 printf("\n Nome da Marca do Modelo : ");
-                scanf("%s", nome_marca);
-                freebuffer();
+                scanf("%s", nomeDaMarca);
+                freeBuffer();
 
-                if ((marca = searchBrand(nome_marca, &store->root)) != NULL)
-                {
-                    printf("\n Nome do modelo a remover : ");
-                    scanf("%s", nome_modelo);
-                    freebuffer();
+                nodeMarca = searchBrand(nomeDaMarca, &carStore.root);
 
-                    brand = &(*marca)->brand;
-
-                    modelo = searchModel(&brand->models, nome_modelo);
-
-                    if(modelo != NULL)
-                    {
-                        clearScreen(true);
-                        sprintf(output, "\n A remover a modelo %s da marca %s", nome_modelo, nome_marca);
-                        animate(output, 30);
-                        animate("...", 550);
-
-
-                        removeModel(&brand->models, nome_modelo);
-
-                        animate("\n O modelo foi removido!", 40);
-                    }
-                    else
-                    {
-                        clearScreen(true);
-                        printf("\n Modelo: '%s' nao foi encontrada na base de dados!", nome_modelo);
-                    }
+                if (nodeMarca == NULL) {
+                    clearScreen(true);
+                    printf("\n Marca: '%s' nao foi encontrada na base de dados!", nomeDaMarca);
+                    break;
                 }
-                else
+                printf("\n Nome do modelo a remover : ");
+                scanf("%s", nomeDoModelo);
+                freeBuffer();
+
+                brand = *nodeMarca;
+                nodeModelo = searchModel(&brand->models, nomeDoModelo);
+
+                if ( nodeModelo == NULL)
                 {
                     clearScreen(true);
-                    printf("\n Marca: '%s' nao foi encontrada na base de dados!", nome_marca);
+                    printf("\n Modelo: '%s' nao foi encontrada na base de dados!", nomeDoModelo);
+                    break;
                 }
+
+                clearScreen(true);
+                sprintf(output, "\n A remover a modelo %s da marca %s", nomeDoModelo, nomeDaMarca);
+                animateOutput(output, 30);
+                animateOutput("...", 550);
+
+                removeModel(&brand->models, nomeDoModelo);
+
+                animateOutput("\n O modelo foi removido!", 40);
                 break;
             default:
                 printf("\n Opcao desconhecida, escolha uma das opcoes indicadas!");
@@ -557,27 +479,23 @@ insert_marca:
             break;
         case 'e': // Carregar marcas e modelos de um ficheiro
             clearScreen(true);
-
             printf("\n O ficheiro precisa ter a seguinte estrutura");
             printf(" nome_da_marca.txt,\n com todos os modelos e seus dados escritos dentro!\n");
             printf("\n Nome do ficheiro a Carregar : ");
-            scanf("%s", nome_ficheiro);
-            freebuffer();
-
-            chargeBrandFromFile(nome_ficheiro, store);
-
+            scanf("%s", nomeFicheiro);
+            freeBuffer();
+            chargeBrandFromFile(nomeFicheiro, &carStore);
             enterpoint(true);
             break;
         case 'f':
             clearScreen(true);
-            printf("\n Nome da marca a guardar em arqivo : ");
-            scanf("%s", nome_marca);
-            freebuffer();
+            printf("\n Nome da marca a guardar em arquivo : ");
+            scanf("%s", nomeDaMarca);
+            freeBuffer();
 
-            if(saveBrandInFile(*store, nome_marca))
-            {
-                sprintf(output, "\n Marca: '%s' foi salva como '%s.txt'", nome_marca, nome_marca);
-                animate(output, 35);
+            if(saveBrandInFile(carStore, nomeDaMarca)) {
+                sprintf(output, "\n Marca: '%s' foi salva como '%s.txt'", nomeDaMarca, nomeDaMarca);
+                animateOutput(output, 35);
             }
 
             enterpoint(true);
@@ -585,32 +503,29 @@ insert_marca:
         case 'g':
             clearScreen(true);
             printf("\n Tem certeza que quer eliminar todos os dados da loja ? Sim (s) ou Nao (n) : ");
-            scanf(" %c", &escolha); freebuffer();
+            scanf(" %c", &escolha);
+            freeBuffer();
 
-            if (escolha == 's' || escolha == 'S')
-            {
-                animate("\n A eliminar todos os dados da loja", 40);
-                animate("....", 550);
+            if (escolha == 's' || escolha == 'S') {
+                animateOutput("\n A eliminar todos os dados da loja", 40);
+                animateOutput("....", 550);
 
-                freetree(&store->root);
+                freeTree(&carStore.root);
 
-                animate("\n Todas as Marcas e Modelos foram apagados!", 35);
-            }
-            else
+                animateOutput("\n Todas as Marcas e Modelos foram apagados!", 35);
+            } else
                 printf("\n Voltando ao menu anterior.");
             enterpoint(true);
             break;
         case 'q':  // Sair para o menu anterior
-            animate("\n Saindo da seccao Administrador", 35);
-            animate("...", 550);
-            goto end;
+            animateOutput("\n Saindo da seccao Administrador", 35);
+            animateOutput("...", 550);
+            loop = false;
+            break;
         default:
             printf("\n Opccao desconhecida!");
             enterpoint(true);
             fflush(stdin);
         }
-    }
-
-end:
-    clearScreen(false);
+    } clearScreen(false);
 }

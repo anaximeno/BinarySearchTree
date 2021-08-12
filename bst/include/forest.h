@@ -16,12 +16,8 @@
 
 struct _brand
 {
-    char nome[NOMEMAX];
-    int qtdade_modelos,
-        valor_total,
-        total_carros;
+    
     /* modelos aponta para uma lista, contendo todos os modelos dessa marca. */
-    model_llist *models;
 };
 
 /* Estrutura de árvore binária, com os campos:
@@ -39,7 +35,9 @@ typedef struct _binarytree
     char *position;
     int level;
 
-    struct _brand brand;
+    char nome[NORMAL_STRING_SIZE];
+    int qtdadeModelos, valorTotal, totalCarros;
+    struct _linkedModel *models;
 } b_tree;
 
 
@@ -47,7 +45,7 @@ typedef struct _binarytree
 typedef struct _store
 {
     const char *nome;
-    int total_marcas, total_modelos;
+    int totalMarcas, totalModels;
     b_tree *root;
 } STORE;
 
@@ -90,7 +88,7 @@ bool saveBrandInFile(STORE store, char *nome_marca);
 
 
 /* Limpa recursivamente uma árvore binária. */
-void freetree(b_tree **root);
+void freeTree(b_tree **root);
 
 
 /* Retorna o nó mais à esquerda do nó indicado. */

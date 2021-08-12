@@ -127,7 +127,7 @@ void listModels(model_llist *head)
     if (head == NULL)
         return ;
 
-    printf("\n\n   # '%s' - Ano : %d - Preco : %d$00 - Quantidade : %d",
+    printf("\n\n   # '%s'\n\t-> Ano : %d\n\t-> Preco : %d$00\n\t-> Quantidade : %d",
         head->nome, head->ano, head->preco, head->qtdade);
 
     listModels(head->next);

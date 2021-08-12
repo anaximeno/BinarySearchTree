@@ -8,7 +8,7 @@
 #define MAX_CLEAN_REPEAT_TIMES 32
 
 
-void line(char *symbol, int times)
+void drawLine(char *symbol, int times)
 {
     printf(" ");
     for (int i = 0 ; i < times ; ++i)
@@ -36,7 +36,7 @@ void enterpoint(bool show_header)
 }
 
 
-void freebuffer(void)
+void freeBuffer(void)
 {
 	int times = 0;
 	char c;
@@ -63,16 +63,16 @@ int get_int(void)
 
 	while (!scanf(" %d", &x))
     {
-		freebuffer();
+		freeBuffer();
 		printf("\n Valor Invalido, insira um inteiro: ");
 	}
 
-    freebuffer();
+    freeBuffer();
 	return x;
 }
 
 
-void animate(const char *texto, unsigned int milisecs)
+void animateOutput(const char *texto, unsigned int milisecs)
 {
 	int i = 0;
 	while (texto[i] != '\0')
@@ -108,12 +108,12 @@ char *getName(char *txtname)
 int menu_1(void)
 {
     printf("\n\n                            M E N U    I N I C I A L                                     \n");
-    printf("          "); line(ROOT_BRANCH, 59);
+    printf("          "); drawLine(ROOT_BRANCH, 59);
     printf("\n                             1 - Entrar como Cliente                                        ");
     printf("\n\n                         2 - Entrar como Administrador                                     ");
     printf("\n\n                             0 - Sair  do  programa                                         \n");
     printf("\n");
-    printf("          "); line(ROOT_BRANCH, 59);
+    printf("          "); drawLine(ROOT_BRANCH, 59);
     printf("\n                SUA ESCOLHA : ");
     int opt = get_int();;
 
@@ -130,13 +130,13 @@ char menu_2(void)
     printf("\n    b - Comprar modelo de carro de uma marca.");
     printf("\n    q - Voltar ao menu inicial.");
     printf("\n");
-    line(ROOT_BRANCH, 59);
+    drawLine(ROOT_BRANCH, 59);
 	printf(" Sua escolha > ");
 
 	fflush(stdin);
 	char opt;
 	scanf(" %c", &opt);
-	freebuffer();
+	freeBuffer();
 
 	return opt;
 }
@@ -155,13 +155,13 @@ char menu_3(void)
     printf("\n   g - Apagar todos os dados da loja,");
     printf("\n   q - Sair da administracao da loja.");
     printf("\n");
-    line(ROOT_BRANCH, 65);
+    drawLine(ROOT_BRANCH, 65);
     printf(" Sua escolha > ");
 
     fflush(stdin);
     char opt;
     scanf(" %c", &opt);
-    freebuffer();
+    freeBuffer();
 
     return opt;
 }
