@@ -1,10 +1,12 @@
-# Gerenciador de loja de Carros V=1.3 
-## Binary Search Tree (BST) and Linked Lists
-Trabalho universitário, utilizando árvores binárias de pesquisa.
-
+# Gerenciador de loja de Carros V1.3
+Trabalho universitário, utilizando árvores binárias de pesquisa.  
+  
+<img src="images/bst.png">
+  
+  
 O objetivo do trabalho e criar um gerenciador de uma loja de carros que guarda e agrupa os dados em uma árvores binária e uma lista dentro de cada nó da árvore. Assim temos que:
 
- * A árvore binária de pesquisa guarda as Marcas de Carros e,
+ * A árvore binária de pesq uisa guarda as Marcas de Carros e,
  * As listas dentro de cada nó da árvore guardam os respetivos modelos.
 
 
