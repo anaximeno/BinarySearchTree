@@ -4,9 +4,9 @@ Trabalho universitário, utilizando árvores binárias de pesquisa.
 <img src="images/bst.png">
   
   
-O objetivo do trabalho e criar um gerenciador de uma loja de carros que guarda e agrupa os dados em uma árvores binária e uma lista dentro de cada nó da árvore. Assim temos que:
+O objetivo do trabalho é criar um gerenciador de uma loja de carros que guarda e agrupa os dados em uma árvores binária e uma lista dentro de cada nó da árvore. Assim:
 
- * A árvore binária de pesq uisa guarda as Marcas de Carros e,
+ * A árvore binária de pesquisa guarda as Marcas de Carros,
  * As listas dentro de cada nó da árvore guardam os respetivos modelos.
 
 
