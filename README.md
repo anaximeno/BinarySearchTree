@@ -14,6 +14,22 @@ O objetivo do trabalho é criar um gerenciador de uma loja de carros que guarda 
 
 **OBS:** Primeiramente, antes da execução do programa aconselhamos usar a janela do terminal (ou command prompt) de forma maximizada para permitir uma melhor experiência!
 
+### Compilação
+
+Para compilar este projeto terá duas opções, primeiro, tente abrir o projeto com o code blocks e compile o projeto, ou segundo utilize um dispositivo GNU/Linux (como o Ubuntu, por exemplo) para compilar o projecto, usando o seguinte comando, na raiz da pasta `bst`:
+
+```bash
+make
+```
+
+E execute o programa com:
+
+```bash
+./main
+```
+
+### Utilização
+
 O programa é bastante intuitivo e facilmente entendível.
 
 ***Para ter acesso a secção Administrador do programa deve-se introduzir a chave: 1234***.

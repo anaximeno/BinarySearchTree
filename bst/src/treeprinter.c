@@ -1,10 +1,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "treeprinter.h"
-#include "forest.h"
-#include "linkedlist.h"
-#include "common.h"
+#include "../include/treeprinter.h"
+#include "../include/forest.h"
+#include "../include/linkedlist.h"
+#include "../include/common.h"
 
 
 

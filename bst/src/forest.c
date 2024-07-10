@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "forest.h"
-#include "linkedlist.h"
-#include "common.h"
+#include "../include/forest.h"
+#include "../include/linkedlist.h"
+#include "../include/common.h"
 
 
 

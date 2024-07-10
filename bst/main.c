@@ -20,10 +20,10 @@ caracteres UTF-8, porem, foi-se feito o possível para que o programa funcione d
 #include <stdbool.h>
 #include <string.h>
 #include <locale.h>
-#include "common.h"
-#include "linkedlist.h"
-#include "forest.h"
-#include "treeprinter.h"
+#include "include/common.h"
+#include "include/linkedlist.h"
+#include "include/forest.h"
+#include "include/treeprinter.h"
 
 #define ADMIN_PASSWORD "1234"
 #define MAX_ADMIN_ENTRY_TRIES 3

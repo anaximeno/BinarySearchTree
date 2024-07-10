@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "linkedlist.h"
+#include "../include/linkedlist.h"
 /*  Guarda códigos de lista ligadas usadas no trabalho.
 *
 *   Apenas funções e/ou métodos utilizados no projeto foram

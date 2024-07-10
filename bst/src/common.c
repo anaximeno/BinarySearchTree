@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "forest.h"
-#include "common.h"
-#include "treeprinter.h"
+#include "../include/forest.h"
+#include "../include/common.h"
+#include "../include/treeprinter.h"
 
 #define MAX_CLEAN_REPEAT_TIMES 32
 
