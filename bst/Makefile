@@ -14,4 +14,4 @@ $(LIB_OBJS): $(LIB_FILES)
 	$(CC) $(CFLAGS) $^ -c
 
 clean:
-	-rm $(LIB_OBJS) bst
+	-rm $(LIB_OBJS) main
